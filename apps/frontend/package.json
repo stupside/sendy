@@ -1,0 +1,34 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "frontend",
+  "sideEffects": false,
+  "scripts": {
+    "build": "remix build",
+    "dev": "remix dev --manual",
+    "prod": "remix-serve ./build/index.js"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.1.1",
+    "@fastack/ui-layout": "workspace:^",
+    "@remix-run/node": "^2.6.0",
+    "@remix-run/react": "^2.6.0",
+    "@remix-run/serve": "^2.6.0",
+    "@sinclair/typebox": "^0.32.14",
+    "isbot": "^5.1.0",
+    "openapi-fetch": "^0.9.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^2.6.0",
+    "@types/react": "^18.2.56",
+    "@types/react-dom": "^18.2.19",
+    "openapi-typescript": "^6.7.4",
+    "remix-flat-routes": "^0.6.4",
+    "tailwindcss": "^3.4.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

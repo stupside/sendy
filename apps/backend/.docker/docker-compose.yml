@@ -1,0 +1,27 @@
+services:
+  fastack-database:
+    image: postgres
+    hostname: database.fastack
+    container_name: database
+    restart: always
+    environment:
+      POSTGRES_USER: 'fastack'
+      POSTGRES_PASSWORD: 'fastack'
+    ports:
+      - '5432:5432'
+
+  redis:
+    image: bitnami/redis
+    hostname: redis.fastack
+    container_name: redis
+    restart: always
+    environment:
+      REDIS_REPLICATION_MODE: 'master'
+      REDIS_PASSWORD: 'fastack'
+    ports:
+      - '6379:6379'
+
+networks:
+  default:
+    name: fastack
+    driver: bridge
