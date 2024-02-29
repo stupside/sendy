@@ -1,6 +1,6 @@
-export * from './config'
+export * from './Config'
 
-import Config from './config'
+import Config from './Config'
 
 const Server = {
   Config,

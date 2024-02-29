@@ -1,6 +1,6 @@
-export * from './sse'
+export * from './Sse'
 
-import Sse from './sse'
+import Sse from './Sse'
 
 const Hook = {
   Sse,

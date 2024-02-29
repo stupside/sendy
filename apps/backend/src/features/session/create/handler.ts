@@ -8,7 +8,7 @@ import { Hook } from '../../hook'
 import { Server } from '../../server'
 import { Content } from '../../content'
 
-import code from '../code'
+import code from '../Code'
 
 import { Interface } from './schema'
 
