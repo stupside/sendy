@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Code {
+  id Int @id @default(autoincrement())
+
+  value String @unique
+
+  sessionId Int
+
+  used Boolean @default(false)
+
+  session Session @relation(fields: [sessionId], references: [id])
+
+  expiry   DateTime
+  creation DateTime @default(now())
+}
+
+model Session {
+  id Int @id @default(autoincrement())
+
+  codes   Code[]   @relation()
+  medias  Media[]  @relation()
+  devices Device[] @relation()
+
+  creation DateTime @default(now())
+}
+
+model Device {
+  id Int @id @default(autoincrement())
+
+  ip    String
+  agent String?
+
+  sessionId Int
+
+  medias Media[] @relation()
+
+  session Session @relation(fields: [sessionId], references: [id])
+
+  connection DateTime @default(now())
+}
+
+enum MediaType {
+  text
+  image
+  video
+  audio
+}
+
+model Media {
+  id Int @id @default(autoincrement())
+
+  value String
+
+  type MediaType
+
+  handler String
+
+  metadata String
+
+  deviceId  Int
+  sessionId Int
+
+  device  Device  @relation(fields: [deviceId], references: [id])
+  session Session @relation(fields: [sessionId], references: [id])
+
+  date DateTime @default(now())
+}

@@ -1,0 +1,16 @@
+services:
+  sendy-database:
+    image: postgres
+    hostname: database.sendy
+    container_name: database
+    restart: always
+    environment:
+      POSTGRES_USER: 'sendy'
+      POSTGRES_PASSWORD: 'sendy'
+    ports:
+      - '5432:5432'
+
+networks:
+  default:
+    name: sendy
+    driver: bridge

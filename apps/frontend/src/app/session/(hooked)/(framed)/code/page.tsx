@@ -1,0 +1,46 @@
+'use server'
+
+import { NextPage } from 'next'
+
+import Code from './_private/Code'
+import CodeExpiry from './_private/CodeExpiry'
+import Peer from './_private/Peer'
+import { refresh } from './action'
+
+import { QrCodeOutput } from '@sendy/react-zxing'
+
+import WelcomeLayout from '@/react/components/WelcomeLayout'
+import { sendy } from '@/tools/api'
+
+const Page: NextPage = async () => {
+  const { data } = await sendy((c) =>
+    c.POST('/sessions/code', {
+      cache: 'no-cache',
+      body: {
+        callback: `${process.env.FRONTEND_URL}/session/peer?data=`,
+      },
+    }),
+  )
+
+  if (!data) return null
+
+  return (
+    <Peer>
+      <WelcomeLayout>
+        <div className="flex gap-x-6">
+          <div className="w-32 h-32">
+            <QrCodeOutput key={data.code} qr={data.qrcode} />
+          </div>
+          <aside className="my-auto">
+            <h1 className="text-xl font-bold mb-1">Scan this QR code</h1>
+            <p className="text-sm font-light mb-3">Or enter the key manually</p>
+            <Code key={data.code} raw={data.code} />
+          </aside>
+        </div>
+        <CodeExpiry key={data.code} expiry={data.expiry} refresh={refresh} />
+      </WelcomeLayout>
+    </Peer>
+  )
+}
+
+export default Page
