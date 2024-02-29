@@ -1,0 +1,44 @@
+{
+  "app": {
+    "title": "Sendy",
+    "session": {
+      "auth": {
+        "peer": {
+          "scan": "Scan this QR code",
+          "code": "Or enter the key manually",
+          "peer": "Pair this device"
+        }
+      },
+      "hooked": {
+        "framed": {
+          "cast": {
+            "what": "What would you like to watch tonight?",
+            "loading": "Loading..."
+          },
+          "code": {
+            "scan": "Scan this QR code",
+            "code": "Or enter the key manually"
+          },
+          "video": {
+            "waiting": "Waiting for video to be casted..."
+          }
+        },
+        "unframed": {
+          "video": {
+            "player": {
+              "loading": "Loading",
+              "overlay": {
+                "settings": {
+                  "audios": "Audios",
+                  "languages": "Languages",
+                  "qualities": "Qualities",
+                  "subtitles": "Subtitles"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

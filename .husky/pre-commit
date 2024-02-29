@@ -1,0 +1,6 @@
+pnpm eslint:fix
+pnpm prettier:fix
+
+git update-index --again
+
+pnpm build

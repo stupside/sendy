@@ -1,0 +1,48 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "frontend",
+  "scripts": {
+    "lint": "next lint",
+    "prod": "next start",
+    "build": "next build",
+    "dev": "next dev -p 8080",
+    "types:api": "npx openapi-typescript http://localhost:3000/doc/json -o ./types/api/index.d.ts",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@sendy/react-layout": "workspace:^",
+    "@sendy/react-media-video": "workspace:^",
+    "@sendy/react-media-video-hls": "workspace:^",
+    "@sendy/react-spatial": "workspace:^",
+    "@sendy/react-zxing": "workspace:^",
+
+    "@sinclair/typebox": "^0.34.11",
+    "@types/http-proxy": "^1.17.15",
+    "http-proxy": "^1.18.1",
+    "next": "^15.1.0",
+    "openapi-fetch": "^0.13.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@million/lint": "1.0.14",
+    "@storybook/addon-essentials": "^8.4.7",
+    "@storybook/blocks": "^8.4.7",
+    "@storybook/nextjs": "^8.4.7",
+    "@storybook/react": "^8.4.7",
+    "@storybook/test": "^8.4.7",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "@next/eslint-plugin-next": "^15.1.0",
+    "postcss": "^8.4.49",
+    "storybook": "^8.4.7",
+    "tailwindcss": "^3.4.16"
+  },
+  "eslintConfig": {
+    "extends": "../../eslint.config.mjs"
+  }
+}

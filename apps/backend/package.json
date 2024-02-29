@@ -1,0 +1,46 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Sendy backend",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "prod": "node build/index.mjs",
+    "build": "tsc -p tsconfig.json",
+    "prepare": "prisma generate",
+    "dev": "tsx watch src/index.ts",
+    "dev:prepare": "prisma db push"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "qrcode": "^1.5.4",
+    "ajv-formats": "^3.0.1",
+    "zeromq": "^6.1.2",
+    "@sinclair/typebox": "^0.34.11",
+    "fastify": "^5.2.0",
+    "fastify-cli": "^7.1.0",
+    "fastify-plugin": "^5.0.1",
+    "@fastify/env": "^5.0.1",
+    "@fastify/jwt": "^9.0.2",
+    "@fastify/cors": "^10.0.1",
+    "@fastify/sensible": "^6.0.1",
+    "@fastify/swagger": "^9.4.0",
+    "@fastify/autoload": "^6.0.3",
+    "@fastify/swagger-ui": "^5.2.0",
+    "@fastify/request-context": "^6.0.1",
+    "@fastify/type-provider-typebox": "^5.1.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "tap": "^21.0.1",
+    "prisma": "^6.0.1",
+    "@types/node": "^22.10.2",
+    "@types/qrcode": "^1.5.5",
+    "@prisma/client": "^6.0.1"
+  }
+}

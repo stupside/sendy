@@ -1,0 +1,17 @@
+.env
+
+.next/
+.husky/
+.cache/
+
+.DS_Store
+
+dist/
+build/
+
+node_modules/
+
+.idea/
+.vscode/
+
+.eslintcache
