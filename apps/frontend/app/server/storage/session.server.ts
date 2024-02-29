@@ -1,11 +1,13 @@
 import { createCookieSessionStorage, type Session } from '@remix-run/node'
 
+import { randomBytes } from 'node:crypto'
+
 import { type MySessionData } from './types/MySessionData'
 import { type MySessionFlashData } from './types/MySessionFlashData'
 
 const storage = createCookieSessionStorage<MySessionData, MySessionFlashData>({
   cookie: {
-    name: '__fastack',
+    name: '__sendy',
     path: '/',
     sameSite: 'lax',
     httpOnly: true,
@@ -36,10 +38,34 @@ const extractSession = async (request: Request) => {
     return session.has(key)
   }
 
+  const generateCsrf = () => {
+    const bytes = randomBytes(32).toString('hex')
+
+    session.set('csrf', bytes)
+
+    session.set('csrf', bytes)
+
+    return bytes
+  }
+
+  const validateCsrf = (csrf: string) => {
+    const value = requireValue('csrf')
+
+    if (value === csrf) {
+      return true
+    }
+
+    return false
+  }
+
   return {
     hasValue,
     requireValue,
     state: session,
+    csrf: {
+      generate: generateCsrf,
+      validate: validateCsrf,
+    },
   }
 }
 

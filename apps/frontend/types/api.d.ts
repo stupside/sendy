@@ -4,6 +4,77 @@
  */
 
 export interface paths {
+  '/contents/{id}': {
+    /** @description Get a content. */
+    get: {
+      parameters: {
+        path: {
+          /** @description The id of the content. */
+          id: number
+        }
+      }
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            'application/json': {
+              /** @description The value of the content. */
+              value: string
+              /** @description The type of the content. */
+              type: string
+              /** @description The handler of the content. */
+              subtype: string
+            }
+          }
+        }
+      }
+    }
+  }
+  '/contents/history': {
+    /** @description Get history of contents for the current session. */
+    get: {
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            'application/json': {
+              contents: {
+                /** @description The value of the content. */
+                value: string
+                /** @description The type of the content. */
+                type: string
+                /** @description The handler of the content. */
+                subtype: string
+              }[]
+            }
+          }
+        }
+      }
+    }
+  }
+  '/contents/cast': {
+    /** @description Create a content. */
+    post: {
+      requestBody: {
+        content: {
+          'application/json': {
+            /** @description The value of the content. */
+            value: string
+            /** @description The type of the content. */
+            type: string
+            /** @description The subtype of the content. */
+            subtype: string
+          }
+        }
+      }
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: never
+        }
+      }
+    }
+  }
   '/hooks/sse': {
     /** @description Subscribe to server sent events */
     get: {
@@ -15,21 +86,64 @@ export interface paths {
       }
     }
   }
-  '/users': {
-    /** @description Register a user */
+  '/server/config': {
+    /** @description Get the config service's configuration. */
+    get: {
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            'application/json': {
+              code: {
+                len: number
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  '/sessions/code': {
+    /** @description Generate a qr code to connect to a session as a client. */
+    get: {
+      parameters: {
+        query?: {
+          /** @description When will the code expire, in seconds. */
+          expiry?: number
+          /** @description Where the qr code should redirect the user to. */
+          redirection?: string
+        }
+      }
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            'application/json': {
+              /** @description The qr code wrapping the hash. */
+              qr: string
+              /** @description The key to retrieve a long lived token. */
+              raw: string
+              /** @description From now, when will the code expire. */
+              expiry: number
+            }
+          }
+        }
+      }
+    }
+  }
+  '/sessions': {
+    /** @description Create a session. */
     post: {
-      requestBody: {
+      requestBody?: {
         content: {
           'application/json': {
-            /** @description The user's name */
-            readonly name: string
             /**
-             * Format: email
-             * @description The user's email
+             * Format: ipv4
+             * @description The ip of the device
              */
-            readonly email: string
-            /** @description The user's password */
-            readonly password: string
+            ip?: string
+            /** @description The agent attached to the device */
+            agent?: string
           }
         }
       }
@@ -38,10 +152,49 @@ export interface paths {
         200: {
           content: {
             'application/json': {
-              /** @description The user's id */
-              readonly id: number
-              /** @description The user's token */
-              readonly token: string
+              /** @description The token for the session */
+              token: string
+              /** @description The id of the device */
+              device: number
+              /** @description The id of the session */
+              session: number
+            }
+          }
+        }
+      }
+    }
+  }
+  '/sessions/connect': {
+    /** @description Connect to a session. */
+    post: {
+      requestBody: {
+        content: {
+          'application/json': {
+            /** @description The key of the generated code. */
+            key: string
+            device?: {
+              /**
+               * Format: ipv4
+               * @description The ip of the device
+               */
+              ip?: string
+              /** @description The agent attached to the device */
+              agent?: string
+            }
+          }
+        }
+      }
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            'application/json': {
+              /** @description The client token. */
+              token: string
+              /** @description The id of the device */
+              device: number
+              /** @description The id of the session */
+              session: number
             }
           }
         }

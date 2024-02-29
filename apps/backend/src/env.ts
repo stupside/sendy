@@ -12,7 +12,7 @@ const Schema = Type.Object(
       default: 'Etc/UTC',
     }),
 
-    PORT: Type.Number({
+    PORT: Type.Integer({
       default: 3000,
     }),
     HOST: Type.String({
@@ -29,6 +29,7 @@ const Schema = Type.Object(
       format: 'uri',
       default: 'http://127.0.0.1:3000',
     }),
+
     MY_FRONTEND_CSR_URL: Type.String({
       format: 'uri',
       default: 'http://127.0.0.1:8080',
@@ -36,6 +37,14 @@ const Schema = Type.Object(
 
     MY_REDIS_URL: Type.String(),
     MY_DATABASE_URL: Type.String(),
+
+    MY_SESSION_CODE_LEN: Type.Integer({
+      minimum: 2,
+      default: 4,
+    }),
+    MY_SESSION_CODE_EXPIRY: Type.Integer({
+      default: 30,
+    }),
   },
   {
     readOnly: true,

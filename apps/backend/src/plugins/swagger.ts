@@ -13,7 +13,7 @@ const plugin = fp(async (fastify) => {
     openapi: {
       openapi: '3.0.0',
       info: {
-        title: 'Fastack API',
+        title: 'Sendy API',
         description: 'API Documentation',
         version: '0.1.0',
       },
@@ -29,7 +29,7 @@ const plugin = fp(async (fastify) => {
       servers: [
         {
           url: fastify.config.MY_BACKEND_URL,
-          description: 'Fastack API',
+          description: 'Sendy API',
         },
       ],
     },
