@@ -1,7 +1,8 @@
 import { type Static, Type } from '@sinclair/typebox'
 
 export const MySessionSchema = Type.Object({
-  user: Type.Number(),
+  device: Type.Number(),
+  session: Type.Number(),
   claims: Type.Array(Type.String()),
 })
 

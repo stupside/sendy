@@ -9,8 +9,15 @@
     "prod": "remix-serve ./build/index.js"
   },
   "dependencies": {
+    "ua-parser-js": "^1.0.37",
+    "@sendy/ui-content-video": "workspace:^",
+    "@sendy/ui-content-video-hls": "workspace:^",
+    "@sendy/ui-interactible": "workspace:^",
+    "@sendy/ui-navigation": "workspace:^",
+    "@sendy/ui-typography": "workspace:^",
+    "@sendy/ui-layout": "workspace:^",
+    "@sendy/ui-zxing": "workspace:^",
     "@heroicons/react": "^2.1.1",
-    "@fastack/ui-layout": "workspace:^",
     "@remix-run/node": "^2.6.0",
     "@remix-run/react": "^2.6.0",
     "@remix-run/serve": "^2.6.0",
@@ -21,6 +28,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/ua-parser-js": "^0.7.39",
     "@remix-run/dev": "^2.6.0",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",

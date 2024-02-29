@@ -21,7 +21,7 @@ export const meta: MetaFunction = () => {
     },
     {
       name: 'description',
-      content: 'Fastack',
+      content: 'Sendy',
     },
     {
       name: 'viewport',
@@ -29,15 +29,15 @@ export const meta: MetaFunction = () => {
     },
     {
       name: 'title',
-      content: 'Fastack',
+      content: 'Sendy',
     },
     {
       name: 'og:title',
-      content: 'Fastack',
+      content: 'Sendy',
     },
     {
       name: 'og:description',
-      content: 'Fastack',
+      content: 'Sendy',
     },
   ]
 }
@@ -52,7 +52,7 @@ const App: FC = () => {
         <Links />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </head>
-      <body className="flex h-screen w-full overflow-x-hidden">
+      <body className="flex h-screen w-full overflow-x-hidden text-zinc-200 bg-zinc-800">
         <Outlet />
         <Scripts />
         <LiveReload />

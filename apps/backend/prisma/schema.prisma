@@ -10,11 +10,38 @@ datasource db {
   url      = env("MY_DATABASE_URL")
 }
 
-model User {
+model Session {
   id Int @id @default(autoincrement())
 
-  email String @unique
+  devices Device[] @relation()
 
-  name     String
-  password String
+  contents Content[] @relation()
+}
+
+model Device {
+  id Int @id @default(autoincrement())
+
+  ip    String
+  agent String?
+
+  sessionId Int
+
+  session Session @relation(fields: [sessionId], references: [id])
+
+  contents Content[] @relation()
+}
+
+model Content {
+  id Int @id @default(autoincrement())
+
+  type    String
+  subtype String
+
+  value String
+
+  deviceId  Int
+  sessionId Int
+
+  device  Device  @relation(fields: [deviceId], references: [id])
+  session Session @relation(fields: [sessionId], references: [id])
 }

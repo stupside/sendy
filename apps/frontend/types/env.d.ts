@@ -3,6 +3,7 @@ declare global {
     interface ProcessEnv {
       MY_BACKEND_URL: string
       MY_STORAGE_SECRET: string
+      SENDY_SESSION_EXPIRY: number
     }
   }
 }

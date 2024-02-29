@@ -5,7 +5,7 @@ import { type MySessionFlashData } from './types/MySessionFlashData'
 
 const storage = createCookieSessionStorage<MySessionData, MySessionFlashData>({
   cookie: {
-    name: '__fastack',
+    name: '__sendy',
     path: '/',
     sameSite: 'lax',
     httpOnly: true,

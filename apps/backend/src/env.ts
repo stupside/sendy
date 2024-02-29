@@ -29,6 +29,7 @@ const Schema = Type.Object(
       format: 'uri',
       default: 'http://127.0.0.1:3000',
     }),
+
     MY_FRONTEND_CSR_URL: Type.String({
       format: 'uri',
       default: 'http://127.0.0.1:8080',
