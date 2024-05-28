@@ -8,9 +8,8 @@ import { Hook } from '../../hook'
 import { Server } from '../../server'
 import { Content } from '../../content'
 
-import code from '../Code'
-
 import { Interface } from './schema'
+import Session from '../../session'
 
 export const Handler: MyRoute<Interface> = () => async (request, response) => {
   const session = await prisma.session.create({
@@ -42,8 +41,8 @@ export const Handler: MyRoute<Interface> = () => async (request, response) => {
     device: device.id,
     session: session.id,
     claims: [
-      code.Claim,
       Hook.Sse.Claim,
+      Session.Code.Claim,
       Server.Config.Claim,
       Content.History.Claim,
       Content.Retrieve.Claim,

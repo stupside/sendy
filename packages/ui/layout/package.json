@@ -17,7 +17,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.18",
+    "@headlessui/react": "^2.0.3",
     "@sendy/ui-navigation": "workspace:^"
   },
   "peerDependencies": {
@@ -25,14 +25,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
     "@types/react": "^18.2.57",
-    "@types/react-dom": "^18.2.19",
-    "rollup": "^4.12.0",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-commonjs": "25.0.7",
-    "@rollup/plugin-typescript": "11.1.6",
-    "@rollup/plugin-node-resolve": "15.2.3",
-    "rollup-plugin-peer-deps-external": "^2.2.4"
+    "@types/react-dom": "^18.2.19"
   }
 }

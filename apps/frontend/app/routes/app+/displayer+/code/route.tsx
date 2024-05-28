@@ -13,6 +13,7 @@ import { QrCodeOutput } from '@sendy/ui-zxing'
 import { FocusableBoundary } from '@sendy/ui-navigation'
 
 import { apiClient } from '~/server/api'
+
 import storage from '~/server/storage/session.server'
 
 import useSse from '~/client/hooks/useSse'
@@ -29,11 +30,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const context = session.requireValue('context')
 
   const { data } = await apiClient(request).GET('/sessions/code', {
-    params: {
-      query: {
-        expiry: process.env.SENDY_SESSION_EXPIRY,
-      },
-    },
+    params: {},
     headers: {
       Authorization: `Bearer ${context.token}`,
     },
@@ -48,11 +45,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const context = session.requireValue('context')
 
   const { data } = await apiClient(request).GET('/sessions/code', {
-    params: {
-      query: {
-        expiry: process.env.SENDY_SESSION_EXPIRY,
-      },
-    },
+    params: {},
     headers: {
       Authorization: `Bearer ${context.token}`,
     },
@@ -69,7 +62,7 @@ const PageComponent: FC = () => {
 
   useSse({
     connector: {
-      event: '/session/connect',
+      event: '/session/peer',
       handler: async () => {
         navigate('/app/displayer/cast', {
           replace: true,

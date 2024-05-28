@@ -6,7 +6,7 @@ const Query = Type.Object({
   expiry: Type.Optional(
     Type.Integer({
       minimum: 15,
-      maximum: 240,
+      maximum: 60 * 2,
       default: 30,
       description: 'When will the code expire, in seconds.',
     }),
@@ -22,7 +22,7 @@ const Query = Type.Object({
 const Reply = Type.Object({
   qr: Type.String({ description: 'The qr code wrapping the hash.' }),
   raw: Type.String({ description: 'The key to retrieve a long lived token.' }),
-  expiry: Type.Integer({ description: 'From now, when will the code expire.' }),
+  expiry: Type.Integer({ description: 'When will the code expire.' }),
 })
 
 export interface Interface extends RouteGenericInterface {

@@ -1,3 +1,5 @@
+'use client'
+
 import { type FC, type MouseEventHandler } from 'react'
 
 import { CheckIcon } from '@heroicons/react/24/solid'

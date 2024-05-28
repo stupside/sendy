@@ -1,3 +1,5 @@
+'use client'
+
 import { type FC, useCallback, useEffect, useState } from 'react'
 
 import { PlayIcon } from '@heroicons/react/24/solid'

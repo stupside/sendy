@@ -1,3 +1,5 @@
+'use server'
+
 import { type FC } from 'react'
 
 const LineDot: FC = () => {

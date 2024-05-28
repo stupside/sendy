@@ -1,3 +1,5 @@
+'use client'
+
 import { type FC, useMemo, useState } from 'react'
 
 import { Dialog } from '@sendy/ui-layout'

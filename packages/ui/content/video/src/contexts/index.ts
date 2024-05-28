@@ -1,3 +1,5 @@
+'use client'
+
 import { type RefObject, createContext } from 'react'
 
 import VideoAudioContext from './VideoAudioContext'

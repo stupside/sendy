@@ -1,3 +1,5 @@
+'use client'
+
 import { type FC, useCallback, useEffect, useRef } from 'react'
 
 import {

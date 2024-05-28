@@ -8,6 +8,8 @@ import { Interface } from './schema'
 
 const OCT_SIZE = 4
 
+const EXPIRY_COMPENSATION = 1
+
 export const Handler: MyRoute<Interface> =
   (fastify) => async (request, response) => {
     const identity = fastify.requestContext.get('identity')
@@ -20,11 +22,11 @@ export const Handler: MyRoute<Interface> =
       .export()
       .toString('hex')
 
-    await fastify.redis.codes.setex(
-      key,
-      request.query.expiry ?? fastify.config.MY_SESSION_CODE_EXPIRY,
-      identity.session,
-    )
+    const expiry =
+      (request.query.expiry ?? fastify.config.MY_SESSION_CODE_EXPIRY) +
+      EXPIRY_COMPENSATION
+
+    await fastify.redis.codes.setex(key, expiry, identity.session)
 
     const redirection =
       request.query.redirection ??
@@ -36,9 +38,11 @@ export const Handler: MyRoute<Interface> =
       errorCorrectionLevel: 'M',
     })
 
+    const now = Date.now()
+
     return await response.send({
       qr,
       raw: key,
-      expiry: request.query.expiry ?? fastify.config.MY_SESSION_CODE_EXPIRY,
+      expiry: now + expiry * 1000,
     })
   }

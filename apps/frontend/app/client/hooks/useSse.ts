@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import { SseContext } from '~/client/components/features/Sse/Provider'
 
 export type SseEventMap = {
-  '/session/connect': { device: number }
+  '/session/peer': { device: number }
   '/content/cast': {
     id: number
     type: string

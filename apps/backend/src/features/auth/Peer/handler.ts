@@ -7,7 +7,6 @@ import prisma from '../../../utils/prisma'
 import { Hook } from '../../hook'
 import { Content } from '../../content'
 import { Server } from '../../server'
-
 import { Interface } from './schema'
 
 export const Handler: MyRoute<Interface> =
@@ -56,7 +55,7 @@ export const Handler: MyRoute<Interface> =
       fastify,
       target: `session:${session}`,
       event: {
-        type: '/session/connect',
+        type: '/session/peer',
         data: {
           device: device.id,
         },

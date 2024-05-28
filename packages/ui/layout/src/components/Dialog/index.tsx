@@ -1,3 +1,5 @@
+'use client'
+
 import { type FC, type PropsWithChildren, type ReactElement } from 'react'
 
 import { Dialog as HeadlessDialog, Transition } from '@headlessui/react'

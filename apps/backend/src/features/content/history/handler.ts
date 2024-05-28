@@ -22,7 +22,5 @@ export const Handler: MyRoute<Interface> = (fastify) => async (_, response) => {
     },
   })
 
-  return await response.send({
-    contents,
-  })
+  return await response.send(contents)
 }

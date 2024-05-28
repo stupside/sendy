@@ -1,3 +1,5 @@
+'use server'
+
 import { type FC } from 'react'
 
 const DEFAULT_KEY = '0000'

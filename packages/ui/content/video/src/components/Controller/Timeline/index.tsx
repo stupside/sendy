@@ -1,3 +1,5 @@
+'use client'
+
 import { type FC } from 'react'
 
 import { Time } from '@sendy/ui-typography'
@@ -15,11 +17,9 @@ const Timeline: FC = () => {
   return (
     <>
       <Play />
-
       <div>
         <Time time={timeline} />
       </div>
-
       <Line
         current={timeline}
         duration={duration}
@@ -27,7 +27,6 @@ const Timeline: FC = () => {
           seekTimeline(percent)
         }}
       />
-
       <div>
         <Time time={duration} />
       </div>

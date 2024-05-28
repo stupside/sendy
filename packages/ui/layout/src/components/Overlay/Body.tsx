@@ -1,3 +1,5 @@
+'use client'
+
 import type { FC, PropsWithChildren } from 'react'
 
 import { FocusableBoundary } from '@sendy/ui-navigation'

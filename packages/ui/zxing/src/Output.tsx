@@ -1,3 +1,5 @@
+'use server'
+
 import { type FC } from 'react'
 
 const QR_PLACEHOLDER =

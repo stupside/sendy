@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, type FC, type RefObject } from 'react'
 
 import norigin from '@noriginmedia/norigin-spatial-navigation'

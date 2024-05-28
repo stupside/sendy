@@ -1,11 +1,14 @@
+'use client'
+
 import { type FC } from 'react'
 
 import { Focusable } from '@sendy/ui-navigation'
 
 const Digit: FC<{
+  name: string
+  index: number
   placeholder: string
-  onChange: (digit: string) => void
-}> = ({ placeholder, onChange }) => {
+}> = ({ name, index, placeholder }) => {
   return (
     <Focusable>
       {({ ref }) => (
@@ -13,6 +16,7 @@ const Digit: FC<{
           ref={ref}
           type="text"
           maxLength={1}
+          name={`${name}[${index}]`}
           placeholder={placeholder}
           autoComplete="one-time-code"
           onKeyDown={(event) => {
@@ -30,8 +34,6 @@ const Digit: FC<{
             }
           }}
           onInput={({ currentTarget }) => {
-            onChange(currentTarget.value)
-
             const next = (
               currentTarget.value?.length
                 ? currentTarget.nextElementSibling
