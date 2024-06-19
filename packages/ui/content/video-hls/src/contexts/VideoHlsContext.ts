@@ -4,12 +4,12 @@ import { createContext } from 'react'
 
 import type Hls from 'hls.js'
 
-export interface IVideoHlsContext {
+interface IVideoHlsContext {
   hls: Hls
 }
 
-export const VideoHlsContext = createContext<IVideoHlsContext>(
-  {} as IVideoHlsContext,
-)
+const VideoHlsContext = createContext<IVideoHlsContext>({} as IVideoHlsContext)
+
+export type { IVideoHlsContext }
 
 export default VideoHlsContext

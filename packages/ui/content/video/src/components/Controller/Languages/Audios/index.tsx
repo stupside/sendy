@@ -2,13 +2,11 @@
 
 import { type FC } from 'react'
 
-import { useVideo } from 'src/hooks'
+import { useVideoAudio } from 'src/hooks'
 
 import Audio from './Audio'
 
 const Audios: FC = () => {
-  const { useVideoAudio } = useVideo()
-
   const { audios } = useVideoAudio()
 
   return (

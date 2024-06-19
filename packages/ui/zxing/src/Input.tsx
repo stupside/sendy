@@ -61,7 +61,9 @@ const Input: FC<{
     }
   }, [scan, start, stop])
 
-  return <video ref={ref} className="flex-grow bg-zinc-800" />
+  return (
+    <video ref={ref} className="h-full w-full rounded-xl overflow-hidden" />
+  )
 }
 
 export default Input

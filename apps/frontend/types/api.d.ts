@@ -4,6 +4,76 @@
  */
 
 export interface paths {
+  '/auth/peer': {
+    /** @description Connect to a session. */
+    post: {
+      requestBody: {
+        content: {
+          'application/json': {
+            /** @description The key of the generated code. */
+            key: string
+            device?: {
+              /**
+               * Format: ipv4
+               * @description The ip of the device
+               */
+              ip?: string
+              /** @description The agent attached to the device */
+              agent?: string
+            }
+          }
+        }
+      }
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            'application/json': {
+              /** @description The client token. */
+              token: string
+              /** @description The id of the device */
+              device: number
+              /** @description The id of the session */
+              session: number
+            }
+          }
+        }
+      }
+    }
+  }
+  '/auth/register': {
+    /** @description Create a session. */
+    post: {
+      requestBody?: {
+        content: {
+          'application/json': {
+            /**
+             * Format: ipv4
+             * @description The ip of the device
+             */
+            ip?: string
+            /** @description The agent attached to the device */
+            agent?: string
+          }
+        }
+      }
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            'application/json': {
+              /** @description The token for the session */
+              token: string
+              /** @description The id of the device */
+              device: number
+              /** @description The id of the session */
+              session: number
+            }
+          }
+        }
+      }
+    }
+  }
   '/contents/{id}': {
     /** @description Get a content. */
     get: {
@@ -38,15 +108,13 @@ export interface paths {
         200: {
           content: {
             'application/json': {
-              contents: {
-                /** @description The value of the content. */
-                value: string
-                /** @description The type of the content. */
-                type: string
-                /** @description The handler of the content. */
-                subtype: string
-              }[]
-            }
+              /** @description The value of the content. */
+              value: string
+              /** @description The type of the content. */
+              type: string
+              /** @description The handler of the content. */
+              subtype: string
+            }[]
           }
         }
       }
@@ -123,78 +191,8 @@ export interface paths {
               qr: string
               /** @description The key to retrieve a long lived token. */
               raw: string
-              /** @description From now, when will the code expire. */
+              /** @description When will the code expire. */
               expiry: number
-            }
-          }
-        }
-      }
-    }
-  }
-  '/sessions': {
-    /** @description Create a session. */
-    post: {
-      requestBody?: {
-        content: {
-          'application/json': {
-            /**
-             * Format: ipv4
-             * @description The ip of the device
-             */
-            ip?: string
-            /** @description The agent attached to the device */
-            agent?: string
-          }
-        }
-      }
-      responses: {
-        /** @description Default Response */
-        200: {
-          content: {
-            'application/json': {
-              /** @description The token for the session */
-              token: string
-              /** @description The id of the device */
-              device: number
-              /** @description The id of the session */
-              session: number
-            }
-          }
-        }
-      }
-    }
-  }
-  '/sessions/connect': {
-    /** @description Connect to a session. */
-    post: {
-      requestBody: {
-        content: {
-          'application/json': {
-            /** @description The key of the generated code. */
-            key: string
-            device?: {
-              /**
-               * Format: ipv4
-               * @description The ip of the device
-               */
-              ip?: string
-              /** @description The agent attached to the device */
-              agent?: string
-            }
-          }
-        }
-      }
-      responses: {
-        /** @description Default Response */
-        200: {
-          content: {
-            'application/json': {
-              /** @description The client token. */
-              token: string
-              /** @description The id of the device */
-              device: number
-              /** @description The id of the session */
-              session: number
             }
           }
         }

@@ -4,7 +4,7 @@ import { type FC } from 'react'
 
 import { Button } from '@sendy/ui-interactible'
 
-import { useVideo } from 'src/hooks'
+import { useVideoFullscreen, useVideoPip } from 'src/hooks'
 
 const Display: FC<{
   features: Partial<{
@@ -12,12 +12,7 @@ const Display: FC<{
     fullscreen: boolean
   }>
 }> = ({ features: { pip, fullscreen } }) => {
-  const { useVideoDisplay } = useVideo()
-
-  const { useVideoFullscreen, useVideoPip } = useVideoDisplay()
-
-  const togglePip = useVideoPip()
-
+  const { toggle: togglePip } = useVideoPip()
   const { enabled, toggle: toggleFullscreen } = useVideoFullscreen()
 
   return (

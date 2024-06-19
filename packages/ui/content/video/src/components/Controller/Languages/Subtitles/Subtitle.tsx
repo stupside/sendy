@@ -6,11 +6,9 @@ import { CheckIcon } from '@heroicons/react/24/solid'
 
 import { Focusable } from '@sendy/ui-navigation'
 
-import { useVideo } from 'src/hooks'
+import { useVideoSubtitle } from 'src/hooks'
 
 const Subtitle: FC<{ id: number; name: string }> = ({ id, name }) => {
-  const { useVideoSubtitle } = useVideo()
-
   const { subtitle, changeSubtitle } = useVideoSubtitle()
 
   const onClick: MouseEventHandler<HTMLButtonElement> = (event) => {

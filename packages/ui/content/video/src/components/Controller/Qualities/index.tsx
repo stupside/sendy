@@ -5,14 +5,12 @@ import { type FC, useState } from 'react'
 import { Dialog } from '@sendy/ui-layout'
 import { Button } from '@sendy/ui-interactible'
 
-import { useVideo } from 'src/hooks'
+import { useVideoQuality } from 'src/hooks'
 
 import Quality from './Quality'
 
 const Qualities: FC = () => {
   const [open, setOpen] = useState(false)
-
-  const { useVideoQuality } = useVideo()
 
   const { qualities } = useVideoQuality()
 

@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useLayoutEffect, useState } from 'react'
 
 import Hls, { type HlsConfig } from 'hls.js'
@@ -7,13 +9,13 @@ import { useVideo } from '@sendy/ui-content-video'
 import VideoHlsContext from 'src/contexts/VideoHlsContext'
 
 const VideoHlsProvider = ({
-  children,
   config,
+  children,
 }: {
   children: React.ReactNode
   config: Partial<HlsConfig>
 }) => {
-  const { video, url } = useVideo()
+  const { url, video } = useVideo()
 
   const [hls, setHls] = useState<Hls>()
 

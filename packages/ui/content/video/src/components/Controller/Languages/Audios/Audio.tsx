@@ -6,11 +6,9 @@ import { CheckIcon } from '@heroicons/react/24/solid'
 
 import { Focusable } from '@sendy/ui-navigation'
 
-import { useVideo } from 'src/hooks'
+import { useVideoAudio } from 'src/hooks'
 
 const Audio: FC<{ id: number; name: string }> = ({ id, name }) => {
-  const { useVideoAudio } = useVideo()
-
   const { audio, changeAudio } = useVideoAudio()
 
   const onClick: MouseEventHandler<HTMLButtonElement> = (event) => {

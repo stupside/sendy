@@ -1,20 +1,20 @@
 'use client'
 
-import { Dialog } from '@headlessui/react'
+import { DialogPanel } from '@headlessui/react'
 
 import { forwardRef, type PropsWithChildren } from 'react'
 
-const DialogPanel = forwardRef<HTMLDivElement, PropsWithChildren>(
+const Panel = forwardRef<HTMLDivElement, PropsWithChildren>(
   ({ children }, ref) => {
     return (
-      <Dialog.Panel
+      <DialogPanel
         ref={ref}
         className="max-w-md transform overflow-hidden transition-all bg-zinc-100 p-5 rounded-md text-zinc-800"
       >
         {children}
-      </Dialog.Panel>
+      </DialogPanel>
     )
   },
 )
 
-export default DialogPanel
+export default Panel

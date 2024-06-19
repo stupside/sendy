@@ -2,13 +2,11 @@
 
 import { type FC } from 'react'
 
-import { useVideo } from 'src/hooks'
+import { useVideoSubtitle } from 'src/hooks'
 
 import Subtitle from './Subtitle'
 
 const Subtitles: FC = () => {
-  const { useVideoSubtitle } = useVideo()
-
   const { subtitles } = useVideoSubtitle()
 
   return (

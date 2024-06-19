@@ -1,16 +1,12 @@
-import {
-  useCallback,
-  useMemo,
-  useEffect,
-  useState,
-  type RefObject,
-} from 'react'
+'use client'
 
-const useVideoTimeline = ({
-  video,
-}: {
-  video: RefObject<HTMLVideoElement>
-}) => {
+import { useCallback, useMemo, useEffect, useState } from 'react'
+
+import useVideo from './useVideo'
+
+const useVideoTimeline = () => {
+  const { video } = useVideo()
+
   const [timeline, setTimeline] = useState(0)
 
   useEffect(() => {

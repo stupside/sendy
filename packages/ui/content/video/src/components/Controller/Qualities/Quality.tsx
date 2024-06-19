@@ -4,12 +4,10 @@ import { type FC } from 'react'
 
 import { Focusable } from '@sendy/ui-navigation'
 
-import { useVideo } from 'src/hooks'
+import { useVideoQuality } from 'src/hooks'
 
 const Quality: FC<{ id: number; name: string }> = ({ id, name }) => {
-  const { useVideoQuality } = useVideo()
-
-  const { quality, changeQuality } = useVideoQuality()
+  const { quality, change } = useVideoQuality()
 
   return (
     <li className="flex items-center gap-3 my-1">
@@ -21,7 +19,7 @@ const Quality: FC<{ id: number; name: string }> = ({ id, name }) => {
             id={`quality-${id}`}
             value={id}
             onClick={() => {
-              changeQuality(id)
+              change(id)
             }}
             className={`${quality === id && 'text-zinc-200'}`}
           >

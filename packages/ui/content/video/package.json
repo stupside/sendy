@@ -22,15 +22,15 @@
     "@sendy/ui-navigation": "workspace:^",
     "@sendy/ui-typography": "workspace:^",
     "@sendy/ui-interactible": "workspace:^",
-    "@heroicons/react": "^2.1.1",
-    "@headlessui/react": "^2.0.3"
+    "@heroicons/react": "^2.1.4",
+    "@headlessui/react": "^2.0.4"
   },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.57",
-    "@types/react-dom": "^18.2.19"
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0"
   }
 }

@@ -2,16 +2,13 @@
 
 import { type FC } from 'react'
 
-import { Time } from '@sendy/ui-typography'
-
-import { useVideo } from 'src/hooks'
+import { useVideoTimeline } from 'src/hooks'
 
 import Line from './Line'
 import Play from './Play'
+import Time from './Time'
 
 const Timeline: FC = () => {
-  const { useVideoTimeline } = useVideo()
-
   const { timeline, duration, seekTimeline } = useVideoTimeline()
 
   return (

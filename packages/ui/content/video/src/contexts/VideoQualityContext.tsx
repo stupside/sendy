@@ -2,16 +2,18 @@
 
 import { createContext } from 'react'
 
-export interface IVideoQualityContext {
+interface IVideoQualityContext {
   quality: number
+  change: (quality?: number) => void
   qualities: ReadonlySet<{ id: number; name: string }>
-  changeQuality: (quality?: number) => void
 }
 
 const VideoQualityContext = createContext<IVideoQualityContext>({
   quality: 0,
+  change: () => {},
   qualities: new Set(),
-  changeQuality: () => {},
 })
+
+export type { IVideoQualityContext }
 
 export default VideoQualityContext

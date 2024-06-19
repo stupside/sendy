@@ -2,7 +2,7 @@
 
 import { createContext } from 'react'
 
-export interface IVideoSubtitleContext {
+interface IVideoSubtitleContext {
   subtitle: number
   subtitles: ReadonlySet<{ id: number; name: string }>
   changeSubtitle: (subtitle?: number) => void
@@ -13,5 +13,7 @@ const VideoSubtitleContext = createContext<IVideoSubtitleContext>({
   subtitles: new Set(),
   changeSubtitle: () => {},
 })
+
+export type { IVideoSubtitleContext }
 
 export default VideoSubtitleContext

@@ -2,7 +2,7 @@
 
 import { createContext } from 'react'
 
-export interface IVideoAudioContext {
+interface IVideoAudioContext {
   audio: number
   audios: ReadonlySet<{ id: number; name: string }>
   changeAudio: (audio: number) => void
@@ -13,5 +13,7 @@ const VideoAudioContext = createContext<IVideoAudioContext>({
   audios: new Set(),
   changeAudio: () => {},
 })
+
+export type { IVideoAudioContext }
 
 export default VideoAudioContext

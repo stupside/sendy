@@ -1,6 +1,24 @@
-import { useCallback, useEffect, useState, type RefObject } from 'react'
+'use client'
 
-const useFullscreen = ({ player }: { player: RefObject<HTMLElement> }) => {
+import { useCallback, useEffect, useState } from 'react'
+
+import useVideo from './useVideo'
+
+const useVideoPip = () => {
+  const { video } = useVideo()
+
+  const toggle = useCallback(() => {
+    if (video.current) {
+      video.current.requestPictureInPicture()
+    }
+  }, [video.current])
+
+  return { toggle }
+}
+
+const useVideoFullscreen = () => {
+  const { player } = useVideo()
+
   const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
@@ -31,27 +49,4 @@ const useFullscreen = ({ player }: { player: RefObject<HTMLElement> }) => {
   }
 }
 
-const usePip = ({ video }: { video: RefObject<HTMLVideoElement> }) => {
-  const toggle = useCallback(() => {
-    if (video.current) {
-      video.current.requestPictureInPicture()
-    }
-  }, [video.current])
-
-  return toggle
-}
-
-const useVideoDisplay = ({
-  video,
-  player,
-}: {
-  video: RefObject<HTMLVideoElement>
-  player: RefObject<HTMLElement>
-}) => {
-  return {
-    useVideoPip: () => usePip({ video }),
-    useVideoFullscreen: () => useFullscreen({ player }),
-  }
-}
-
-export default useVideoDisplay
+export { useVideoPip, useVideoFullscreen }

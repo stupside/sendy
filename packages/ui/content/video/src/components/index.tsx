@@ -7,7 +7,7 @@ import {
   type ComponentProps,
 } from 'react'
 
-import { VideoContext } from 'src/contexts'
+import { VideoContext } from '@/contexts'
 
 import { Controller, type ControllerFeatures } from './Controller'
 

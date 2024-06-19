@@ -9,6 +9,9 @@
     "target": "ESNext",
     "moduleResolution": "node",
     "lib": ["dom", "esnext", "dom.iterable"],
+    "paths": {
+      "@/*": ["./src/*", "./types/*"]
+    },
     "strict": true,
     "jsx": "react-jsx",
     "declaration": true,

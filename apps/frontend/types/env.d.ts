@@ -1,8 +1,8 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      MY_BACKEND_URL: string
-      MY_STORAGE_SECRET: string
+      BACKEND_URL: string
+      STORAGE_SECRET: string
     }
   }
 }

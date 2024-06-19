@@ -1,42 +1,33 @@
 {
   "private": true,
-  "type": "module",
   "name": "frontend",
-  "sideEffects": false,
   "scripts": {
-    "build": "remix build",
-    "dev": "remix dev --manual",
-    "prod": "remix-serve ./build/index.js"
+    "dev": "next dev",
+    "build": "next build",
+    "prod": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "ua-parser-js": "^1.0.37",
+    "@sendy/ui-zxing": "workspace:^",
+    "@sendy/ui-layout": "workspace:^",
+    "@sendy/ui-typography": "workspace:^",
+    "@sendy/ui-navigation": "workspace:^",
+    "@sendy/ui-interactible": "workspace:^",
     "@sendy/ui-content-video": "workspace:^",
     "@sendy/ui-content-video-hls": "workspace:^",
-    "@sendy/ui-interactible": "workspace:^",
-    "@sendy/ui-navigation": "workspace:^",
-    "@sendy/ui-typography": "workspace:^",
-    "@sendy/ui-layout": "workspace:^",
-    "@sendy/ui-zxing": "workspace:^",
-    "@heroicons/react": "^2.1.1",
-    "@remix-run/node": "^2.6.0",
-    "@remix-run/react": "^2.6.0",
-    "@remix-run/serve": "^2.6.0",
-    "@sinclair/typebox": "^0.32.14",
-    "isbot": "^5.1.0",
-    "openapi-fetch": "^0.9.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "openapi-fetch": "^0.9.7",
+    "@heroicons/react": "^2.1.4",
+    "@sinclair/typebox": "^0.32.33",
+    "next": "14.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@types/ua-parser-js": "^0.7.39",
-    "@remix-run/dev": "^2.6.0",
-    "@types/react": "^18.2.56",
-    "@types/react-dom": "^18.2.19",
-    "openapi-typescript": "^6.7.4",
-    "remix-flat-routes": "^0.6.4",
-    "tailwindcss": "^3.4.1"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "@types/node": "^20.14.5",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "@million/lint": "1.0.0-rc.26"
   }
 }

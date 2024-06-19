@@ -5,7 +5,6 @@ import { Server } from '../features/server'
 const { Config } = Server
 
 const route = async (fastify: FastifyInstance) => {
-  // GET
   fastify.get('/config', Config.Shorthand, Config.Route(fastify))
 }
 

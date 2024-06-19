@@ -1,3 +1,5 @@
+'use client'
+
 import {
   type FC,
   type PropsWithChildren,
@@ -41,7 +43,7 @@ const VideoHlsQualityProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [hls])
 
-  const changeQuality = useCallback(
+  const change = useCallback(
     (quality?: number) => {
       if (quality === undefined) {
         hls.nextLevel = -1
@@ -59,9 +61,9 @@ const VideoHlsQualityProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <VideoQualityContext.Provider
       value={{
+        change,
         quality,
         qualities,
-        changeQuality,
       }}
     >
       {children}

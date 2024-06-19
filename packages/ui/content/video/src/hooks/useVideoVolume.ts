@@ -1,12 +1,18 @@
-import { useCallback, useEffect, useState, type RefObject } from 'react'
+'use client'
 
-const useVideoVolume = ({ video }: { video: RefObject<HTMLVideoElement> }) => {
+import { useCallback, useEffect, useState } from 'react'
+
+import useVideo from './useVideo'
+
+const useVideoVolume = () => {
+  const { video } = useVideo()
+
   const [muted, setMuted] = useState(true)
   const [volume, setVolume] = useState(0)
 
   useEffect(() => {
     const onVolumeChange = () => {
-      if (video?.current) {
+      if (video.current) {
         setVolume(video.current.volume)
         setMuted(video.current.muted)
       }

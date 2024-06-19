@@ -7,13 +7,11 @@ const QR_PLACEHOLDER =
 
 const Output: FC<{ qr?: string }> = ({ qr = QR_PLACEHOLDER }) => {
   return (
-    <article className="flex relative w-40 h-40 items-center justify-center">
-      <img
-        src={qr}
-        alt="Qr"
-        className="flex-grow bg-zinc-200 rounded-2xl overflow-hidden"
-      />
-    </article>
+    <img
+      src={qr}
+      alt="Qr"
+      className="h-full w-full rounded-xl overflow-hidden"
+    />
   )
 }
 
