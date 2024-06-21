@@ -2,8 +2,16 @@
 
 import { useContext } from 'react'
 
-import { VideoContext } from 'src/contexts'
+import { VideoContext } from '@/contexts'
 
-const useVideo = () => useContext(VideoContext)
+const useVideo = () => {
+  const { video, player, url } = useContext(VideoContext)
+
+  return {
+    url,
+    video,
+    player,
+  }
+}
 
 export default useVideo

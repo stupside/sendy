@@ -13,10 +13,10 @@ import Hls from 'hls.js'
 
 import { VideoQualityContext } from '@sendy/ui-content-video'
 
-import useVideoHls from 'src/hooks/useVideoHls'
+import useHls from '@/hooks/useHls'
 
-const VideoHlsQualityProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { hls } = useVideoHls()
+const QualityProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { hls } = useHls()
 
   const [quality, setQuality] = useState<number>(0)
 
@@ -71,4 +71,4 @@ const VideoHlsQualityProvider: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export default VideoHlsQualityProvider
+export default QualityProvider

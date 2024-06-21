@@ -6,6 +6,7 @@ import {
   createContext,
   useEffect,
   useState,
+  useMemo,
 } from 'react'
 
 interface ISseContext {
@@ -32,15 +33,14 @@ const Provider: FC<PropsWithChildren<{ src: string }>> = ({
     }
   }, [src])
 
-  return (
-    <SseContext.Provider
-      value={{
-        source,
-      }}
-    >
-      {children}
-    </SseContext.Provider>
+  const value = useMemo(
+    () => ({
+      source,
+    }),
+    [source],
   )
+
+  return <SseContext.Provider value={value}>{children}</SseContext.Provider>
 }
 
 export default Provider

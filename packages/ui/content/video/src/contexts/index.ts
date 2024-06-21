@@ -6,13 +6,13 @@ import VideoAudioContext from './VideoAudioContext'
 import VideoQualityContext from './VideoQualityContext'
 import VideoSubtitleContext from './VideoSubtitleContext'
 
-type IVideoContext = {
+interface IVideoContext {
   url: string
   video: RefObject<HTMLVideoElement>
   player: RefObject<HTMLDivElement>
 }
 
-export const VideoContext = createContext<IVideoContext>({
+const VideoContext = createContext<IVideoContext>({
   url: 'unknown',
   player: createRef<HTMLDivElement>(),
   video: createRef<HTMLVideoElement>(),
@@ -20,4 +20,9 @@ export const VideoContext = createContext<IVideoContext>({
 
 export type { IVideoContext }
 
-export { VideoAudioContext, VideoQualityContext, VideoSubtitleContext }
+export {
+  VideoContext,
+  VideoAudioContext,
+  VideoQualityContext,
+  VideoSubtitleContext,
+}

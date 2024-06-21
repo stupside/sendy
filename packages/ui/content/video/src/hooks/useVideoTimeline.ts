@@ -9,6 +9,38 @@ const useVideoTimeline = () => {
 
   const [timeline, setTimeline] = useState(0)
 
+  const [paused, setPaused] = useState(true)
+
+  const play = useCallback(() => {
+    video.current?.play()
+  }, [video.current])
+
+  const pause = useCallback(() => {
+    video.current?.pause()
+  }, [])
+
+  useEffect(() => {
+    const { current } = video
+
+    const onPause = () => {
+      setPaused(true)
+    }
+
+    const onPlay = () => {
+      setPaused(false)
+    }
+
+    setPaused(current?.paused ?? true)
+
+    current?.addEventListener('play', onPlay)
+    current?.addEventListener('pause', onPause)
+
+    return () => {
+      current?.removeEventListener('play', onPlay)
+      current?.removeEventListener('pause', onPause)
+    }
+  }, [video.current])
+
   useEffect(() => {
     const onTimeUpdate = () => {
       if (video.current) {
@@ -27,7 +59,7 @@ const useVideoTimeline = () => {
     }
   }, [video.current])
 
-  const seekTimeline = useCallback(
+  const seek = useCallback(
     (position: number) => {
       if (video.current) {
         video.current.currentTime = position
@@ -41,9 +73,12 @@ const useVideoTimeline = () => {
   }, [video.current?.duration])
 
   return {
+    seek,
+    play,
+    pause,
+    paused,
     timeline,
     duration,
-    seekTimeline,
   }
 }
 

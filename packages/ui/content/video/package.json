@@ -21,7 +21,6 @@
     "@sendy/ui-layout": "workspace:^",
     "@sendy/ui-navigation": "workspace:^",
     "@sendy/ui-typography": "workspace:^",
-    "@sendy/ui-interactible": "workspace:^",
     "@heroicons/react": "^2.1.4",
     "@headlessui/react": "^2.0.4"
   },

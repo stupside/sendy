@@ -6,7 +6,7 @@ import {
   VideoAudioContext,
   VideoQualityContext,
   VideoSubtitleContext,
-} from 'src/contexts'
+} from '@/contexts'
 
 import useVideo from './useVideo'
 

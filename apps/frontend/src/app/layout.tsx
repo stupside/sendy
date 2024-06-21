@@ -18,13 +18,11 @@ export const metadata: Metadata = {
 const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
     <html lang="en">
-      <FocusableInitialization>
-        <body
-          className={`${inter.className} h-screen max-w-screen text-white bg-zinc-800`}
-        >
-          {children}
-        </body>
-      </FocusableInitialization>
+      <body
+        className={`${inter.className} h-screen max-w-screen text-white bg-zinc-800`}
+      >
+        <FocusableInitialization>{children}</FocusableInitialization>
+      </body>
     </html>
   )
 }

@@ -1,4 +1,5 @@
-import Dialog from './Dialog'
 import Overlay from './Overlay'
 
-export { Dialog, Overlay }
+import { Modal, ModalPanel, ModalTitle } from './Modal'
+
+export { Overlay, Modal, ModalPanel, ModalTitle }
