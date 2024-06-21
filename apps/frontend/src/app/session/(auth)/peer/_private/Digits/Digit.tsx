@@ -28,7 +28,7 @@ const Digit: FC<{
               event.preventDefault()
 
               const previous = event.currentTarget
-                .previousElementSibling as HTMLInputElement | null
+                .previousElementSibling as HTMLLIElement | null
 
               previous?.focus()
             } else {

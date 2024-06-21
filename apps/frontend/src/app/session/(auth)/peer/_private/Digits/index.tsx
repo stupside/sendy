@@ -1,6 +1,13 @@
 'use client'
 
-import { type FC } from 'react'
+import {
+  MutableRefObject,
+  RefObject,
+  createRef,
+  useRef,
+  useState,
+  type FC,
+} from 'react'
 
 import { FocusableBoundary } from '@sendy/ui-navigation'
 
@@ -16,22 +23,20 @@ const Digits: FC<{
   return (
     <FocusableBoundary lock>
       {({ ref }) => (
-        <article
-          ref={ref}
-          className="flex gap-x-4 text-3xl font-bold font-mono"
-        >
+        <ul ref={ref} className="flex gap-x-4 text-3xl font-bold font-mono">
           {Array.from({
             length,
           }).map((_, index) => (
-            <Digit
-              key={index}
-              name={name}
-              index={index}
-              value={value?.at(index)}
-              placeholder={ZERO_CHAR}
-            />
+            <li key={index}>
+              <Digit
+                name={name}
+                index={index}
+                placeholder={ZERO_CHAR}
+                value={value?.at(index)}
+              />
+            </li>
           ))}
-        </article>
+        </ul>
       )}
     </FocusableBoundary>
   )

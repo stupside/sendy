@@ -19,16 +19,15 @@ const Page: NextPage<{ searchParams: { code?: string } }> = async (props) => {
 
   return (
     <WelcomeLayout>
-      <form
-        action={handlePeer}
-        className="flex flex-col justify-center gap-y-5 mx-auto"
-      >
+      <form action={handlePeer}>
         <Digits
           name="digits"
           length={data.code.len}
           value={props.searchParams.code}
         />
-        <button type="submit">Peer</button>
+        <button type="submit" className="mt-3">
+          Peer
+        </button>
       </form>
     </WelcomeLayout>
   )

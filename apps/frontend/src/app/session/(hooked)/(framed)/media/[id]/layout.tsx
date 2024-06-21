@@ -4,14 +4,13 @@ import { NextPage } from 'next'
 
 import Image from 'next/image'
 
-import { ReactNode } from 'react'
-
 import { MakeReq } from '@/tools/api'
 import { getMockedContents } from '@/tools/mock'
 import { prettySeconds } from '@/tools/timestamp'
 
-const Layout: NextPage<{
-  cast: ReactNode
+import Preview from './_private/Preview'
+
+const Page: NextPage<{
   params: { id: number }
 }> = async (props) => {
   const { data } = await MakeReq((c) =>
@@ -44,7 +43,7 @@ const Layout: NextPage<{
         </div>
       </div>
       <div className="flex flex-grow max-md:flex-col-reverse max-md:justify-end gap-x-4 mb-5">
-        {props.cast}
+        <Preview id={props.params.id} cover={media.image.cover} />
         <aside className="flex flex-col gap-y-4 max-md:mb-5">
           <header>
             <div className="flex gap-x-5 items-center">
@@ -81,4 +80,4 @@ const Layout: NextPage<{
   )
 }
 
-export default Layout
+export default Page
