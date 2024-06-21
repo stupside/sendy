@@ -3,219 +3,217 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
-  "/auth/peer": {
+  '/auth/peer': {
     /** @description Connect to a session. */
     post: {
       requestBody: {
         content: {
-          "application/json": {
+          'application/json': {
             /** @description The key of the generated code. */
-            key: string;
+            key: string
             device?: {
               /**
                * Format: ipv4
                * @description The ip of the device
                */
-              ip?: string;
+              ip?: string
               /** @description The agent attached to the device */
-              agent?: string;
-            };
-          };
-        };
-      };
+              agent?: string
+            }
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           content: {
-            "application/json": {
+            'application/json': {
               /** @description The client token. */
-              token: string;
+              token: string
               /** @description The id of the device */
-              device: number;
+              device: number
               /** @description The id of the session */
-              session: number;
-            };
-          };
-        };
-      };
-    };
-  };
-  "/auth/register": {
+              session: number
+            }
+          }
+        }
+      }
+    }
+  }
+  '/auth/register': {
     /** @description Create a session. */
     post: {
       requestBody?: {
         content: {
-          "application/json": {
+          'application/json': {
             /**
              * Format: ipv4
              * @description The ip of the device
              */
-            ip?: string;
+            ip?: string
             /** @description The agent attached to the device */
-            agent?: string;
-          };
-        };
-      };
+            agent?: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           content: {
-            "application/json": {
+            'application/json': {
               /** @description The token for the session */
-              token: string;
+              token: string
               /** @description The id of the device */
-              device: number;
+              device: number
               /** @description The id of the session */
-              session: number;
-            };
-          };
-        };
-      };
-    };
-  };
-  "/contents/cast": {
+              session: number
+            }
+          }
+        }
+      }
+    }
+  }
+  '/contents/cast': {
     /** @description Create a content. */
     post: {
       requestBody: {
         content: {
-          "application/json": {
+          'application/json': {
             /** @description The value of the content. */
-            value: string;
+            value: string
             /** @description The type of the content. */
-            type: string;
+            type: string
             /** @description The subtype of the content. */
-            subtype: string;
-          };
-        };
-      };
+            subtype: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
-          content: never;
-        };
-      };
-    };
-  };
-  "/contents/{id}": {
+          content: never
+        }
+      }
+    }
+  }
+  '/contents/{id}': {
     /** @description Get a content. */
     get: {
       parameters: {
         path: {
           /** @description The id of the content. */
-          id: number;
-        };
-      };
+          id: number
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           content: {
-            "application/json": {
+            'application/json': {
               /** @description The value of the content. */
-              value: string;
+              value: string
               /** @description The type of the content. */
-              type: string;
+              type: string
               /** @description The handler of the content. */
-              subtype: string;
-            };
-          };
-        };
-      };
-    };
-  };
-  "/contents/history": {
+              subtype: string
+            }
+          }
+        }
+      }
+    }
+  }
+  '/contents/history': {
     /** @description Get history of contents for the current session. */
     get: {
       responses: {
         /** @description Default Response */
         200: {
           content: {
-            "application/json": {
-                /** @description The value of the content. */
-                value: string;
-                /** @description The type of the content. */
-                type: string;
-                /** @description The handler of the content. */
-                subtype: string;
-              }[];
-          };
-        };
-      };
-    };
-  };
-  "/hooks/sse": {
+            'application/json': {
+              /** @description The value of the content. */
+              value: string
+              /** @description The type of the content. */
+              type: string
+              /** @description The handler of the content. */
+              subtype: string
+            }[]
+          }
+        }
+      }
+    }
+  }
+  '/hooks/sse': {
     /** @description Subscribe to server sent events */
     get: {
       responses: {
         /** @description Default Response */
         200: {
-          content: never;
-        };
-      };
-    };
-  };
-  "/server/config": {
+          content: never
+        }
+      }
+    }
+  }
+  '/server/config': {
     /** @description Get the config service's configuration. */
     get: {
       responses: {
         /** @description Default Response */
         200: {
           content: {
-            "application/json": {
+            'application/json': {
               code: {
-                len: number;
-              };
-            };
-          };
-        };
-      };
-    };
-  };
-  "/sessions/code": {
+                len: number
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  '/sessions/code': {
     /** @description Generate a qr code to connect to a session as a client. */
     get: {
       parameters: {
         query?: {
           /** @description When will the code expire, in seconds. */
-          expiry?: number;
+          expiry?: number
           /** @description Where the qr code should redirect the user to. */
-          redirection?: string;
-        };
-      };
+          redirection?: string
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           content: {
-            "application/json": {
+            'application/json': {
               /** @description The qr code wrapping the hash. */
-              qr: string;
+              qr: string
               /** @description The key to retrieve a long lived token. */
-              raw: string;
+              raw: string
               /** @description When will the code expire. */
-              expiry: number;
-            };
-          };
-        };
-      };
-    };
-  };
+              expiry: number
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
-export type webhooks = Record<string, never>;
+export type webhooks = Record<string, never>
 
 export interface components {
-  schemas: {
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+  schemas: {}
+  responses: never
+  parameters: never
+  requestBodies: never
+  headers: never
+  pathItems: never
 }
 
-export type $defs = Record<string, never>;
+export type $defs = Record<string, never>
 
-export type external = Record<string, never>;
+export type external = Record<string, never>
 
-export type operations = Record<string, never>;
+export type operations = Record<string, never>
