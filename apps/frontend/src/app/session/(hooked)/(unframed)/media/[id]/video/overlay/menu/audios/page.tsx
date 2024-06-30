@@ -5,14 +5,12 @@ import { useRouter } from 'next/router'
 
 import { Modal, ModalPanel, ModalTitle } from '@sendy/ui-layout'
 
-import * as Hls from '@sendy/ui-content-video-hls'
-
 import { useVideoAudio } from '@sendy/ui-content-video'
 
 import Option from '../_private/Option'
 
 const Page: NextPage = () => {
-  const { audios, audio, changeAudio } = useVideoAudio()
+  const { audios, audio, change } = useVideoAudio()
 
   const router = useRouter()
 
@@ -32,7 +30,7 @@ const Page: NextPage = () => {
                 id={id}
                 name={name}
                 active={id === audio}
-                activate={changeAudio}
+                activate={change}
               />
             </li>
           ))}

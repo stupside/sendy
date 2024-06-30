@@ -13,9 +13,7 @@ import Digits from './_private/Digits'
 const Page: NextPage<{ searchParams: { code?: string } }> = async (props) => {
   const { data } = await MakeReq((c) => c.GET('/server/config'))
 
-  if (data === undefined) {
-    return <div>Could not load server config</div>
-  }
+  if (data === undefined) throw new Error('Could not fetch data')
 
   return (
     <WelcomeLayout>

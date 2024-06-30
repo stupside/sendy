@@ -2,13 +2,13 @@
 
 import { NextPage } from 'next'
 
-import { Digits } from '@sendy/ui-typography'
 import { QrCodeOutput } from '@sendy/ui-zxing'
 
 import { MakeReq } from '@/tools/api'
 
 import WelcomeLayout from '@/react/components/WelcomeLayout'
 
+import Code from './_private/Code'
 import CodeExpiry from './_private/CodeExpiry'
 import CodeRedirectionOnPeer from './_private/CodeRedirectionOnPeer'
 
@@ -33,7 +33,7 @@ const Page: NextPage = async () => {
           <aside className="my-auto">
             <h1 className="text-xl font-bold mb-1">Scan this QR code</h1>
             <p className="text-sm font-light mb-3">Or enter the key manually</p>
-            <Digits raw={data.raw} />
+            <Code raw={data.raw} />
           </aside>
         </div>
         <CodeExpiry expiry={data.expiry} />

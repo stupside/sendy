@@ -5,23 +5,28 @@ import { NextPage } from 'next'
 import { PropsWithChildren } from 'react'
 
 import { MakeReq } from '@/tools/api'
+import { getMockedVideo } from '@/tools/mock'
 
-import * as Hls from '@sendy/ui-content-video-hls'
+import {
+  QualityProvider,
+  LanguageAudioProvider,
+  LanguageSubtitleProvider,
+} from '@sendy/ui-content-video-hls'
 
 import Overlay, { type VideoFeatures } from './_private/Overlay'
 
 const features: Record<string, VideoFeatures> = {
   m3u8: {
-    qualities: Hls.QualityProvider,
-    audios: Hls.LanguageAudioProvider,
-    subtitles: Hls.LanguageSubtitleProvider,
+    qualities: QualityProvider,
+    audios: LanguageAudioProvider,
+    subtitles: LanguageSubtitleProvider,
   },
 }
 
 const Layout: NextPage<PropsWithChildren<{ params: { id: number } }>> = async (
   props,
 ) => {
-  const { data } = await MakeReq((c) =>
+  const { data = await getMockedVideo() } = await MakeReq((c) =>
     c.GET('/contents/{id}', {
       params: {
         path: {
@@ -31,9 +36,7 @@ const Layout: NextPage<PropsWithChildren<{ params: { id: number } }>> = async (
     }),
   )
 
-  if (data === undefined) {
-    return <div>Failed to fetch data</div>
-  }
+  if (data === undefined) throw new Error('Could not fetch data')
 
   return <Overlay {...features[data.subtype]}>{props.children}</Overlay>
 }

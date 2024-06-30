@@ -90,4 +90,12 @@ const getMockedContents = async () => {
   return mock
 }
 
-export { getMockedContents }
+const getMockedVideo = async () => {
+  return {
+    type: 'video',
+    subtype: 'm3u8',
+    value: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
+  }
+}
+
+export { getMockedVideo, getMockedContents }

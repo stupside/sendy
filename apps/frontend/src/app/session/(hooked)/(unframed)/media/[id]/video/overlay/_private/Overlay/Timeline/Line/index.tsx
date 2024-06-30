@@ -38,7 +38,7 @@ const Line: FC<{
       {({ ref }) => (
         <div
           ref={ref}
-          className="relative w-full flex items-center cursor-pointer pt-[3.25px]"
+          className="relative w-full flex items-center cursor-pointer"
           onMouseEnter={() => {
             setTimelineFocused(true)
           }}
@@ -63,10 +63,10 @@ const Line: FC<{
             }
           }}
         >
-          <div className={`absolute w-full h-4 bg-zinc-700 rounded-full`}></div>
+          <div className={`absolute w-full h-2 bg-zinc-700 rounded-full`}></div>
           <div className="absolute w-full flex items-center rounded-full">
             <div
-              className={`h-4 bg-zinc-400 rounded-full`}
+              className={`h-2 bg-zinc-400 rounded-full`}
               style={{
                 width: `${getPercent(
                   duration,

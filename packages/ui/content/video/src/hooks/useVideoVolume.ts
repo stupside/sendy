@@ -1,46 +1,55 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-
 import useVideo from './useVideo'
 
 const useVideoVolume = () => {
-  const { video } = useVideo()
+  const { ref } = useVideo()
 
   const [muted, setMuted] = useState(true)
   const [volume, setVolume] = useState(0)
 
   useEffect(() => {
+    if (!ref.current) {
+      return console.error('Video reference is undefined')
+    }
+
     const onVolumeChange = () => {
-      if (video.current) {
-        setVolume(video.current.volume)
-        setMuted(video.current.muted)
+      if (!ref.current) {
+        return console.error('Video reference is undefined')
       }
+
+      setMuted(ref.current.muted)
+      setVolume(ref.current.volume)
     }
 
     onVolumeChange()
 
-    video.current?.addEventListener('volumechange', onVolumeChange)
+    ref.current.addEventListener('volumechange', onVolumeChange)
 
     return () => {
-      video.current?.removeEventListener('volumechange', onVolumeChange)
+      ref.current?.removeEventListener('volumechange', onVolumeChange)
     }
-  }, [video.current])
+  }, [ref])
 
   const seekVolume = useCallback(
     (percent: number) => {
-      if (video.current) {
-        video.current.volume = Math.min(Math.max(percent, 0), 1)
+      if (!ref.current) {
+        throw new Error('Video reference is undefined')
       }
+
+      ref.current.volume = Math.min(Math.max(percent, 0), 1)
     },
-    [video.current],
+    [ref],
   )
 
   const toggleMute = useCallback(() => {
-    if (video.current) {
-      video.current.muted = !muted
+    if (!ref.current) {
+      throw new Error('Video reference is undefined')
     }
-  }, [video.current, muted])
+
+    ref.current.muted = !ref.current.muted
+  }, [ref])
 
   return {
     muted,

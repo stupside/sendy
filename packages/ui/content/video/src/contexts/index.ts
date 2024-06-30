@@ -1,6 +1,6 @@
 'use client'
 
-import { type RefObject, createContext, createRef } from 'react'
+import { createContext, createRef, type RefObject } from 'react'
 
 import VideoAudioContext from './VideoAudioContext'
 import VideoQualityContext from './VideoQualityContext'
@@ -8,14 +8,14 @@ import VideoSubtitleContext from './VideoSubtitleContext'
 
 interface IVideoContext {
   url: string
-  video: RefObject<HTMLVideoElement>
+  ref: RefObject<HTMLVideoElement>
   player: RefObject<HTMLDivElement>
 }
 
 const VideoContext = createContext<IVideoContext>({
   url: 'unknown',
-  player: createRef<HTMLDivElement>(),
-  video: createRef<HTMLVideoElement>(),
+  ref: createRef(),
+  player: createRef(),
 })
 
 export type { IVideoContext }

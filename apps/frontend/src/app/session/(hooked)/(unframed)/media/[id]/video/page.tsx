@@ -6,24 +6,22 @@ import { useEffect } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { useVideo } from '@sendy/ui-content-video'
+const overlay = (id: number) => `/session/media/${id}/video/overlay`
 
 const Page: NextPage<{ params: { id: number } }> = (props) => {
   const router = useRouter()
 
-  const { player } = useVideo()
-
   useEffect(() => {
     const onMouseMove = () => {
-      router.push(`/session/media/${props.params.id}/video/overlay`)
+      router.replace(overlay(props.params.id))
     }
 
-    player.current?.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mousemove', onMouseMove)
 
     return () => {
-      player.current?.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mousemove', onMouseMove)
     }
-  }, [router.push, player.current, props.params.id])
+  }, [router.push, props.params.id])
 
   return null
 }

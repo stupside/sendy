@@ -10,7 +10,7 @@ import { useVideoSubtitle } from '@sendy/ui-content-video'
 import Option from '../_private/Option'
 
 const Page: NextPage = () => {
-  const { subtitles, subtitle, changeSubtitle } = useVideoSubtitle()
+  const { subtitles, subtitle, change } = useVideoSubtitle()
 
   const router = useRouter()
 
@@ -30,7 +30,7 @@ const Page: NextPage = () => {
                 id={id}
                 name={name}
                 active={id === subtitle}
-                activate={changeSubtitle}
+                activate={change}
               />
             </li>
           ))}

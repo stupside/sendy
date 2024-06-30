@@ -61,9 +61,7 @@ const Input: FC<{
     }
   }, [scan, start, stop])
 
-  return (
-    <video ref={ref} className="h-full w-full rounded-xl overflow-hidden" />
-  )
+  return <video ref={ref} className="h-full rounded-xl overflow-hidden" />
 }
 
 export default Input

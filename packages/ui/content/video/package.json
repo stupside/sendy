@@ -20,9 +20,8 @@
   "dependencies": {
     "@sendy/ui-layout": "workspace:^",
     "@sendy/ui-navigation": "workspace:^",
-    "@sendy/ui-typography": "workspace:^",
     "@heroicons/react": "^2.1.4",
-    "@headlessui/react": "^2.0.4"
+    "@headlessui/react": "^2.1.1"
   },
   "peerDependencies": {
     "react": "^18.2.0",

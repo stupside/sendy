@@ -1,25 +1,21 @@
 'use client'
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  type FC,
-  type PropsWithChildren,
-} from 'react'
+import { useEffect, useRef, useState, type FC } from 'react'
 
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { useSelectedLayoutSegment } from 'next/navigation'
 
-import Header from './Header'
-import Footer from './Footer'
+import { ProviderStatus } from '@/react/providers/Sse'
 
-const Overlay: FC<
-  PropsWithChildren<{
-    actions: Array<FC>
-  }>
-> = (props) => {
+import Timeline from './Timeline'
+
+const cast = (id: number) => `/session/media/${id}/video`
+
+const Overlay: FC<{
+  id: number
+  actions: Array<FC>
+}> = (props) => {
   const router = useRouter()
 
   const ref = useRef<HTMLDivElement>(null)
@@ -30,7 +26,7 @@ const Overlay: FC<
 
   useEffect(() => {
     const onTimout = () => {
-      router.back()
+      router.replace(cast(props.id))
     }
 
     const timeout = setTimeout(onTimout, segment ? 25_000 : 5000)
@@ -38,7 +34,7 @@ const Overlay: FC<
     return () => {
       clearTimeout(timeout)
     }
-  }, [router.back, lastMove, segment])
+  }, [router.push, props.id, lastMove, segment])
 
   useEffect(() => {
     const onMouseMove = (e: HTMLElementEventMap['mousemove']) => {
@@ -53,23 +49,24 @@ const Overlay: FC<
   }, [ref.current])
 
   return (
-    <>
-      {props.children}
-      <div
-        ref={ref}
-        className="fixed inset-0 bg-gradient-to-b from-black/90 via-black/45 to-black/90"
-      >
-        <Header />
-        <ul className="mt-auto mb-3">
+    <div
+      ref={ref}
+      className="fixed inset-0 flex flex-col justify-between p-8 bg-gradient-to-b from-black/90 via-black/45 to-black/90"
+    >
+      <header>
+        <ProviderStatus />
+      </header>
+      <footer>
+        <Timeline />
+        <ul className="flex justify-center gap-x-3">
           {props.actions.map((Action, idx) => (
             <li key={idx}>
               <Action />
             </li>
           ))}
         </ul>
-        <Footer />
-      </div>
-    </>
+      </footer>
+    </div>
   )
 }
 

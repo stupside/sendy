@@ -16,13 +16,17 @@ import { VideoAudioContext } from '@sendy/ui-content-video'
 import useHls from '@/hooks/useHls'
 
 const AudioProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { hls } = useHls()
+  const hls = useHls()
 
-  const [audio, setAudio] = useState<number>(hls.audioTrack)
+  const [audio, setAudio] = useState<number>(0)
 
-  const audios = useMemo(() => new Set(hls.audioTracks), [hls.audioTracks])
+  const audios = useMemo(() => new Set(hls?.audioTracks), [hls?.audioTracks])
 
   useEffect(() => {
+    if (hls === undefined) {
+      return console.error('Hls instance is undefined')
+    }
+
     setAudio(hls.audioTrack)
 
     hls.on(Hls.Events.AUDIO_TRACK_LOADED, (_, data) => {
@@ -34,13 +38,17 @@ const AudioProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [hls])
 
-  const changeAudio = useCallback(
+  const change = useCallback(
     (audio: number) => {
+      if (hls === undefined) {
+        throw new Error('Hls instance is undefined')
+      }
+
       const index = Array.from(audios).findIndex(({ id }) => id === audio)
 
       hls.audioTrack = index
     },
-    [audios],
+    [hls, audios],
   )
 
   return (
@@ -48,7 +56,7 @@ const AudioProvider: FC<PropsWithChildren> = ({ children }) => {
       value={{
         audio,
         audios,
-        changeAudio,
+        change,
       }}
     >
       {children}

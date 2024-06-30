@@ -34,7 +34,7 @@ const Timeline: FC = () => {
   const { timeline, duration, seek } = useVideoTimeline()
 
   return (
-    <footer>
+    <div className="flex gap-x-4 items-center mx-8">
       <Play />
       <div>
         <Time value={timeline} />
@@ -43,7 +43,7 @@ const Timeline: FC = () => {
       <div>
         <Time value={duration} />
       </div>
-    </footer>
+    </div>
   )
 }
 

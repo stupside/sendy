@@ -4,7 +4,6 @@ import { NextPage } from 'next'
 
 import Image from 'next/image'
 
-import { MakeReq } from '@/tools/api'
 import { getMockedContents } from '@/tools/mock'
 import { prettySeconds } from '@/tools/timestamp'
 
@@ -13,15 +12,15 @@ import Preview from './_private/Preview'
 const Page: NextPage<{
   params: { id: number }
 }> = async (props) => {
-  const { data } = await MakeReq((c) =>
-    c.GET('/contents/{id}', {
-      params: {
-        path: {
-          id: props.params.id,
-        },
-      },
-    }),
-  )
+  // const { data } = await MakeReq((c) =>
+  //   c.GET('/contents/{id}', {
+  //     params: {
+  //       path: {
+  //         id: props.params.id,
+  //       },
+  //     },
+  //   }),
+  // )
 
   const media = (await getMockedContents()).at(props.params.id)!
 

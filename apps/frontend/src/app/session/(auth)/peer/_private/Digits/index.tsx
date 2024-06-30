@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  MutableRefObject,
-  RefObject,
-  createRef,
-  useRef,
-  useState,
-  type FC,
-} from 'react'
+import { type FC } from 'react'
 
 import { FocusableBoundary } from '@sendy/ui-navigation'
 

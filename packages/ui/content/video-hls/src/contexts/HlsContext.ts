@@ -2,14 +2,8 @@
 
 import { createContext } from 'react'
 
-import type Hls from 'hls.js'
+import Hls from 'hls.js'
 
-interface IHlsContext {
-  hls: Hls
-}
-
-const HlsContext = createContext<IHlsContext>({} as IHlsContext)
-
-export type { IHlsContext as IHlsContext }
+const HlsContext = createContext<Hls | undefined>(undefined)
 
 export default HlsContext

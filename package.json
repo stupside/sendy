@@ -1,32 +1,37 @@
 {
   "scripts": {
-    "prepare": "husky",
     "dev": "pnpm -r dev",
     "build": "pnpm -r build",
-    "prettier:fix": "prettier --write --cache .",
-    "eslint:fix": "pnpm -r exec eslint --cache . --fix",
-    "prettier:check": "prettier --check --cache .",
-    "eslint:check": "pnpm -r exec eslint --cache ."
+    "prepare": "husky install",
+    "prettier:fix": "prettier --write .",
+    "prettier:check": "prettier --check .",
+    "eslint:fix": "pnpm -r exec eslint . --fix",
+    "eslint:check": "pnpm -r exec eslint ."
   },
   "dependencies": {
     "husky": "^9.0.11",
-    "eslint": "^9.5.0",
     "prettier": "^3.3.2"
   },
   "devDependencies": {
-    "typescript": "^5.4.5",
-    "@typescript-eslint/parser": "^7.13.1",
-    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "eslint": "^9.6.0",
+    "globals": "^15.7.0",
+    "typescript": "^5.5.2",
+    "@eslint/js": "^9.6.0",
+    "@eslint/eslintrc": "^3.1.0",
+    "@typescript-eslint/parser": "^7.14.1",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
     "rollup": "^4.18.0",
+    "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-commonjs": "26.0.1",
-    "@rollup/plugin-typescript": "11.1.6",
-    "@rollup/plugin-node-resolve": "15.2.3",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-preserve-directives": "^0.4.0"
   },
   "engines": {
-    "npm": "use pnpm",
-    "yarn": "use pnpm"
+    "node": ">=14.0.0",
+    "pnpm": ">=6.0.0"
   }
 }

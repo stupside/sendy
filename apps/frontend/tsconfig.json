@@ -29,10 +29,6 @@
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"],
-  // Ingore lib checks for Remix's node_modules.
-  "skipLibCheck": true,
-  // Remix takes care of building everything in `remix build`.
-  "noEmit": true,
   // Enable these options if you want stricter type checking.
   "noUnusedLocals": true,
   "noImplicitReturns": true,

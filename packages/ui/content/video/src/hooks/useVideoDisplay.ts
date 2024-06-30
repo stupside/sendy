@@ -5,13 +5,17 @@ import { useCallback, useEffect, useState } from 'react'
 import useVideo from './useVideo'
 
 const useVideoPip = () => {
-  const { video } = useVideo()
+  const { ref } = useVideo()
 
   const toggle = useCallback(() => {
-    if (video.current) {
-      video.current.requestPictureInPicture()
+    if (!ref.current) {
+      return console.error('Video reference is undefined')
     }
-  }, [video.current])
+
+    ref.current.requestPictureInPicture().catch((error) => {
+      console.error('Error entering Picture-in-Picture mode:', error)
+    })
+  }, [ref])
 
   return { toggle }
 }
@@ -22,26 +26,36 @@ const useVideoFullscreen = () => {
   const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
-    const onFullscreen = () => {
+    if (!player.current) {
+      return console.error('Player reference is undefined')
+    }
+
+    const onFullscreenChange = () => {
       setEnabled(document.fullscreenElement === player.current)
     }
 
-    player.current?.addEventListener('fullscreenchange', onFullscreen)
+    document.addEventListener('fullscreenchange', onFullscreenChange)
 
     return () => {
-      player.current?.removeEventListener('fullscreenchange', onFullscreen)
+      document.removeEventListener('fullscreenchange', onFullscreenChange)
     }
-  }, [player.current])
+  }, [player])
 
   const toggle = useCallback(async () => {
-    if (player.current) {
-      if (enabled) {
-        await document.exitFullscreen()
-      } else {
-        await player.current.requestFullscreen()
-      }
+    if (!player.current) {
+      throw new Error('Player reference is undefined')
     }
-  }, [player.current])
+
+    if (enabled) {
+      await document.exitFullscreen().catch((error) => {
+        console.error('Error exiting fullscreen mode:', error)
+      })
+    } else {
+      await player.current.requestFullscreen().catch((error) => {
+        console.error('Error entering fullscreen mode:', error)
+      })
+    }
+  }, [enabled, player])
 
   return {
     toggle,

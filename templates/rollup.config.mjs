@@ -1,59 +1,64 @@
+import babel from '@rollup/plugin-babel'
 import terser from '@rollup/plugin-terser'
-
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 
-import peers from 'rollup-plugin-peer-deps-external'
-import directives from 'rollup-plugin-preserve-directives'
+import analyze from 'rollup-plugin-analyzer'
+import peerDepsExternal from 'rollup-plugin-peer-deps-external'
+import preserveDirectives from 'rollup-plugin-preserve-directives'
 
 export default {
-  watch: true,
   input: 'src/index.ts',
-  onwarn: (warning, warn) => {
-    if (warning.code !== 'MODULE_LEVEL_DIRECTIVE') {
-      warn(warning)
-    }
-  },
   output: [
     {
       dir: 'dist',
       format: 'esm',
       preserveModules: true,
       entryFileNames: '[name].mjs',
-      plugins: [
-        terser({
-          mangle: true,
-          compress: true,
-          format: {
-            beautify: false,
-          },
-        }),
-      ],
+      sourcemap: true,
+      plugins: [terser()],
     },
     {
       dir: 'dist',
       format: 'cjs',
       preserveModules: true,
       entryFileNames: '[name].cjs',
-      plugins: [
-        terser({
-          mangle: true,
-          compress: true,
-          format: {
-            beautify: false,
-          },
-        }),
-      ],
+      sourcemap: true,
+      plugins: [terser()],
     },
   ],
   plugins: [
-    directives({}),
-    peers({
+    preserveDirectives(),
+    peerDepsExternal({
       includeDependencies: true,
     }),
-    resolve(),
-    commonjs(),
-    typescript(),
+    resolve({
+      browser: true,
+      preferBuiltins: false,
+    }),
+    commonjs({
+      include: /node_modules/,
+    }),
+    typescript({
+      sourceMap: true,
+      tsconfig: './tsconfig.json',
+    }),
+    babel({
+      babelHelpers: 'bundled',
+      exclude: /node_modules/,
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    }),
+    analyze({
+      summaryOnly: true,
+    }),
   ],
+  watch: {
+    include: 'src/**',
+    clearScreen: false,
+  },
+  onwarn(warning, warn) {
+    if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return
+    warn(warning)
+  },
 }

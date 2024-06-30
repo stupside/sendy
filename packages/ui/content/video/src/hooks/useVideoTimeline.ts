@@ -1,76 +1,95 @@
 'use client'
 
-import { useCallback, useMemo, useEffect, useState } from 'react'
-
+import { useCallback, useEffect, useState } from 'react'
 import useVideo from './useVideo'
 
 const useVideoTimeline = () => {
-  const { video } = useVideo()
-
-  const [timeline, setTimeline] = useState(0)
+  const { ref } = useVideo()
 
   const [paused, setPaused] = useState(true)
 
+  const [duration, setDuration] = useState(0)
+  const [timeline, setTimeline] = useState(0)
+
   const play = useCallback(() => {
-    video.current?.play()
-  }, [video.current])
+    if (!ref.current) {
+      throw new Error('Video reference is undefined')
+    }
+
+    ref.current.play()
+  }, [ref])
 
   const pause = useCallback(() => {
-    video.current?.pause()
-  }, [])
+    if (!ref.current) {
+      throw new Error('Video reference is undefined')
+    }
+
+    ref.current.pause()
+  }, [ref])
 
   useEffect(() => {
-    const { current } = video
-
-    const onPause = () => {
-      setPaused(true)
+    if (!ref.current) {
+      return console.error('Video reference is undefined')
     }
 
-    const onPlay = () => {
-      setPaused(false)
-    }
+    const onPlay = () => setPaused(false)
+    const onPause = () => setPaused(true)
 
-    setPaused(current?.paused ?? true)
+    setPaused(ref.current.paused)
 
-    current?.addEventListener('play', onPlay)
-    current?.addEventListener('pause', onPause)
+    ref.current.addEventListener('play', onPlay)
+    ref.current.addEventListener('pause', onPause)
 
     return () => {
-      current?.removeEventListener('play', onPlay)
-      current?.removeEventListener('pause', onPause)
+      ref.current?.removeEventListener('play', onPlay)
+      ref.current?.removeEventListener('pause', onPause)
     }
-  }, [video.current])
+  }, [ref])
 
   useEffect(() => {
-    const onTimeUpdate = () => {
-      if (video.current) {
-        const time = Number(video.current?.currentTime.toFixed())
-
-        setTimeline(time)
-      }
+    if (!ref.current) {
+      return console.error('Video reference is undefined')
     }
+
+    const onTimeUpdate = () =>
+      setTimeline(Number(ref.current?.currentTime.toFixed()))
 
     onTimeUpdate()
 
-    video.current?.addEventListener('timeupdate', onTimeUpdate)
+    ref.current.addEventListener('timeupdate', onTimeUpdate)
 
     return () => {
-      video.current?.removeEventListener('timeupdate', onTimeUpdate)
+      ref.current?.removeEventListener('timeupdate', onTimeUpdate)
     }
-  }, [video.current])
+  }, [ref])
+
+  useEffect(() => {
+    if (!ref.current) {
+      return console.error('Video reference is undefined')
+    }
+
+    const onDurationChange = () =>
+      setDuration(Number(fixNumber(ref.current?.duration).toFixed()))
+
+    onDurationChange()
+
+    ref.current.addEventListener('durationchange', onDurationChange)
+
+    return () => {
+      ref.current?.removeEventListener('durationchange', onDurationChange)
+    }
+  }, [ref])
 
   const seek = useCallback(
     (position: number) => {
-      if (video.current) {
-        video.current.currentTime = position
+      if (!ref.current) {
+        throw new Error('Video reference is undefined')
       }
-    },
-    [video.current],
-  )
 
-  const duration = useMemo(() => {
-    return Number(fixNumber(video.current?.duration).toFixed())
-  }, [video.current?.duration])
+      ref.current.currentTime = position
+    },
+    [ref],
+  )
 
   return {
     seek,
@@ -82,14 +101,10 @@ const useVideoTimeline = () => {
   }
 }
 
-const fixNumber = (value?: number) => {
-  if (value) {
-    if (isNaN(value)) return 0
+const fixNumber = (value?: number): number => {
+  if (value === undefined || isNaN(value)) return 0
 
-    return value
-  }
-
-  return 0
+  return value
 }
 
 export default useVideoTimeline

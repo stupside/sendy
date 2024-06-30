@@ -12,20 +12,17 @@ import { PlayCircleIcon } from '@heroicons/react/24/solid'
 
 import { Focusable } from '@sendy/ui-navigation'
 
+const cast = (id: number) => `/session/media/${id}/video`
+
 const Preview: FC<{
   id: number
   cover: string
 }> = (props) => {
   const router = useRouter()
 
-  const redirection = useMemo(
-    () => `/session/media/${props.id}/cast`,
-    [props.id],
-  )
-
   const onEnterPress = useCallback(() => {
-    router.push(redirection)
-  }, [router.push, redirection])
+    router.push(cast(props.id))
+  }, [router.push, props.id])
 
   const config: ComponentProps<typeof Focusable>['config'] = useMemo(
     () => ({
@@ -39,7 +36,7 @@ const Preview: FC<{
       {({ ref, focused }) => (
         <Link
           ref={ref}
-          href={redirection}
+          href={cast(props.id)}
           className={`relative aspect-video shadow-2xl inline-flex justify-center items-center outline-none duration-100 ${focused ? 'scale-100' : 'scale-90'}`}
         >
           <PlayCircleIcon className="w-12 h-12" />

@@ -16,16 +16,20 @@ import { VideoSubtitleContext } from '@sendy/ui-content-video'
 import useHls from '@/hooks/useHls'
 
 const SubtitleProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { hls } = useHls()
+  const hls = useHls()
 
   const [subtitle, setSubtitle] = useState<number>(0)
 
   const subtitles = useMemo(
-    () => new Set(hls.subtitleTracks ?? []),
-    [hls.subtitleTracks],
+    () => new Set(hls?.subtitleTracks ?? []),
+    [hls?.subtitleTracks],
   )
 
   useEffect(() => {
+    if (hls === undefined) {
+      return console.error('Hls instance is undefined')
+    }
+
     setSubtitle(hls.subtitleTrack)
 
     hls.on(Hls.Events.SUBTITLE_TRACK_LOADED, (_, data) => {
@@ -37,8 +41,12 @@ const SubtitleProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [hls])
 
-  const changeSubtitle = useCallback(
+  const change = useCallback(
     (subtitle?: number) => {
+      if (hls === undefined) {
+        throw new Error('Hls instance is undefined')
+      }
+
       if (subtitle === undefined) {
         hls.subtitleDisplay = false
       } else {
@@ -56,9 +64,9 @@ const SubtitleProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <VideoSubtitleContext.Provider
       value={{
+        change,
         subtitle,
         subtitles,
-        changeSubtitle,
       }}
     >
       {children}

@@ -5,13 +5,9 @@ import { useContext } from 'react'
 import { VideoContext } from '@/contexts'
 
 const useVideo = () => {
-  const { video, player, url } = useContext(VideoContext)
+  const { ref, player, url } = useContext(VideoContext)
 
-  return {
-    url,
-    video,
-    player,
-  }
+  return { ref, player, url }
 }
 
 export default useVideo

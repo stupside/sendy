@@ -10,6 +10,11 @@ const nextConfig = {
       },
     ],
   },
+  cleanDistDir: true,
 }
 
-export default MillionLint.next({ rsc: true })(nextConfig)
+export default MillionLint.next({
+  rsc: true,
+  // telemetry: true,
+  // optimizeDOM: true,
+})(nextConfig)

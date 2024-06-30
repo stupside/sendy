@@ -6,6 +6,8 @@ import { FC, useEffect } from 'react'
 
 import { useSseValue } from '@/react/hooks'
 
+const intent = (id: number) => `/session/media/${id}/intent`
+
 const Listen: FC = () => {
   const router = useRouter()
 
@@ -13,7 +15,7 @@ const Listen: FC = () => {
 
   useEffect(() => {
     if (content) {
-      router.push(`/session/media/${content.id}/intent`)
+      router.push(intent(content.id))
     }
   }, [content?.id])
 

@@ -2,20 +2,14 @@
 
 import { NextPage } from 'next'
 
-import { PropsWithChildren, ReactNode } from 'react'
+import { PropsWithChildren } from 'react'
 
-import { MakeReq } from '@/tools/api'
 import { getMockedContents } from '@/tools/mock'
 
 import Medias from './_private/Medias'
 
-const Page: NextPage<
-  PropsWithChildren<{
-    list: ReactNode
-    history: ReactNode
-  }>
-> = async (props) => {
-  const { data } = await MakeReq((c) => c.GET('/contents/history'))
+const Page: NextPage<PropsWithChildren> = async (props) => {
+  // const { data } = await MakeReq((c) => c.GET('/contents/history'))
 
   // if (data === undefined) return null
 

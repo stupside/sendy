@@ -16,22 +16,26 @@ import { VideoQualityContext } from '@sendy/ui-content-video'
 import useHls from '@/hooks/useHls'
 
 const QualityProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { hls } = useHls()
+  const hls = useHls()
 
   const [quality, setQuality] = useState<number>(0)
 
   const qualities = useMemo(
     () =>
       new Set(
-        hls.levels.map((level, index) => ({
+        hls?.levels.map((level, index) => ({
           id: index,
           name: level.name ?? `undefined${index}`,
         })),
       ),
-    [hls.levels],
+    [hls?.levels],
   )
 
   useEffect(() => {
+    if (hls === undefined) {
+      return console.error('Hls instance is undefined')
+    }
+
     setQuality(hls.currentLevel)
 
     hls.on(Hls.Events.LEVEL_LOADED, (_, data) => {
@@ -45,6 +49,10 @@ const QualityProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const change = useCallback(
     (quality?: number) => {
+      if (hls === undefined) {
+        throw new Error('Hls instance is undefined')
+      }
+
       if (quality === undefined) {
         hls.nextLevel = -1
       } else {

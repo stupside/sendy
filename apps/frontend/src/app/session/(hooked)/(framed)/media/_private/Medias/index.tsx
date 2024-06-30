@@ -15,7 +15,7 @@ const Medias: FC<{
         <ul ref={ref} className="flex gap-x-3 w-max">
           {props.list.map((content) => {
             return (
-              <li key={content.id}>
+              <li key={content.id} title={content.title}>
                 <Media
                   id={content.id}
                   title={content.title}
