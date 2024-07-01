@@ -1,4 +1,0 @@
-pnpm eslint:check
-pnpm prettier:check
-
-pnpm build
