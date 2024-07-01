@@ -1,7 +1,11 @@
 package.json
 pnpm-lock.json
 
+.husky
+
 **/node_modules
 
 **/dist
 **/build
+
+**/.next

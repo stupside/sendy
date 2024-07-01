@@ -34,12 +34,11 @@ export default [
       '@typescript-eslint': typescriptEslint,
     },
     languageOptions: {
+      parser: tsParser,
       globals: {
         ...globals.node,
         ...globals.browser,
       },
-
-      parser: tsParser,
     },
     rules: {
       'no-console': 'warn',
