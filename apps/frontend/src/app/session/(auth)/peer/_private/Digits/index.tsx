@@ -2,7 +2,7 @@
 
 import { type FC } from 'react'
 
-import { FocusableBoundary } from '@sendy/ui-navigation'
+import { FocusableBoundary } from '@sendy/react-spatial'
 
 import Digit from './Digit'
 

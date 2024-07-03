@@ -4,7 +4,7 @@ import type { Metadata, NextPage } from 'next'
 
 import { Inter } from 'next/font/google'
 
-import { FocusableInitialization } from '@sendy/ui-navigation'
+import { FocusableInitialization } from '@sendy/react-spatial'
 
 import './globals.css'
 

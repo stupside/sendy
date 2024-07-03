@@ -22,8 +22,10 @@ export const Handler: MyRoute<Interface> =
     const unsubscribe = await subscribe({
       fastify,
       target: `session:${identity.session}`,
-      handle: async ({ type, data }) => {
-        response.raw.write(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`)
+      handle: async ({ type, payload }) => {
+        response.raw.write(
+          `event: ${type}\ndata: ${JSON.stringify(payload)}\n\n`,
+        )
       },
     })
 

@@ -3,8 +3,8 @@ import { FastifySchema, RouteGenericInterface } from 'fastify'
 import { Static, Type } from '@sinclair/typebox'
 
 const Body = Type.Object({
-  key: Type.String({
-    description: 'The key of the generated code.',
+  code: Type.String({
+    description: 'The code to connect to the session',
   }),
   device: Type.Optional(
     Type.Object({

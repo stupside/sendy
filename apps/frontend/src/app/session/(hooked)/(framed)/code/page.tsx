@@ -2,9 +2,9 @@
 
 import { NextPage } from 'next'
 
-import { QrCodeOutput } from '@sendy/ui-zxing'
+import { QrCodeOutput } from '@sendy/react-zxing'
 
-import { MakeReq } from '@/tools/api'
+import { sendy } from '@/tools/api'
 
 import WelcomeLayout from '@/react/components/WelcomeLayout'
 
@@ -13,9 +13,12 @@ import CodeExpiry from './_private/CodeExpiry'
 import CodeRedirectionOnPeer from './_private/CodeRedirectionOnPeer'
 
 const Page: NextPage = async () => {
-  const { data } = await MakeReq((c) =>
-    c.GET('/sessions/code', {
+  const { data } = await sendy((c) =>
+    c.POST('/sessions/code', {
       cache: 'no-cache',
+      body: {
+        redirection: '/session/peer?code=',
+      },
     }),
   )
 

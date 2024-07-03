@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 
-import { MakeReq } from './api'
+import { sendy } from './api'
 
 const COOKIES_SESSION_TOKEN_KEY = 'SESSION_TOKEN'
 
@@ -20,7 +20,7 @@ export const authentified = async () => {
 }
 
 export const register = async () => {
-  const { data } = await MakeReq((c) =>
+  const { data } = await sendy((c) =>
     c.POST('/auth/register', {
       body: {},
       cache: 'no-cache',
@@ -36,10 +36,10 @@ export const register = async () => {
   return data.token
 }
 
-export const peer = async (key: string) => {
-  const { data } = await MakeReq((c) =>
+export const peer = async (code: string) => {
+  const { data } = await sendy((c) =>
     c.POST('/auth/peer', {
-      body: { key },
+      body: { code },
       cache: 'no-cache',
     }),
   )

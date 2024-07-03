@@ -5,12 +5,12 @@ import { useContext, useEffect, useState } from 'react'
 import { SseContext } from '../providers/Sse/Provider'
 
 export type SseEventMap = {
-  '/session/peer': { device: number }
-  '/content/cast': {
+  '/media/cast': {
     id: number
     type: string
     value: string
   }
+  '/session/peer': { device: number }
 }
 
 type SseEvents = keyof SseEventMap

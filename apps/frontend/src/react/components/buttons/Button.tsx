@@ -2,7 +2,7 @@
 
 import { type FC, type PropsWithChildren } from 'react'
 
-import { Focusable } from '@sendy/ui-navigation'
+import { Focusable } from '@sendy/react-spatial'
 
 const Button: FC<
   PropsWithChildren<{

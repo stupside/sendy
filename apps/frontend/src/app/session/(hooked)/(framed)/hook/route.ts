@@ -1,8 +1,9 @@
-import { MakeReq } from '@/tools/api'
 import { NextResponse } from 'next/server'
 
+import { sendy } from '@/tools/api'
+
 export const GET = async () => {
-  const { response } = await MakeReq((c) => c.GET('/hooks/sse'))
+  const { response } = await sendy((c) => c.GET('/hooks/sse'))
 
   if (response.body === null) {
     return NextResponse.error()

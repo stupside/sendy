@@ -1,33 +1,40 @@
 import { FastifyInstance } from 'fastify'
 
-export type TargetEvent<TData> = {
-  type: string
-  data: TData
-}
+import { Static } from '@sinclair/typebox'
 
-export const dispatch = <
-  TEvent,
-  TTargetEvent extends TargetEvent<TEvent>,
->(params: {
-  target: string
-  event: TTargetEvent
-  fastify: FastifyInstance
-}) => {
-  const { sse } = params.fastify.redis
+import {
+  Event,
+  configurations,
+  EventDynSchema,
+} from '../../utils/typebox/event'
 
-  return sse.publish(params.target, JSON.stringify(params.event))
+export const dispatch = <TEvent extends Event>(
+  fastify: FastifyInstance,
+  event: TEvent,
+  params: {
+    target: string
+    payload: Static<(typeof configurations)[TEvent]>
+  },
+) => {
+  return fastify.redis.publish(
+    params.target,
+    JSON.stringify({
+      type: event,
+      payload: params.payload,
+    }),
+  )
 }
 
 export const subscribe = async (params: {
   target: string
   fastify: FastifyInstance
-  handle: (event: TargetEvent<never>) => Promise<void>
+  handle: (event: Static<typeof EventDynSchema>) => Promise<void>
 }) => {
   const { sse } = params.fastify.redis
 
   const onMessage = async (channel: string, message: string) => {
     if (channel === params.target) {
-      await params.handle(JSON.parse(message) as TargetEvent<never>)
+      await params.handle(JSON.parse(message))
     }
   }
 

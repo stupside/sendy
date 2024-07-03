@@ -23,16 +23,12 @@ export const Handler: MyRoute<Interface> =
       .toString('hex')
 
     const expiry =
-      (request.query.expiry ?? fastify.config.MY_SESSION_CODE_EXPIRY) +
+      (request.body.expiry ?? fastify.config.MY_SESSION_CODE_EXPIRY) +
       EXPIRY_COMPENSATION
 
     await fastify.redis.codes.setex(key, expiry, identity.session)
 
-    const redirection =
-      request.query.redirection ??
-      `${fastify.config.MY_FRONTEND_CSR_URL}/api/connect`
-
-    const callback = `${redirection}/${encodeURIComponent(key)}`
+    const callback = `${request.body.redirection}${encodeURIComponent(key)}`
 
     const qr = await QRCode.toDataURL(callback, {
       errorCorrectionLevel: 'M',

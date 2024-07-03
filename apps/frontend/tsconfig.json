@@ -24,6 +24,7 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "**/*.json",
     "next-env.d.ts",
     "types/**.d.ts",
     ".next/types/**/*.ts"

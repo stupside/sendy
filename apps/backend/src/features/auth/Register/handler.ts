@@ -6,10 +6,10 @@ import prisma from '../../../utils/prisma'
 
 import { Hook } from '../../hook'
 import { Server } from '../../server'
-import { Content } from '../../content'
+import { Media } from '../../media'
+import Session from '../../session'
 
 import { Interface } from './schema'
-import Session from '../../session'
 
 export const Handler: MyRoute<Interface> = () => async (request, response) => {
   const session = await prisma.session.create({
@@ -44,8 +44,8 @@ export const Handler: MyRoute<Interface> = () => async (request, response) => {
       Hook.Sse.Claim,
       Session.Code.Claim,
       Server.Config.Claim,
-      Content.History.Claim,
-      Content.Retrieve.Claim,
+      Media.History.Claim,
+      Media.Retrieve.Claim,
     ],
   }
 

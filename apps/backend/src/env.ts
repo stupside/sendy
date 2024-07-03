@@ -57,6 +57,8 @@ declare module 'fastify' {
   }
 }
 
+export { Schema }
+
 /**
  * This plugins to work with .env.X
  *

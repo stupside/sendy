@@ -1,0 +1,43 @@
+'use client'
+
+import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+
+import { Modal, ModalPanel, ModalTitle } from '@sendy/react-layout'
+
+import { useVideoAudio } from '@sendy/react-media-video'
+
+import Option from '../_private/Option'
+
+const Page: NextPage = () => {
+  const { audios, audio, change } = useVideoAudio()
+
+  const router = useRouter()
+
+  return (
+    <Modal
+      open
+      close={() => {
+        router.back()
+      }}
+    >
+      <ModalPanel>
+        <ModalTitle>Audios</ModalTitle>
+        <ul className="mx-1">
+          {Array.from(audios).map(({ id, name }) => (
+            <li key={id} className="flex items-center gap-3 my-1">
+              <Option
+                id={id}
+                name={name}
+                active={id === audio}
+                activate={change}
+              />
+            </li>
+          ))}
+        </ul>
+      </ModalPanel>
+    </Modal>
+  )
+}
+
+export default Page

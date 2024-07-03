@@ -5,17 +5,18 @@ import { MyRoute, dispatch, MySessionSchema } from '../../../fastify'
 import prisma from '../../../utils/prisma'
 
 import { Hook } from '../../hook'
-import { Content } from '../../content'
+import { Media } from '../../media'
 import { Server } from '../../server'
+
 import { Interface } from './schema'
 
 export const Handler: MyRoute<Interface> =
   (fastify) => async (request, response) => {
-    const value = await fastify.redis.codes.getdel(
-      request.body.key.toLowerCase(),
-    )
+    const code = request.body.code.toLowerCase()
 
-    if (!value) return response.unauthorized()
+    const value = await fastify.redis.codes.getdel(code)
+
+    if (!value) return response.unauthorized('Invalid code.')
 
     const session = Number.parseInt(value)
 
@@ -43,22 +44,18 @@ export const Handler: MyRoute<Interface> =
       session: device.sessionId,
       claims: [
         Hook.Sse.Claim,
-        Content.Cast.Claim,
+        Media.Cast.Claim,
         Server.Config.Claim,
-        Content.Retrieve.Claim,
+        Media.Retrieve.Claim,
       ],
     }
 
     const token = await response.jwtSign(payload)
 
-    await dispatch({
-      fastify,
+    await dispatch(fastify, '/session/peer', {
       target: `session:${session}`,
-      event: {
-        type: '/session/peer',
-        data: {
-          device: device.id,
-        },
+      payload: {
+        device: device.id,
       },
     })
 

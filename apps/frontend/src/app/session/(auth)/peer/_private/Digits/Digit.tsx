@@ -2,7 +2,7 @@
 
 import { type FC } from 'react'
 
-import { Focusable } from '@sendy/ui-navigation'
+import { Focusable } from '@sendy/react-spatial'
 
 const Digit: FC<{
   name: string

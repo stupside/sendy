@@ -5,7 +5,7 @@ import { Session } from '../features/session'
 const { Code } = Session
 
 const route = async (fastify: FastifyInstance) => {
-  fastify.get('/code', Code.Shorthand, Code.Route(fastify))
+  fastify.post('/code', Code.Shorthand, Code.Route(fastify))
 }
 
 export default async (fastify: FastifyInstance) => {

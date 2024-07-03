@@ -2,7 +2,7 @@
 
 import { NextPage } from 'next'
 
-import { MakeReq } from '@/tools/api'
+import { sendy } from '@/tools/api'
 
 import WelcomeLayout from '@/react/components/WelcomeLayout'
 
@@ -11,7 +11,7 @@ import { handlePeer } from './action'
 import Digits from './_private/Digits'
 
 const Page: NextPage<{ searchParams: { code?: string } }> = async (props) => {
-  const { data } = await MakeReq((c) => c.GET('/server/config'))
+  const { data } = await sendy((c) => c.GET('/server/config'))
 
   if (data === undefined) throw new Error('Could not fetch data')
 

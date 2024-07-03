@@ -4,7 +4,7 @@ import { NextPage } from 'next'
 
 import { PropsWithChildren } from 'react'
 
-import { FocusableBoundary } from '@sendy/ui-navigation'
+import { FocusableBoundary } from '@sendy/react-spatial'
 
 const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
