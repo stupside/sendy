@@ -50,9 +50,9 @@ const Page: NextPage<{
             quality={10}
             width={1920}
             height={1080}
-            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-            className="-z-10 absolute h-full object-cover"
             alt={`Cover of ${movie.title}`}
+            className="-z-10 absolute h-full object-cover"
+            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
           />
         </div>
       </div>

@@ -27,7 +27,7 @@ export const Handler: MyRoute<Interface> =
     })
 
     if (typeof media.metadata !== 'string')
-      throw new Error('Metadata is not a json string')
+      throw new Error('Media metadata is not a json string')
 
     return await response.send({
       type: media.type,

@@ -19,17 +19,16 @@ const configurations = {
   }),
 }
 
-const EventDynSchema = Type.Union(
-  Object.keys(configurations).map((key) => {
-    const schema = configurations[key as Event]
+const EventSchema = (type: Event) =>
+  Type.Object({
+    payload: configurations[type],
+    type: Type.Literal(type, {
+      description: `The type of the event.`,
+    }),
+  })
 
-    return Type.Object({
-      payload: schema,
-      type: Type.Literal(key as Event, {
-        description: `The type of the event.`,
-      }),
-    })
-  }),
+const EventDynSchema = Type.Union(
+  (Object.keys(configurations) as Array<Event>).map(EventSchema),
 )
 
 export type { Event }

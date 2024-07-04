@@ -41,7 +41,15 @@ const configurations: Record<
         handler: 'movie',
         metadata: Type.Object({
           ttid: Type.String({
-            description: 'The ttid of the video.',
+            description: 'The ttid of the movie.',
+          }),
+        }),
+      },
+      {
+        handler: 'serie',
+        metadata: Type.Object({
+          ttid: Type.String({
+            description: 'The ttid of the serie.',
           }),
         }),
       },
@@ -103,11 +111,7 @@ const MediaSchema = (type: MediaType) => {
 }
 
 const MediaDynSchema = Type.Union(
-  [
-    ...Object.values(MediaType).flatMap((type) =>
-      MediaSchema(type as MediaType),
-    ),
-  ],
+  Object.values(MediaType).flatMap(MediaSchema),
   {
     description: 'The definition of a media.',
   },
