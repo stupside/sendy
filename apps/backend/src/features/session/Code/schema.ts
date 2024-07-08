@@ -16,6 +16,9 @@ const Reply = Type.Object({
   qrcode: Type.String({
     description: 'The QR code of the session.',
   }),
+  expiry: Type.Integer({
+    description: 'When the code will expire.',
+  }),
 })
 
 export interface Interface extends RouteGenericInterface {

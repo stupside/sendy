@@ -5,14 +5,24 @@ import { Value } from '@sinclair/typebox/value'
 
 import { peer } from '@/tools/auth'
 
-export const handlePeer = async (form: FormData) => {
+export const handle = async (form: FormData) => {
   'use server'
 
-  const PeerForm = Type.Object({
-    digits: Type.Array(Type.String({ maxLength: 1, minLength: 1 })),
-  })
+  // the form data is like this { "digit[0]": 1, "digit[1]": 2, "digit[2]": 3 }
 
-  const data = Value.Cast(PeerForm, Object.fromEntries(form))
+  const schema = Type.Record(
+    Type.String({
+      pattern: 'digit\\[\\d+\\]',
+    }),
+    Type.String({
+      minLength: 1,
+      maxLength: 1,
+    }),
+  )
 
-  await peer(data.digits.reduce((acc, digit) => acc + digit))
+  const data = Value.Decode(schema, Object.fromEntries(form))
+
+  const code = Object.values(data).reduce((acc, digit) => acc + digit)
+
+  await peer(code)
 }

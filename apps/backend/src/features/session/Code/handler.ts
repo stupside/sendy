@@ -45,6 +45,7 @@ export const Handler: MyRoute<Interface> =
         select: {
           id: true,
           value: true,
+          expiry: true,
         },
       })
       .then((code) => {
@@ -63,6 +64,7 @@ export const Handler: MyRoute<Interface> =
           select: {
             id: true,
             value: true,
+            expiry: true,
           },
         })
       })
@@ -75,6 +77,7 @@ export const Handler: MyRoute<Interface> =
 
     return await response.send({
       code: code.value,
+      expiry: code.expiry.getUTCDate(),
       qrcode: await QRCode.toDataURL(
         `${request.body.callback}data=${Buffer.from(data).toString('base64')}`,
         {

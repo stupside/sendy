@@ -15,7 +15,7 @@ const middleware: NextMiddleware = async () => {
 }
 
 export const config: MiddlewareConfig = {
-  matcher: '/session/:path*',
+  matcher: ['/session/((?!peer$|register$).*)'],
 }
 
 export default middleware

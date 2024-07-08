@@ -23,7 +23,7 @@ const Layout: NextPage<
     }),
   )
 
-  if (data === undefined) throw new Error('Could not fetch data')
+  if (data === undefined) return null
 
   return (
     <Video url={data.value} subtype={'m3u8'}>

@@ -11,9 +11,7 @@ export const GET = async () => {
 
   const { readable, writable } = new TransformStream()
 
-  response.body.pipeTo(writable).catch((error) => {
-    console.error('Stream piping error:', error)
-  })
+  response.body.pipeTo(writable)
 
   const headers = new Headers(response.headers)
 

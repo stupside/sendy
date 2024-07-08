@@ -35,7 +35,7 @@ const Layout: NextPage<PropsWithChildren<{ params: { id: number } }>> = async (
     }),
   )
 
-  if (data === undefined) throw new Error('Could not fetch data')
+  if (data === undefined) return null
 
   return <Overlay {...features['m3u8']}>{props.children}</Overlay>
 }

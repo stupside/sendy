@@ -18,12 +18,12 @@ const useTimer = ({ expiry }: { expiry: number }) => {
   const interval = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
-    interval.current = setInterval(() => {
+    interval.current = setTimeout(() => {
       setRemaining(getRemaining())
     }, ONE_SEC_IN_MS)
 
     return () => {
-      clearInterval(interval.current)
+      clearTimeout(interval.current)
     }
   }, [interval.current, getRemaining])
 

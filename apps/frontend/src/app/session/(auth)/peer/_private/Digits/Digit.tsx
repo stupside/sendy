@@ -14,6 +14,8 @@ const Digit: FC<{
     <Focusable>
       {({ ref }) => (
         <input
+          step={1}
+          required
           ref={ref}
           type="text"
           maxLength={1}
