@@ -19,13 +19,20 @@ export const Handler: MyRoute<Interface> =
 
     response.raw.writeHead(200, headers)
 
-    const subscriber = await fastify.zeromq.subscriber()
+    const subscriber = fastify.zeromq.subscriber()
+
+    subscriber.connect(fastify.config.ZEROMQ_URL)
 
     const target = `session:${identity.session}`
 
     subscriber.subscribe(target)
 
-    request.raw.on('close', subscriber.close)
+    const disconnect = () => subscriber.disconnect(fastify.config.ZEROMQ_URL)
+
+    request.raw.on('close', () => {
+      disconnect()
+      subscriber.close()
+    })
 
     await subscribe({
       target,

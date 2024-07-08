@@ -11,11 +11,11 @@ import swaggerui from '@fastify/swagger-ui'
 const plugin = fp(async (fastify) => {
   await fastify.register(swagger, {
     openapi: {
-      openapi: '3.0.0',
+      openapi: '3.1.0',
       info: {
+        version: '0.1.0',
         title: 'Sendy API',
         description: 'API Documentation',
-        version: '0.1.0',
       },
       components: {
         securitySchemes: {
@@ -28,8 +28,8 @@ const plugin = fp(async (fastify) => {
       },
       servers: [
         {
-          url: fastify.config.BACKEND_URL,
           description: 'Sendy API',
+          url: fastify.config.BACKEND_URL,
         },
       ],
     },

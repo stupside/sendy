@@ -6,7 +6,7 @@ import { Publisher, Subscriber } from 'zeromq'
 
 interface IZeroMQ {
   publisher: Publisher
-  subscriber: () => Promise<Subscriber>
+  subscriber: () => Subscriber
 }
 
 declare module 'fastify' {
@@ -22,12 +22,8 @@ const zeromq: FastifyPluginAsync = async (fastify) => {
 
   const decorator: IZeroMQ = {
     publisher,
-    subscriber: async () => {
-      const subscriber = new Subscriber()
-
-      subscriber.connect(fastify.config.ZEROMQ_URL)
-
-      return subscriber
+    subscriber: () => {
+      return new Subscriber()
     },
   }
 

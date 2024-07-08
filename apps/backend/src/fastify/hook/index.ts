@@ -24,7 +24,7 @@ export const dispatch = <TEvent extends Event>({
   return publisher.send([
     params.target,
     JSON.stringify(
-      Value.Cast(EventSchema, {
+      Value.Decode(EventSchema, {
         event,
         metadata: params.metadata,
       }),
@@ -37,15 +37,13 @@ export const subscribe = async (params: {
   subscriber: Subscriber
   handle: (event: Static<typeof EventSchema>) => Promise<void>
 }) => {
-  for await (const [target, payload] of params.subscriber) {
-    if (target?.toString() !== params.target) throw new Error('Invalid target.')
+  while (params.subscriber.closed === false) {
+    const [, payload] = await params.subscriber.receive()
 
     if (payload) {
       await params.handle(
         Value.Decode(EventSchema, JSON.parse(payload.toString())),
       )
     }
-
-    if (params.subscriber.closed) break
   }
 }
