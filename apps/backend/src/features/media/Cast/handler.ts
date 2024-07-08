@@ -1,7 +1,5 @@
 import { MyRoute, dispatch } from '../../../fastify'
 
-import prisma from '../../../utils/prisma'
-
 import { Interface } from './schema'
 
 export const Handler: MyRoute<Interface> =
@@ -10,7 +8,7 @@ export const Handler: MyRoute<Interface> =
 
     if (identity === undefined) throw new Error('Unauthorized')
 
-    const media = await prisma.media.create({
+    const media = await fastify.prisma.media.create({
       data: {
         type: request.body.type,
         value: request.body.value,
@@ -33,13 +31,17 @@ export const Handler: MyRoute<Interface> =
       },
     })
 
-    await dispatch(fastify, '/media/cast', {
-      target: `session:${identity.session}`,
-      payload: {
-        id: media.id,
-        type: media.type,
+    await dispatch({
+      event: '/media/cast',
+      publisher: fastify.zeromq.publisher,
+      params: {
+        target: `session:${identity.session}`,
+        metadata: {
+          id: media.id,
+          type: media.type,
+        },
       },
     })
 
-    return await response.redirect(`/medias/${media.id}`)
+    return await response.send({ id: media.id })
   }

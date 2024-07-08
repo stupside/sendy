@@ -1,14 +1,24 @@
-import { generateKeySync } from 'crypto'
+import { generateKeySync } from 'node:crypto'
 
 import QRCode from 'qrcode'
+
+import { FastifyInstance } from 'fastify'
 
 import { MyRoute } from '../../../fastify'
 
 import { Interface } from './schema'
 
-const OCT_SIZE = 4
+const key = (fastify: FastifyInstance) => {
+  return generateKeySync('hmac', {
+    length: fastify.config.SESSION_CODE_LENGTH * 4,
+  })
+    .export()
+    .toString('hex')
+}
 
-const EXPIRY_COMPENSATION = 1
+const expiry = (fastify: FastifyInstance) => {
+  return new Date(Date.now() + fastify.config.SESSION_CODE_PERIOD * 1000)
+}
 
 export const Handler: MyRoute<Interface> =
   (fastify) => async (request, response) => {
@@ -16,29 +26,60 @@ export const Handler: MyRoute<Interface> =
 
     if (identity === undefined) throw new Error('Unauthorized')
 
-    const key = generateKeySync('hmac', {
-      length: fastify.config.MY_SESSION_CODE_LEN * OCT_SIZE,
+    const now = new Date()
+
+    const code = await fastify.prisma.code
+      .findFirst({
+        where: {
+          expiry: {
+            gt: now,
+          },
+          used: false,
+          session: {
+            id: identity.session,
+          },
+        },
+        orderBy: {
+          creation: 'desc',
+        },
+        select: {
+          id: true,
+          value: true,
+        },
+      })
+      .then((code) => {
+        if (code) return code
+
+        return fastify.prisma.code.create({
+          data: {
+            value: key(fastify),
+            expiry: expiry(fastify),
+            session: {
+              connect: {
+                id: identity.session,
+              },
+            },
+          },
+          select: {
+            id: true,
+            value: true,
+          },
+        })
+      })
+
+    response.header('Cache-Control', 'no-store, no-cache, must-revalidate')
+
+    const data = JSON.stringify({
+      code: code.value,
     })
-      .export()
-      .toString('hex')
-
-    const expiry =
-      (request.body.expiry ?? fastify.config.MY_SESSION_CODE_EXPIRY) +
-      EXPIRY_COMPENSATION
-
-    await fastify.redis.codes.setex(key, expiry, identity.session)
-
-    const callback = `${request.body.redirection}${encodeURIComponent(key)}`
-
-    const qr = await QRCode.toDataURL(callback, {
-      errorCorrectionLevel: 'M',
-    })
-
-    const now = Date.now()
 
     return await response.send({
-      qr,
-      raw: key,
-      expiry: now + expiry * 1000,
+      code: code.value,
+      qrcode: await QRCode.toDataURL(
+        `${request.body.callback}data=${Buffer.from(data).toString('base64')}`,
+        {
+          errorCorrectionLevel: 'M',
+        },
+      ),
     })
   }

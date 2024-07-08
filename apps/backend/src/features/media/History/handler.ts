@@ -1,6 +1,8 @@
+import { Value } from '@sinclair/typebox/value'
+
 import { MyRoute } from '../../../fastify'
 
-import prisma from '../../../utils/prisma'
+import { MediaSchema } from '../../../utils/typebox/media'
 
 import { Interface } from './schema'
 
@@ -9,7 +11,7 @@ export const Handler: MyRoute<Interface> = (fastify) => async (_, response) => {
 
   if (identity === undefined) throw new Error('Unauthorized')
 
-  const medias = await prisma.media.findMany({
+  const medias = await fastify.prisma.media.findMany({
     where: {
       session: {
         id: identity.session,
@@ -19,7 +21,6 @@ export const Handler: MyRoute<Interface> = (fastify) => async (_, response) => {
       id: true,
       date: true,
       type: true,
-      value: true,
       handler: true,
       metadata: true,
     },
@@ -27,15 +28,14 @@ export const Handler: MyRoute<Interface> = (fastify) => async (_, response) => {
 
   return await response.send(
     medias.map((media) => {
-      if (typeof media.metadata !== 'string') throw new Error()
-
       return {
         id: media.id,
-        type: media.type,
-        value: media.value,
-        handler: media.handler,
         date: media.date.getUTCDate(),
-        metadata: JSON.parse(media.metadata),
+        ...Value.Cast(MediaSchema, {
+          type: media.type,
+          handler: media.handler,
+          metadata: JSON.parse(media.metadata),
+        }),
       }
     }),
   )

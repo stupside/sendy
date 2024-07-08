@@ -8,14 +8,14 @@ import { useRouter } from 'next/navigation'
 
 import { Focusable } from '@sendy/react-spatial'
 
-const Media: FC<
+const VideoLink: FC<
   PropsWithChildren<{
     id: number
   }>
 > = (props) => {
   const router = useRouter()
 
-  const redirection = useMemo(() => `/session/media/${props.id}`, [props.id])
+  const redirection = useMemo(() => `/session/video/${props.id}`, [props.id])
 
   const config: ComponentProps<typeof Focusable>['config'] = useMemo(
     () => ({
@@ -42,4 +42,4 @@ const Media: FC<
   )
 }
 
-export default Media
+export default VideoLink

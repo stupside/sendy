@@ -14,20 +14,26 @@ export const Handler: MyRoute<Interface> =
       connection: 'keep-alive',
       'cache-control': 'no-cache',
       'content-type': 'text/event-stream',
-      'access-control-allow-origin': fastify.config.MY_FRONTEND_CSR_URL,
+      'access-control-allow-origin': fastify.config.FRONTEND_URL,
     }
 
     response.raw.writeHead(200, headers)
 
-    const unsubscribe = await subscribe({
-      fastify,
-      target: `session:${identity.session}`,
-      handle: async ({ type, payload }) => {
+    const subscriber = await fastify.zeromq.subscriber()
+
+    const target = `session:${identity.session}`
+
+    subscriber.subscribe(target)
+
+    request.raw.on('close', subscriber.close)
+
+    await subscribe({
+      target,
+      subscriber,
+      handle: async ({ event, metadata }) => {
         response.raw.write(
-          `event: ${type}\ndata: ${JSON.stringify(payload)}\n\n`,
+          `event: ${event}\ndata: ${JSON.stringify(metadata)}\n\n`,
         )
       },
     })
-
-    request.raw.on('close', unsubscribe)
   }

@@ -25,6 +25,7 @@ export interface Interface extends RouteGenericInterface {
 }
 
 export const Schema: FastifySchema = {
+  tags: ['server'],
   description: "Get the service's configuration.",
   response: {
     200: Reply,

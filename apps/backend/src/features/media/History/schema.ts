@@ -4,23 +4,25 @@ import { MediaType } from '@prisma/client'
 
 import { Static, Type } from '@sinclair/typebox'
 
-import { MediaDynSchema } from '../../../utils/typebox/media'
+import { MediaSchema } from '../../../utils/typebox/media'
 
 const Query = Type.Object({
   type: Type.Optional(
-    Type.Enum(MediaType, { description: 'The type of the media' }),
+    Type.Enum(MediaType, { description: 'The type of the media.' }),
   ),
 })
 
 const Reply = Type.Array(
   Type.Intersect([
     Type.Object({
-      id: Type.Integer({ description: 'The id of the media.' }),
+      id: Type.Integer({
+        description: 'The id of the media.',
+      }),
       date: Type.Integer({
-        description: 'The date when the media was casted.',
+        description: 'When the media was casted.',
       }),
     }),
-    MediaDynSchema,
+    MediaSchema,
   ]),
 )
 

@@ -9,11 +9,11 @@ import jwt from '@fastify/jwt'
  */
 const plugin = fp(async (fastify) => {
   await fastify.register(jwt, {
-    secret: Buffer.from(fastify.config.MY_JWT_SECRET, 'hex'),
+    secret: Buffer.from(fastify.config.JWT_SECRET, 'hex'),
     sign: {
       iss: 'sendy',
       aud: 'sendy.aud',
-      expiresIn: fastify.config.MY_JWT_EXPIRY,
+      expiresIn: fastify.config.JWT_EXPIRY,
     },
   })
 })

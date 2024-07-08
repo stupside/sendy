@@ -10,7 +10,15 @@ import cors from '@fastify/cors'
 const plugin = fp(async (fastify) => {
   await fastify.register(cors, {
     hook: 'preHandler',
-    origin: [fastify.config.MY_FRONTEND_CSR_URL],
+    origin: [
+      fastify.config.FRONTEND_URL,
+      ...(fastify.config.NODE_ENV === 'development'
+        ? [
+            `http://127.0.0.1:${fastify.config.PORT}`,
+            `http://localhost:${fastify.config.PORT}`,
+          ]
+        : []),
+    ],
   })
 })
 

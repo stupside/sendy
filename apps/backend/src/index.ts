@@ -13,11 +13,10 @@ import { formats } from './utils/ajv'
 const prepare = async () => {
   const server = fastify({
     logger: true,
+    ajv: {
+      customOptions: formats.opts,
+    },
   }).withTypeProvider<TypeBoxTypeProvider>()
-
-  server.setValidatorCompiler(({ schema }) => {
-    return formats.compile(schema)
-  })
 
   await server.register(env)
 
@@ -29,6 +28,10 @@ const prepare = async () => {
     routeParams: true,
     dirNameRoutePrefix: false,
     dir: path.join(__dirname, 'routes'),
+  })
+
+  server.setValidatorCompiler(({ schema }) => {
+    return formats.compile(schema)
   })
 
   await server.ready()

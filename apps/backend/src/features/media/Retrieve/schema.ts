@@ -2,7 +2,7 @@ import { FastifySchema, RouteGenericInterface } from 'fastify'
 
 import { Static, Type } from '@sinclair/typebox'
 
-import { MediaDynSchema } from '../../../utils/typebox/media'
+import { MediaSchema } from '../../../utils/typebox/media'
 
 const Params = Type.Object({
   id: Type.Integer({ description: 'The id of the media.' }),
@@ -10,11 +10,11 @@ const Params = Type.Object({
 
 const Reply = Type.Intersect([
   Type.Object({
-    date: Type.Integer({
-      description: 'The date when the media was casted',
+    value: Type.String({
+      description: 'The value of the media.',
     }),
   }),
-  MediaDynSchema,
+  MediaSchema,
 ])
 
 export interface Interface extends RouteGenericInterface {

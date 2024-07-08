@@ -4,17 +4,17 @@ import { Static, Type } from '@sinclair/typebox'
 
 const Body = Type.Object({
   ip: Type.Optional(
-    Type.String({ description: 'The ip of the device', format: 'ipv4' }),
+    Type.String({ description: 'The ip of the device.', format: 'ipv4' }),
   ),
   agent: Type.Optional(
-    Type.String({ description: 'The agent attached to the device' }),
+    Type.String({ description: 'The agent attached to the device.' }),
   ),
 })
 
 const Reply = Type.Object({
-  token: Type.String({ description: 'The token for the session' }),
-  device: Type.Integer({ description: 'The id of the device' }),
-  session: Type.Integer({ description: 'The id of the session' }),
+  token: Type.String({ description: 'The token for the session.' }),
+  device: Type.Integer({ description: 'The id of the device.' }),
+  session: Type.Integer({ description: 'The id of the session.' }),
 })
 
 export interface Interface extends RouteGenericInterface {
@@ -23,7 +23,7 @@ export interface Interface extends RouteGenericInterface {
 }
 
 export const Schema: FastifySchema = {
-  tags: ['session'],
+  tags: ['auth'],
   description: 'Create a session.',
   body: Body,
   response: {

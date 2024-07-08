@@ -12,7 +12,13 @@ const Schema = Type.Object(
       default: 'Etc/UTC',
     }),
 
+    NODE_ENV: Type.String({
+      default: 'development',
+      enum: ['development', 'production', 'test'],
+    }),
+
     PORT: Type.Integer({
+      minimum: 1024,
       default: 3000,
     }),
     HOST: Type.String({
@@ -20,30 +26,42 @@ const Schema = Type.Object(
       default: '127.0.0.1',
     }),
 
-    MY_JWT_EXPIRY: Type.String({
-      default: '1h',
+    JWT_EXPIRY: Type.Integer({
+      minimum: 3600,
+      default: 43200,
     }),
-    MY_JWT_SECRET: Type.String(),
 
-    MY_BACKEND_URL: Type.String({
+    JWT_SECRET: Type.String(),
+
+    BACKEND_URL: Type.String({
       format: 'uri',
       default: 'http://127.0.0.1:3000',
     }),
 
-    MY_FRONTEND_CSR_URL: Type.String({
+    FRONTEND_URL: Type.String({
       format: 'uri',
       default: 'http://127.0.0.1:8080',
     }),
 
-    MY_REDIS_URL: Type.String(),
-    MY_DATABASE_URL: Type.String(),
+    ZEROMQ_URL: Type.String({
+      format: 'uri',
+      default: 'tcp://127.0.0.1:6666',
+    }),
+    DATABASE_URL: Type.String({
+      format: 'uri',
+      default: 'postgresql://sendy:sendy@localhost:5432/sendy?schema=public',
+    }),
 
-    MY_SESSION_CODE_LEN: Type.Integer({
+    SESSION_CODE_LENGTH: Type.Integer({
       minimum: 2,
       default: 4,
+      maximum: 8,
     }),
-    MY_SESSION_CODE_EXPIRY: Type.Integer({
+    SESSION_CODE_PERIOD: Type.Integer({
       default: 30,
+      minimum: 30,
+      maximum: 120,
+      description: 'In seconds.',
     }),
   },
   {

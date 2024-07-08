@@ -1,10 +1,10 @@
 import { FastifySchema, RouteGenericInterface } from 'fastify'
 
-import { EventDynSchema } from '../../../utils/typebox/event'
+import { EventSchema } from '../../../utils/typebox/event'
 
 export interface Interface extends RouteGenericInterface {}
 
-const Event = EventDynSchema
+const Event = EventSchema
 
 export const Schema: FastifySchema = {
   tags: ['hook'],

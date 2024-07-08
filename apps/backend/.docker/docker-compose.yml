@@ -10,17 +10,6 @@ services:
     ports:
       - '5432:5432'
 
-  redis:
-    image: bitnami/redis
-    hostname: redis.sendy
-    container_name: redis
-    restart: always
-    environment:
-      REDIS_REPLICATION_MODE: 'master'
-      REDIS_PASSWORD: 'sendy'
-    ports:
-      - '6379:6379'
-
 networks:
   default:
     name: sendy

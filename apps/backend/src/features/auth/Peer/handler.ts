@@ -2,8 +2,6 @@ import { Static } from '@sinclair/typebox'
 
 import { MyRoute, dispatch, MySessionSchema } from '../../../fastify'
 
-import prisma from '../../../utils/prisma'
-
 import { Hook } from '../../hook'
 import { Media } from '../../media'
 import { Server } from '../../server'
@@ -12,24 +10,47 @@ import { Interface } from './schema'
 
 export const Handler: MyRoute<Interface> =
   (fastify) => async (request, response) => {
-    const code = request.body.code.toLowerCase()
+    const value = request.body.code.toLowerCase()
 
-    const value = await fastify.redis.codes.getdel(code)
+    const code = await fastify.prisma.code.findFirst({
+      where: {
+        value,
+        used: false,
+        expiry: {
+          gt: new Date(),
+        },
+      },
+      select: {
+        id: true,
+        expiry: true,
+        sessionId: true,
+      },
+      orderBy: {
+        creation: 'desc',
+      },
+    })
 
-    if (!value) return response.unauthorized('Invalid code.')
+    if (!code) return response.badRequest('Invalid code')
 
-    const session = Number.parseInt(value)
+    await fastify.prisma.code.update({
+      data: {
+        used: true,
+      },
+      where: {
+        id: code.id,
+      },
+    })
 
     const ip = request.body.device?.ip ?? request.ip
     const agent = request.body.device?.agent ?? request.headers['user-agent']
 
-    const device = await prisma.device.create({
+    const device = await fastify.prisma.device.create({
       data: {
         ip,
         agent,
         session: {
           connect: {
-            id: session,
+            id: code.sessionId,
           },
         },
       },
@@ -50,14 +71,18 @@ export const Handler: MyRoute<Interface> =
       ],
     }
 
-    const token = await response.jwtSign(payload)
-
-    await dispatch(fastify, '/session/peer', {
-      target: `session:${session}`,
-      payload: {
-        device: device.id,
+    await dispatch({
+      event: '/session/peer',
+      publisher: fastify.zeromq.publisher,
+      params: {
+        metadata: {
+          device: device.id,
+        },
+        target: `session:${code.sessionId}`,
       },
     })
+
+    const token = await response.jwtSign(payload)
 
     return await response.send({
       token,

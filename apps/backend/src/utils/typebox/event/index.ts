@@ -3,33 +3,34 @@ import { Type } from '@sinclair/typebox'
 
 type Event = '/session/peer' | '/media/cast'
 
-const configurations = {
-  '/session/peer': Type.Object({
-    device: Type.Integer({
-      description: 'The id of the device.',
-    }),
+const SessionPeerSchema = Type.Object({
+  device: Type.Integer({
+    description: 'The id of the device.',
   }),
-  '/media/cast': Type.Object({
-    id: Type.Integer({
-      description: 'The id of the media.',
-    }),
-    type: Type.Enum(MediaType, {
-      description: 'The type of the media.',
-    }),
+})
+
+const MediaCastSchema = Type.Object({
+  id: Type.Integer({
+    description: 'The id of the media.',
   }),
+  type: Type.Enum(MediaType, {
+    description: 'The type of the media.',
+  }),
+})
+
+const EventSchemas = {
+  '/media/cast': MediaCastSchema,
+  '/session/peer': SessionPeerSchema,
 }
 
-const EventSchema = (type: Event) =>
-  Type.Object({
-    payload: configurations[type],
-    type: Type.Literal(type, {
-      description: `The type of the event.`,
+const EventSchema = Type.Union(
+  Object.entries(EventSchemas).map(([event, schema]) =>
+    Type.Object({
+      metadata: schema,
+      event: Type.Literal(event),
     }),
-  })
-
-const EventDynSchema = Type.Union(
-  (Object.keys(configurations) as Array<Event>).map(EventSchema),
+  ),
 )
 
 export type { Event }
-export { EventDynSchema, configurations }
+export { EventSchema, EventSchemas }

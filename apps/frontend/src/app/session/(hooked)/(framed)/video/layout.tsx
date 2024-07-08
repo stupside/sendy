@@ -6,9 +6,9 @@ import { FC, PropsWithChildren } from 'react'
 
 import { sendy } from '@/tools/api'
 
-import Movie from './_private/Media/Movie'
+import Movie from './_private/Video/Movie'
 
-import MediaLink from './_private/MediaLink'
+import MediaLink from './_private/VideoLink'
 
 const Page: NextPage<PropsWithChildren> = async (props) => {
   const { data } = await sendy((c) =>

@@ -7,15 +7,30 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("MY_DATABASE_URL")
+  url      = env("DATABASE_URL")
+}
+
+model Code {
+  id Int @id @default(autoincrement())
+
+  value String @unique
+
+  sessionId Int
+
+  used Boolean @default(false)
+
+  session Session @relation(fields: [sessionId], references: [id])
+
+  expiry   DateTime
+  creation DateTime @default(now())
 }
 
 model Session {
   id Int @id @default(autoincrement())
 
+  codes   Code[]   @relation()
+  medias  Media[]  @relation()
   devices Device[] @relation()
-
-  contents Media[] @relation()
 
   creation DateTime @default(now())
 }
@@ -28,9 +43,9 @@ model Device {
 
   sessionId Int
 
-  session Session @relation(fields: [sessionId], references: [id])
-
   medias Media[] @relation()
+
+  session Session @relation(fields: [sessionId], references: [id])
 
   connection DateTime @default(now())
 }
@@ -51,7 +66,7 @@ model Media {
 
   handler String
 
-  metadata Json
+  metadata String
 
   deviceId  Int
   sessionId Int

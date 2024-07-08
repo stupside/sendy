@@ -1,120 +1,63 @@
-import { TObject, Type } from '@sinclair/typebox'
-
+import { Type } from '@sinclair/typebox'
 import { MediaType } from '@prisma/client'
 
 const DefaultMetadata = Type.Object({})
 
-type MediaDynConfiguration = {
-  handler: string
-  metadata: TObject
+const DefaultHandlerSchema = Type.Object({
+  metadata: DefaultMetadata,
+  handler: Type.Literal('default'),
+})
+
+const TextHandlerSchema = Type.Union([
+  Type.Object({
+    metadata: Type.Object({
+      sensitive: Type.Boolean({
+        description: 'Whether the text is sensitive or not.',
+      }),
+    }),
+    handler: Type.Literal('default'),
+  }),
+])
+
+const VideoHandlerSchema = Type.Union([
+  Type.Object({
+    metadata: DefaultMetadata,
+    handler: Type.Literal('default'),
+  }),
+  Type.Object({
+    metadata: Type.Object({
+      ttid: Type.String({
+        description: 'The ttid of the movie.',
+      }),
+    }),
+    handler: Type.Literal('movie'),
+  }),
+  Type.Object({
+    metadata: Type.Object({
+      ttid: Type.String({
+        description: 'The ttid of the serie.',
+      }),
+    }),
+    handler: Type.Literal('serie'),
+  }),
+])
+
+const MediaTypeSchemas = {
+  [MediaType.text]: TextHandlerSchema,
+  [MediaType.video]: VideoHandlerSchema,
+  [MediaType.image]: Type.Union([DefaultHandlerSchema]),
+  [MediaType.audio]: Type.Union([DefaultHandlerSchema]),
 }
 
-type MediaDynConfigurationVersion = number
-
-const configurations: Record<
-  MediaType,
-  Record<MediaDynConfigurationVersion, Array<MediaDynConfiguration>>
-> = {
-  [MediaType.image]: {
-    0: [
-      {
-        handler: 'default',
-        metadata: DefaultMetadata,
-      },
-    ],
-  },
-  [MediaType.audio]: {
-    0: [
-      {
-        handler: 'default',
-        metadata: DefaultMetadata,
-      },
-    ],
-  },
-  [MediaType.video]: {
-    0: [
-      {
-        handler: 'default',
-        metadata: DefaultMetadata,
-      },
-      {
-        handler: 'movie',
-        metadata: Type.Object({
-          ttid: Type.String({
-            description: 'The ttid of the movie.',
-          }),
-        }),
-      },
-      {
-        handler: 'serie',
-        metadata: Type.Object({
-          ttid: Type.String({
-            description: 'The ttid of the serie.',
-          }),
-        }),
-      },
-    ],
-  },
-  [MediaType.text]: {
-    0: [
-      {
-        handler: 'default',
-        metadata: Type.Object({
-          sensitive: Type.Boolean({
-            description: 'Should the text be hidden when casted',
-          }),
-        }),
-      },
-      {
-        handler: 'link',
-        metadata: Type.Object({
-          iframe: Type.Boolean({
-            description: 'Should the link be rendered as an iframe',
-          }),
-        }),
-      },
-    ],
-  },
-}
-
-const MediaSchema = (type: MediaType) => {
-  return Object.entries(configurations[type]).flatMap(
-    ([version, configurations]) => {
-      return configurations.map(({ handler, metadata }) =>
-        Type.Object(
-          {
-            value: Type.String({
-              description: 'The value of the media.',
-            }),
-            type: Type.Literal(type, {
-              description: 'The type of the media.',
-            }),
-            handler: Type.Literal(handler, {
-              description: 'How the media should be handled.',
-            }),
-            metadata: Type.Composite([
-              metadata,
-              Type.Object({
-                version: Type.Literal(Number.parseInt(version), {
-                  description: 'The version of the configuration.',
-                }),
-              }),
-            ]),
-          },
-          {
-            description: `The definition of a ${type} media with the ${handler} handler (version ${version}).`,
-          },
-        ),
-      )
-    },
-  )
-}
-
-const MediaDynSchema = Type.Union(
-  Object.values(MediaType).flatMap(MediaSchema),
-  {
-    description: 'The definition of a media.',
-  },
+const MediaSchema = Type.Union(
+  Object.entries(MediaTypeSchemas).map(([type, schema]) =>
+    Type.Intersect([
+      Type.Object({
+        type: Type.Literal(type as keyof typeof MediaTypeSchemas),
+      }),
+      schema,
+    ]),
+  ),
 )
 
-export { MediaDynSchema }
+export { MediaSchema }

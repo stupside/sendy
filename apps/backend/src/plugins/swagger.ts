@@ -28,7 +28,7 @@ const plugin = fp(async (fastify) => {
       },
       servers: [
         {
-          url: fastify.config.MY_BACKEND_URL,
+          url: fastify.config.BACKEND_URL,
           description: 'Sendy API',
         },
       ],

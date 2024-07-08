@@ -6,7 +6,7 @@ const formats = addFormats(
   new Ajv({
     useDefaults: true,
     coerceTypes: true,
-    removeAdditional: 'all',
+    removeAdditional: 'failing',
   }),
   ['duration', 'email', 'uri', 'ipv4'],
 )
