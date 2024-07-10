@@ -8,11 +8,9 @@ import { peer } from '@/tools/auth'
 export const handle = async (form: FormData) => {
   'use server'
 
-  // the form data is like this { "digit[0]": 1, "digit[1]": 2, "digit[2]": 3 }
-
   const schema = Type.Record(
     Type.String({
-      pattern: 'digit\\[\\d+\\]',
+      pattern: 'digits\\[\\d+\\]',
     }),
     Type.String({
       minLength: 1,

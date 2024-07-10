@@ -10,9 +10,6 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
 import { search } from './action'
 
-import Video from './_private/Video'
-import VideoLink from './_private/VideoLink'
-
 const Layout: NextPage<{ status: ReactNode }> = (props) => {
   const [state, dispatch, pending] = useFormState(
     async (_: unknown, form: FormData) => {
@@ -55,29 +52,7 @@ const Layout: NextPage<{ status: ReactNode }> = (props) => {
           />
         </form>
       </div>
-      {pending && <p>Loading...</p>}
-      <div className="">
-        <ul className="flex gap-x-3 w-max">
-          {state.map((media) => {
-            return (
-              media.id &&
-              media.title &&
-              media.poster && (
-                <li key={media.id}>
-                  <VideoLink id={media.id}>
-                    <Video
-                      type={media.type}
-                      date={media.date}
-                      title={media.title}
-                      poster={media.poster}
-                    />
-                  </VideoLink>
-                </li>
-              )
-            )
-          })}
-        </ul>
-      </div>
+      {pending ? <p>Loading...</p> : JSON.stringify(state)}
     </>
   )
 }

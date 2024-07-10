@@ -7,8 +7,8 @@ import { FC, PropsWithChildren } from 'react'
 import { sendy } from '@/tools/api'
 
 import Movie from './_private/Video/Movie'
-
 import MediaLink from './_private/VideoLink'
+import Listen from './_private/Listen'
 
 const Page: NextPage<PropsWithChildren> = async (props) => {
   const { data } = await sendy((c) =>
@@ -25,7 +25,7 @@ const Page: NextPage<PropsWithChildren> = async (props) => {
 
   return (
     <div className="flex flex-col flex-grow overflow-x-hidden p-8">
-      {props.children}
+      <Listen>{props.children}</Listen>
       <footer>
         <header className="mb-2">
           <h1 className="font-black text-xl">History</h1>

@@ -10,7 +10,7 @@ import { Interface } from './schema'
 
 export const Handler: MyRoute<Interface> =
   (fastify) => async (request, response) => {
-    const value = request.body.code.toLowerCase()
+    const value = request.body.code.toUpperCase()
 
     const code = await fastify.prisma.code.findFirst({
       where: {

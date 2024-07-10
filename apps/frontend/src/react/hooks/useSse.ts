@@ -2,18 +2,12 @@
 
 import { useContext, useEffect, useState } from 'react'
 
+import { paths } from '@/api'
+
 import { SseContext } from '../providers/Sse/Provider'
 
-export type SseEventMap = {
-  '/media/cast': {
-    id: number
-    type: string
-    value: string
-  }
-  '/session/peer': { device: number }
-}
-
-type SseEvents = keyof SseEventMap
+type SseEvent =
+  paths['/hooks/sse']['get']['responses']['default']['content']['text/event-stream']
 
 const useSseStatus = () => {
   const { source } = useContext(SseContext)
@@ -41,10 +35,11 @@ const useSseStatus = () => {
   return connected
 }
 
-const useSseValue = <TEvent extends SseEvents>(event?: TEvent) => {
+const useSseValue = <TEvent extends SseEvent['event']>(event?: TEvent) => {
   const { source } = useContext(SseContext)
 
-  const [data, setData] = useState<SseEventMap[TEvent]>()
+  const [data, setData] =
+    useState<Extract<SseEvent, { event: TEvent }>['metadata']>()
 
   useEffect(() => {
     const onMessage = (message: MessageEvent<string>) => {

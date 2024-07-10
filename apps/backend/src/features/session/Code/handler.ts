@@ -79,7 +79,7 @@ export const Handler: MyRoute<Interface> =
       code: code.value,
       expiry: code.expiry.getUTCDate(),
       qrcode: await QRCode.toDataURL(
-        `${request.body.callback}data=${Buffer.from(data).toString('base64')}`,
+        `${request.body.callback}${Buffer.from(data).toString('base64')}`,
         {
           errorCorrectionLevel: 'M',
         },
