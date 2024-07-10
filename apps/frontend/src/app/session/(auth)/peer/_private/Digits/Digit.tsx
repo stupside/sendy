@@ -1,6 +1,11 @@
 'use client'
 
-import { type FC } from 'react'
+import {
+  FormEventHandler,
+  KeyboardEventHandler,
+  useCallback,
+  type FC,
+} from 'react'
 
 import { Focusable } from '@sendy/react-spatial'
 
@@ -9,7 +14,37 @@ const Digit: FC<{
   index: number
   value?: string
   placeholder: string
-}> = ({ name, value, index, placeholder }) => {
+  controls: {
+    next: () => void
+    previous: () => void
+  }
+}> = ({ name, value, index, placeholder, controls }) => {
+  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      if (event.key === 'Backspace') {
+        if (event.currentTarget.value) return
+
+        controls.previous()
+
+        event.preventDefault()
+      } else {
+        event.currentTarget?.select()
+      }
+    },
+    [controls.previous],
+  )
+
+  const onInput: FormEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      if (event.currentTarget.validity.patternMismatch) return
+
+      if (event.currentTarget.value) {
+        controls.next()
+      }
+    },
+    [controls.next],
+  )
+
   return (
     <Focusable>
       {({ ref }) => (
@@ -20,32 +55,12 @@ const Digit: FC<{
           type="text"
           maxLength={1}
           value={value}
-          name={`${name}[${index}]`}
+          onInput={onInput}
+          pattern="[A-Za-z0-9]"
+          onKeyDown={onKeyDown}
           placeholder={placeholder}
+          name={`${name}[${index}]`}
           autoComplete="one-time-code"
-          onKeyDown={(event) => {
-            if (event.key === 'Backspace') {
-              if (event.currentTarget.value) return
-
-              event.preventDefault()
-
-              const previous = event.currentTarget
-                .previousElementSibling as HTMLLIElement | null
-
-              previous?.focus()
-            } else {
-              event.currentTarget?.select()
-            }
-          }}
-          onInput={({ currentTarget }) => {
-            const next = (
-              currentTarget.value?.length
-                ? currentTarget.nextElementSibling
-                : currentTarget.previousElementSibling
-            ) as HTMLInputElement | null
-
-            next?.focus()
-          }}
           className=" bg-zinc-800 ring-zinc-300 placeholder-shown:ring-zinc-600 placeholder:text-zinc-600 focus:motion-safe:animate-pulse focus:ring-zinc-200 outline-none rounded w-[2.5ch] caret-transparent ring-4 uppercase text-center py-3"
         />
       )}

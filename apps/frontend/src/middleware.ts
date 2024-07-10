@@ -7,11 +7,11 @@ import { authentified } from '@/tools/auth'
 export const dynamic = 'force-dynamic'
 
 const middleware: NextMiddleware = async () => {
-  if ((await authentified()) == false) {
-    return NextResponse.error()
+  if (await authentified()) {
+    return NextResponse.next()
   }
 
-  return NextResponse.next()
+  return NextResponse.error()
 }
 
 export const config: MiddlewareConfig = {

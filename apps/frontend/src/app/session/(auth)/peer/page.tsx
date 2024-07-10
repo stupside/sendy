@@ -5,6 +5,8 @@ import { NextPage } from 'next'
 import { Type } from '@sinclair/typebox'
 import { Value } from '@sinclair/typebox/value'
 
+import { ArrowLongRightIcon } from '@heroicons/react/24/outline'
+
 import { sendy } from '@/tools/api'
 
 import WelcomeLayout from '@/react/components/WelcomeLayout'
@@ -35,11 +37,18 @@ const Page: NextPage<{ searchParams: { data?: string } }> = async (props) => {
 
   return (
     <WelcomeLayout>
-      <form action={handle}>
-        <Digits name="digits" length={data.code.len} value={json?.code} />
-        <button type="submit" className="mt-3">
-          Peer
-        </button>
+      <form action={handle} className="flex flex-col gap-y-6">
+        <div>
+          <h1 className="text-xl font-bold mb-1">Scan this QR code</h1>
+          <p className="text-sm font-light mb-3">Or enter the key manually</p>
+        </div>
+        <div>
+          <Digits name="digits" length={data.code.len} value={json?.code} />
+          <button type="submit" className="flex gap-x-3 mt-4">
+            <span className="font-bold text-xl">Pair this device</span>
+            <ArrowLongRightIcon className="h-7 w-7 inline stroke-[3]" />
+          </button>
+        </div>
       </form>
     </WelcomeLayout>
   )
