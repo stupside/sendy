@@ -12,13 +12,15 @@ export const Handler: MyRoute<Interface> =
   (fastify) => async (request, response) => {
     const value = request.body.code.toUpperCase()
 
+    const now = new Date()
+
     const code = await fastify.prisma.code.findFirst({
       where: {
         value,
-        used: false,
         expiry: {
-          gt: new Date(),
+          gt: now,
         },
+        used: false,
       },
       select: {
         id: true,

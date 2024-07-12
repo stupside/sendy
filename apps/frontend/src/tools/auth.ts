@@ -39,7 +39,7 @@ export const register = async () => {
 export const peer = async (code: string) => {
   const { data } = await sendy((c) =>
     c.POST('/auth/peer', {
-      body: { code },
+      body: { code, device: {} },
       cache: 'no-cache',
     }),
   )

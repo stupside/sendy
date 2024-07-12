@@ -53,8 +53,8 @@ export const Handler: MyRoute<Interface> =
 
         return fastify.prisma.code.create({
           data: {
-            value: key(fastify),
             expiry: expiry(fastify),
+            value: key(fastify).toUpperCase(),
             session: {
               connect: {
                 id: identity.session,

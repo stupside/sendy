@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-const overlay = (id: number) => `/session/media/${id}/video/overlay`
+const overlay = (id: number) => `/session/video/${id}/play/overlay`
 
 const Page: NextPage<{ params: { id: number } }> = (props) => {
   const router = useRouter()

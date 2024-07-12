@@ -10,7 +10,7 @@ import { ProviderStatus } from '@/react/providers/Sse'
 
 import Timeline from './Timeline'
 
-const cast = (id: number) => `/session/media/${id}/video`
+const play = (id: number) => `/session/video/${id}/play`
 
 const Overlay: FC<{
   id: number
@@ -26,7 +26,7 @@ const Overlay: FC<{
 
   useEffect(() => {
     const onTimout = () => {
-      router.replace(cast(props.id))
+      router.replace(play(props.id))
     }
 
     const timeout = setTimeout(onTimout, segment ? 25_000 : 5000)
@@ -34,7 +34,7 @@ const Overlay: FC<{
     return () => {
       clearTimeout(timeout)
     }
-  }, [router.push, props.id, lastMove, segment])
+  }, [router.replace, props.id, lastMove, segment])
 
   useEffect(() => {
     const onMouseMove = (e: HTMLElementEventMap['mousemove']) => {

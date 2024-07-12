@@ -6,14 +6,10 @@ const Body = Type.Object({
   code: Type.String({
     description: 'The code to connect to the session.',
   }),
-  device: Type.Optional(
+  device: Type.Partial(
     Type.Object({
-      ip: Type.Optional(
-        Type.String({ description: 'The ip of the device.', format: 'ipv4' }),
-      ),
-      agent: Type.Optional(
-        Type.String({ description: 'The agent attached to the device.' }),
-      ),
+      ip: Type.String({ description: 'The ip of the device.', format: 'ipv4' }),
+      agent: Type.String({ description: 'The agent attached to the device.' }),
     }),
   ),
 })

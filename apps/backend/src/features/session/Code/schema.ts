@@ -10,9 +10,11 @@ const Body = Type.Object({
 })
 
 const Reply = Type.Object({
-  code: Type.String({
-    description: 'The code of the session.',
-  }),
+  code: Type.Uppercase(
+    Type.String({
+      description: 'The code of the session.',
+    }),
+  ),
   qrcode: Type.String({
     description: 'The QR code of the session.',
   }),
