@@ -8,18 +8,18 @@ import { useSseValue } from '@/react/hooks'
 
 const play = (id: number) => `/session/video/${id}/play`
 
-const Listen: FC<PropsWithChildren> = () => {
+const Listen: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter()
 
   const content = useSseValue('/media/cast')
 
   useEffect(() => {
-    if (content) {
+    if (content?.type === 'video') {
       router.push(play(content.id))
     }
   }, [content?.id])
 
-  return <>{content}</>
+  return <>{children}</>
 }
 
 export default Listen

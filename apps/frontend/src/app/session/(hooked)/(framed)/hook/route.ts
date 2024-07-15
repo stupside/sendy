@@ -1,25 +1,55 @@
-import { NextResponse } from 'next/server'
+import http from 'node:http'
 
-import { sendy } from '@/tools/api'
+import { NextRequest, NextResponse } from 'next/server'
 
-export const GET = async () => {
-  const { response } = await sendy((c) => c.GET('/hooks/sse'))
+import { getToken } from '@/tools/auth'
 
-  if (response.body === null) {
-    return NextResponse.error()
-  }
+export const dynamic = 'force-dynamic'
 
-  const { readable, writable } = new TransformStream()
+const endpoint = `${process.env.BACKEND_URL}/hooks/sse`
 
-  response.body.pipeTo(writable)
+export const GET = async (req: NextRequest) => {
+  const token = await getToken()
 
-  const headers = new Headers(response.headers)
+  const stream = new ReadableStream({
+    start: (controller) => {
+      const request = http.get(
+        endpoint,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        (res) => {
+          res.on('end', () => {
+            controller.close()
+          })
 
-  headers.set('Content-Encoding', 'none')
+          res.on('error', (err) => {
+            controller.error(err)
+          })
 
-  return new NextResponse(readable, {
-    headers: headers,
-    status: response.status,
-    statusText: response.statusText,
+          res.on('data', (chunk) => {
+            controller.enqueue(chunk)
+          })
+        },
+      )
+
+      request.on('error', (err) => {
+        controller.error(err)
+      })
+
+      req.signal.addEventListener('abort', () => {
+        request.destroy()
+      })
+    },
   })
+
+  const response = new NextResponse(stream)
+
+  response.headers.set('Connection', 'keep-alive')
+  response.headers.set('Cache-Control', 'no-cache')
+  response.headers.set('Content-Type', 'text/event-stream')
+
+  return response
 }

@@ -6,11 +6,12 @@ import { FC, PropsWithChildren } from 'react'
 
 import { sendy } from '@/tools/api'
 
-import Movie from './_private/Video/Movie'
-import MediaLink from './_private/VideoLink'
 import Listen from './_private/Listen'
 
-const Page: NextPage<PropsWithChildren> = async (props) => {
+import Movie from './_private/Video/Movie'
+import MediaLink from './_private/VideoLink'
+
+const Layout: NextPage<PropsWithChildren> = async (props) => {
   const { data } = await sendy((c) =>
     c.GET('/medias/history', {
       params: {
@@ -21,21 +22,23 @@ const Page: NextPage<PropsWithChildren> = async (props) => {
     }),
   )
 
-  if (!data?.length) return null
-
   return (
-    <div className="flex flex-col flex-grow overflow-x-hidden p-8">
-      <Listen>{props.children}</Listen>
+    <div className="flex flex-col flex-grow overflow-x-hidden m-8">
+      <div className="my-auto mx-3">
+        <Listen>{props.children}</Listen>
+      </div>
       <footer>
-        <header className="mb-2">
+        <header className="mb-3">
           <h1 className="font-black text-xl">History</h1>
         </header>
-        <ul className="flex gap-x-3 w-max">
-          {data.map((media) => {
+        <ul className="flex gap-x-3">
+          {data?.map((media) => {
             const Media: FC = () => {
               switch (media.handler) {
                 case 'movie':
-                  return <Movie date={media.date} itt={media.metadata.ttid} />
+                  return (
+                    <Movie date={media.date} tmdbid={media.metadata.tmdbid} />
+                  )
                 default:
                   return null
               }
@@ -55,4 +58,4 @@ const Page: NextPage<PropsWithChildren> = async (props) => {
   )
 }
 
-export default Page
+export default Layout

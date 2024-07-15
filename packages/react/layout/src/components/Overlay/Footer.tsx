@@ -2,17 +2,18 @@
 
 import type { FC, PropsWithChildren } from 'react'
 
-import { FocusableBoundary } from '@sendy/react-spatial'
+import { FocusContext, useFocusable } from '@sendy/react-spatial'
 
 const OverlayFooter: FC<PropsWithChildren> = ({ children }) => {
+  const { ref, focusKey } = useFocusable({
+    isFocusBoundary: true,
+  })
   return (
-    <FocusableBoundary>
-      {({ ref }) => (
-        <footer ref={ref} className="flex flex-row justify-center gap-x-6">
-          {children}
-        </footer>
-      )}
-    </FocusableBoundary>
+    <FocusContext.Provider value={focusKey}>
+      <footer ref={ref} className="flex flex-row justify-center gap-x-6">
+        {children}
+      </footer>
+    </FocusContext.Provider>
   )
 }
 

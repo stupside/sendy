@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useRef, type FC } from 'react'
 
-import { FocusableBoundary } from '@sendy/react-spatial'
+import { useFocusable, FocusContext } from '@sendy/react-spatial'
 
 import Digit from './Digit'
 
@@ -42,31 +42,31 @@ const Digits: FC<{
     [focus],
   )
 
+  const { ref, focusKey } = useFocusable({})
+
   return (
-    <FocusableBoundary lock>
-      {({ ref }) => (
-        <ul ref={ref} className="flex gap-x-4 text-3xl font-bold font-mono">
-          {Array.from({
-            length,
-          }).map((_, index) => (
-            <li
-              key={index}
-              ref={(ref) => {
-                digits.current[index] = ref
-              }}
-            >
-              <Digit
-                name={name}
-                index={index}
-                controls={controls}
-                placeholder={ZERO_CHAR}
-                value={value?.at(index)}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
-    </FocusableBoundary>
+    <FocusContext.Provider value={focusKey}>
+      <ul ref={ref} className="flex gap-x-4 text-3xl font-bold font-mono">
+        {Array.from({
+          length,
+        }).map((_, index) => (
+          <li
+            key={index}
+            ref={(ref) => {
+              digits.current[index] = ref
+            }}
+          >
+            <Digit
+              name={name}
+              index={index}
+              controls={controls}
+              placeholder={ZERO_CHAR}
+              value={value?.at(index)}
+            />
+          </li>
+        ))}
+      </ul>
+    </FocusContext.Provider>
   )
 }
 

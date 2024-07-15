@@ -15,6 +15,5 @@ const nextConfig = {
 
 export default MillionLint.next({
   rsc: true,
-  // telemetry: true,
-  // optimizeDOM: true,
+  optimizeDOM: true,
 })(nextConfig)

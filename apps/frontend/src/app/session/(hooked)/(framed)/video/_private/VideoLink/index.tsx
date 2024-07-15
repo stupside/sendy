@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 import { useRouter } from 'next/navigation'
 
-import { Focusable } from '@sendy/react-spatial'
+import { useFocusable } from '@sendy/react-spatial'
 
 const VideoLink: FC<
   PropsWithChildren<{
@@ -17,7 +17,7 @@ const VideoLink: FC<
 
   const redirection = useMemo(() => `/session/video/${props.id}`, [props.id])
 
-  const config: ComponentProps<typeof Focusable>['config'] = useMemo(
+  const config: Parameters<typeof useFocusable>[0] = useMemo(
     () => ({
       onFocus: async () => {
         router.push(redirection)
@@ -26,19 +26,19 @@ const VideoLink: FC<
     [router, redirection],
   )
 
+  const { ref, focused } = useFocusable(config)
+
   return (
-    <Focusable config={config}>
-      {({ ref, focused }) => (
-        <Link
-          prefetch
-          ref={ref}
-          href={redirection}
-          className={`relative block rounded-xl shadow-2xl overflow-hidden duration-100 ${focused ? 'scale-100' : 'scale-95'}`}
-        >
-          {props.children}
-        </Link>
-      )}
-    </Focusable>
+    <Link
+      prefetch
+      ref={ref}
+      href={redirection}
+      className={`block relative w-full h-full rounded-xl shadow-2xl overflow-hidden duration-100 ${
+        focused ? 'scale-100' : 'scale-95'
+      }`}
+    >
+      {props.children}
+    </Link>
   )
 }
 

@@ -4,17 +4,17 @@ import { NextPage } from 'next'
 
 import { PropsWithChildren } from 'react'
 
-import { FocusableBoundary } from '@sendy/react-spatial'
+import { useFocusable } from '@sendy/react-spatial'
 
 const Layout: NextPage<PropsWithChildren> = ({ children }) => {
+  const { ref } = useFocusable({
+    isFocusBoundary: true,
+  })
+
   return (
-    <FocusableBoundary focus lock>
-      {({ ref }) => (
-        <main ref={ref} className="flex flex-col h-full">
-          {children}
-        </main>
-      )}
-    </FocusableBoundary>
+    <main ref={ref} className="flex flex-col h-full">
+      {children}
+    </main>
   )
 }
 

@@ -77,7 +77,7 @@ export const Handler: MyRoute<Interface> =
 
     return await response.send({
       code: code.value,
-      expiry: code.expiry.getUTCDate(),
+      expiry: code.expiry.getTime(),
       qrcode: await QRCode.toDataURL(
         `${request.body.callback}${Buffer.from(data).toString('base64')}`,
         {

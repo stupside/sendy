@@ -37,13 +37,21 @@ export const subscribe = async (params: {
   subscriber: Subscriber
   handle: (event: Static<typeof EventSchema>) => Promise<void>
 }) => {
-  while (params.subscriber.closed === false) {
+  const _receive = async () => {
     const [, payload] = await params.subscriber.receive()
+
+    if (params.subscriber.closed) {
+      return
+    }
 
     if (payload) {
       await params.handle(
         Value.Decode(EventSchema, JSON.parse(payload.toString())),
       )
     }
+
+    _receive()
   }
+
+  _receive()
 }

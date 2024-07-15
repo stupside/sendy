@@ -4,7 +4,7 @@ import { useCallback, type FC, type MouseEventHandler } from 'react'
 
 import { CheckIcon } from '@heroicons/react/24/solid'
 
-import { Focusable } from '@sendy/react-spatial'
+import { useFocusable } from '@sendy/react-spatial'
 
 const Option: FC<{
   id: number
@@ -19,8 +19,17 @@ const Option: FC<{
     [activate],
   )
 
+  const { ref, focused } = useFocusable({})
+
   return (
-    <>
+    <button
+      ref={ref}
+      id={name}
+      value={id}
+      title={name}
+      onClick={onClick}
+      className={`flex items-center gap-3 my-1 px-5 py-1 border-[1px] rounded-lg ${active ? 'bg-white text-black' : ''} ${focused ? '' : 'border-transparent'}`}
+    >
       <div
         style={{
           visibility: active ? 'visible' : 'hidden',
@@ -28,22 +37,8 @@ const Option: FC<{
       >
         <CheckIcon className="w-5 h-5 stroke-[3]" />
       </div>
-      <div>
-        <Focusable>
-          {({ ref }) => (
-            <button
-              ref={ref}
-              id={name}
-              value={id}
-              title={name}
-              onClick={onClick}
-            >
-              {name}
-            </button>
-          )}
-        </Focusable>
-      </div>
-    </>
+      <div>{name}</div>
+    </button>
   )
 }
 

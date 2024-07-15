@@ -1,7 +1,10 @@
-import Focusable from './components/Focusable'
-import FocusableBoundary from './components/FocusableBoundary'
-import FocusableInitialization from './components/FocusableInitialization'
+'use client'
 
-export * from './hooks'
+export { default as FocusableInitialization } from './components/FocusableInitialization'
 
-export { Focusable, FocusableBoundary, FocusableInitialization }
+import {
+  useFocusable,
+  FocusContext,
+} from '@noriginmedia/norigin-spatial-navigation'
+
+export { useFocusable, FocusContext }

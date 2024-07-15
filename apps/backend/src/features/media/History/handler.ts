@@ -6,37 +6,39 @@ import { MediaSchema } from '../../../utils/typebox/media'
 
 import { Interface } from './schema'
 
-export const Handler: MyRoute<Interface> = (fastify) => async (_, response) => {
-  const identity = fastify.requestContext.get('identity')
+export const Handler: MyRoute<Interface> =
+  (fastify) => async (request, response) => {
+    const identity = fastify.requestContext.get('identity')
 
-  if (identity === undefined) throw new Error('Unauthorized')
+    if (identity === undefined) throw new Error('Unauthorized')
 
-  const medias = await fastify.prisma.media.findMany({
-    where: {
-      session: {
-        id: identity.session,
+    const medias = await fastify.prisma.media.findMany({
+      where: {
+        session: {
+          id: identity.session,
+        },
+        type: request.query.type,
       },
-    },
-    select: {
-      id: true,
-      date: true,
-      type: true,
-      handler: true,
-      metadata: true,
-    },
-  })
+      select: {
+        id: true,
+        date: true,
+        type: true,
+        handler: true,
+        metadata: true,
+      },
+    })
 
-  return await response.send(
-    medias.map((media) => {
-      return {
-        id: media.id,
-        date: media.date.getUTCDate(),
-        ...Value.Cast(MediaSchema, {
-          type: media.type,
-          handler: media.handler,
-          metadata: JSON.parse(media.metadata),
-        }),
-      }
-    }),
-  )
-}
+    return await response.send(
+      medias.map((media) => {
+        return {
+          id: media.id,
+          date: media.date.getTime(),
+          ...Value.Cast(MediaSchema, {
+            type: media.type,
+            handler: media.handler,
+            metadata: JSON.parse(media.metadata),
+          }),
+        }
+      }),
+    )
+  }

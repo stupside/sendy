@@ -4,15 +4,15 @@ import { FC } from 'react'
 
 import { useVideoFullscreen } from '@sendy/react-media-video'
 
-import Button from '@/react/components/buttons/Button'
+import Action from './Action'
 
 const Fullscreen: FC = () => {
-  const { toggle } = useVideoFullscreen()
+  const { toggle, enabled } = useVideoFullscreen()
 
   return (
-    <Button title="Fullscreen" handle={toggle}>
-      Fullscreen
-    </Button>
+    <Action title="Fullscreen" handle={toggle}>
+      {enabled ? 'Windowed' : 'Fullscreen'}
+    </Action>
   )
 }
 

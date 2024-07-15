@@ -27,11 +27,8 @@ export const Handler: MyRoute<Interface> =
 
     subscriber.subscribe(target)
 
-    const disconnect = () => subscriber.disconnect(fastify.config.ZEROMQ_URL)
-
     request.raw.on('close', () => {
-      disconnect()
-      subscriber.close()
+      subscriber.unsubscribe()
     })
 
     await subscribe({

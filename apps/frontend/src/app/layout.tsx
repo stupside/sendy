@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react'
 
-import type { Metadata, NextPage } from 'next'
+import type { Metadata, NextPage, Viewport } from 'next'
 
 import { Inter } from 'next/font/google'
 
@@ -15,13 +15,20 @@ export const metadata: Metadata = {
   description: 'Start streaming content to your devices',
 }
 
+export const viewport: Viewport = {
+  initialScale: 1.0,
+  width: 'device-width',
+}
+
 const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
     <html lang="en">
       <body
         className={`${inter.className} h-screen max-w-screen text-white bg-zinc-800`}
       >
-        <FocusableInitialization>{children}</FocusableInitialization>
+        <FocusableInitialization config={{}}>
+          {children}
+        </FocusableInitialization>
       </body>
     </html>
   )

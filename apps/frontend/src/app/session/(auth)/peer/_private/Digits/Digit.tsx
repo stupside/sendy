@@ -7,7 +7,7 @@ import {
   type FC,
 } from 'react'
 
-import { Focusable } from '@sendy/react-spatial'
+import { useFocusable } from '@sendy/react-spatial'
 
 const Digit: FC<{
   name: string
@@ -45,26 +45,24 @@ const Digit: FC<{
     [controls.next],
   )
 
+  const { ref } = useFocusable({})
+
   return (
-    <Focusable>
-      {({ ref }) => (
-        <input
-          step={1}
-          required
-          ref={ref}
-          type="text"
-          maxLength={1}
-          value={value}
-          onInput={onInput}
-          pattern="[A-Za-z0-9]"
-          onKeyDown={onKeyDown}
-          placeholder={placeholder}
-          name={`${name}[${index}]`}
-          autoComplete="one-time-code"
-          className=" bg-zinc-800 ring-zinc-300 placeholder-shown:ring-zinc-600 placeholder:text-zinc-600 focus:motion-safe:animate-pulse focus:ring-zinc-200 outline-none rounded w-[2.5ch] caret-transparent ring-4 uppercase text-center py-3"
-        />
-      )}
-    </Focusable>
+    <input
+      step={1}
+      required
+      ref={ref}
+      type="text"
+      maxLength={1}
+      value={value}
+      onInput={onInput}
+      pattern="[A-Za-z0-9]"
+      onKeyDown={onKeyDown}
+      placeholder={placeholder}
+      name={`${name}[${index}]`}
+      autoComplete="one-time-code"
+      className=" bg-zinc-800 ring-zinc-300 placeholder-shown:ring-zinc-600 placeholder:text-zinc-600 focus:motion-safe:animate-pulse focus:ring-zinc-200 outline-none rounded w-[2.5ch] caret-transparent ring-4 uppercase text-center py-3"
+    />
   )
 }
 

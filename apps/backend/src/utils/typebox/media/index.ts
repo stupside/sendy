@@ -26,21 +26,17 @@ const VideoHandlerSchema = Type.Union([
   }),
   Type.Object({
     metadata: Type.Object({
-      ttid: Type.Optional(
-        Type.String({
-          description: 'The ttid of the movie.',
-        }),
-      ),
+      tmdbid: Type.Number({
+        description: 'The tmdbid of the movie.',
+      }),
     }),
     handler: Type.Literal('movie'),
   }),
   Type.Object({
     metadata: Type.Object({
-      ttid: Type.Optional(
-        Type.String({
-          description: 'The ttid of the serie.',
-        }),
-      ),
+      tmdbid: Type.Number({
+        description: 'The tmdbid of the serie.',
+      }),
     }),
     handler: Type.Literal('serie'),
   }),

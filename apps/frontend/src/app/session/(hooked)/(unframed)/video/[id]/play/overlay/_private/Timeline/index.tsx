@@ -24,7 +24,7 @@ const Time: FC<{ value: number }> = (props) => {
   const { minutes, secondes } = prettyTime(props.value)
 
   return (
-    <span>
+    <span className="text-sm font-mono">
       {minutes}:{secondes}
     </span>
   )
@@ -41,7 +41,7 @@ const Timeline: FC = () => {
       </div>
       <Line current={timeline} duration={duration} seek={seek} />
       <div>
-        <Time value={duration} />
+        <Time value={duration - timeline} />
       </div>
     </div>
   )

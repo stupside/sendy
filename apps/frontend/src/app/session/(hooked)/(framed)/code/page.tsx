@@ -15,16 +15,13 @@ import Peer from './_private/Peer'
 import Code from './_private/Code'
 import CodeExpiry from './_private/CodeExpiry'
 
-const interfaces = networkInterfaces()
-
-const address = interfaces['Wi-Fi']?.find((i) => i.family === 'IPv4')?.address
 
 const Page: NextPage = async () => {
   const { data } = await sendy((c) =>
     c.POST('/sessions/code', {
       cache: 'no-cache',
       body: {
-        callback: `http://${address}:${process.env.PORT}/session/peer?data=`,
+        callback: `${process.env.FRONTEND_URL}/session/peer?data=`,
       },
     }),
   )

@@ -20,10 +20,10 @@ const Page: NextPage<{
   )
 
   if (data?.type === 'video') {
-    if (data.metadata.ttid) {
-      return <TmdbDetails id={props.params.id} ttid={data.metadata.ttid} />
+    if (data.metadata.tmdbid) {
+      return <TmdbDetails id={props.params.id} tmdbid={data.metadata.tmdbid} />
     } else {
-      return <>Media with no ttid is not yet supported</>
+      return <>Media with no tmdbid is not yet supported</>
     }
   }
 

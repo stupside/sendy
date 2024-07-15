@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 
 import { useRouter } from 'next/navigation'
 
@@ -11,18 +11,17 @@ const CodeExpiry: FC<{ expiry: number }> = ({ expiry }) => {
 
   const { remaining } = useTimer({ expiry })
 
-  const seconds = remaining.getSeconds()
-
   useEffect(() => {
-    if (seconds === 0) {
+    if (remaining <= 0) {
       router.refresh()
     }
-  }, [router, seconds])
+  }, [router, remaining])
+
+  const seconds = remaining + 1
 
   return (
     <p className="font-extralight text-sm italic">
-      The code will expire in <span className="font-mono">{seconds}</span>{' '}
-      seconds
+      The code expires in <span className="font-mono">{seconds}</span> seconds
     </p>
   )
 }

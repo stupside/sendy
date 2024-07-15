@@ -2,7 +2,7 @@
 
 import { NextPage } from 'next'
 
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { Modal, ModalPanel, ModalTitle } from '@sendy/react-layout'
 
