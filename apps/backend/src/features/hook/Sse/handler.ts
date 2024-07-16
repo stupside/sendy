@@ -8,7 +8,7 @@ export const Handler: MyRoute<Interface> =
   (fastify) => async (request, response) => {
     const identity = request.requestContext.get('identity')
 
-    if (identity === undefined) throw new Error('Unauthorized')
+    if (!identity) return response.unauthorized()
 
     const headers: OutgoingHttpHeaders = {
       connection: 'keep-alive',

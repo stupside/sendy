@@ -17,7 +17,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@sendy/react-spatial": "workspace:^",
     "@zxing/browser": "^0.1.5"
   },
   "peerDependencies": {

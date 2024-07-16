@@ -31,25 +31,9 @@ const QualityProvider: FC<PropsWithChildren> = ({ children }) => {
     [hls?.levels],
   )
 
-  useEffect(() => {
-    if (hls === undefined) {
-      return console.error('Hls instance is undefined')
-    }
-
-    setQuality(hls.currentLevel)
-
-    hls.on(Hls.Events.LEVEL_LOADED, (_, data) => {
-      setQuality(data.level)
-    })
-
-    return () => {
-      hls.off(Hls.Events.LEVEL_LOADED)
-    }
-  }, [hls])
-
   const change = useCallback(
     (quality?: number) => {
-      if (hls === undefined) {
+      if (!hls) {
         throw new Error('Hls instance is undefined')
       }
 
@@ -65,6 +49,18 @@ const QualityProvider: FC<PropsWithChildren> = ({ children }) => {
     },
     [hls, qualities],
   )
+
+  useEffect(() => {
+    hls && setQuality(hls.currentLevel)
+
+    hls?.on(Hls.Events.LEVEL_LOADED, (_, data) => {
+      setQuality(data.level)
+    })
+
+    return () => {
+      hls?.off(Hls.Events.LEVEL_LOADED)
+    }
+  }, [hls])
 
   return (
     <VideoQualityContext.Provider

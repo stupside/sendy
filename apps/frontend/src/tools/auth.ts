@@ -27,7 +27,7 @@ export const register = async () => {
     }),
   )
 
-  if (data === undefined) {
+  if (!data) {
     throw new Error('Failed to register')
   }
 
@@ -44,7 +44,7 @@ export const peer = async (code: string) => {
     }),
   )
 
-  if (data === undefined) {
+  if (!data) {
     throw new Error('Failed to peer')
   }
 

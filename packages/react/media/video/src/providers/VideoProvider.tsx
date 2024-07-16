@@ -4,7 +4,9 @@ import { type FC, type PropsWithChildren, useRef } from 'react'
 
 import { VideoContext } from '@/contexts'
 
-const VideoProvider: FC<PropsWithChildren<{ url: string }>> = (props) => {
+const VideoProvider: FC<
+  PropsWithChildren<{ url: string; title: string; subtitle: string }>
+> = (props) => {
   const ref = useRef<HTMLVideoElement>(null)
   const player = useRef<HTMLDivElement>(null)
 
@@ -17,6 +19,8 @@ const VideoProvider: FC<PropsWithChildren<{ url: string }>> = (props) => {
             ref,
             player,
             url: props.url,
+            title: props.title,
+            subtitle: props.subtitle,
           }}
         >
           {props.children}

@@ -1,7 +1,5 @@
 'use server'
 
-import { networkInterfaces } from 'os'
-
 import { NextPage } from 'next'
 
 import { QrCodeOutput } from '@sendy/react-zxing'
@@ -15,7 +13,6 @@ import Peer from './_private/Peer'
 import Code from './_private/Code'
 import CodeExpiry from './_private/CodeExpiry'
 
-
 const Page: NextPage = async () => {
   const { data } = await sendy((c) =>
     c.POST('/sessions/code', {
@@ -26,7 +23,7 @@ const Page: NextPage = async () => {
     }),
   )
 
-  if (data === undefined) return null
+  if (!data) return null
 
   return (
     <Peer>

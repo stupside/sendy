@@ -18,7 +18,7 @@ import { handle } from './action'
 const Page: NextPage<{ searchParams: { data?: string } }> = async (props) => {
   const { data } = await sendy((c) => c.GET('/server/config'))
 
-  if (data === undefined) return null
+  if (!data) return null
 
   const schema = Type.Object({
     code: Type.String({

@@ -22,7 +22,7 @@ const Movie: FC<{
     }),
   )
 
-  if (data === undefined) throw new Error('No data')
+  if (!data) throw new Error('No data')
 
   const { hours, minutes } = prettySeconds((Date.now() - props.date) / 1000)
 

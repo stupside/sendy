@@ -22,7 +22,7 @@ const HlsProvider: FC<
       const _hls = new Hls(config)
 
       if (!ref.current) {
-        return console.error('Video reference is undefined')
+        throw new Error('Ref is not attached')
       }
 
       _hls.attachMedia(ref.current)
@@ -30,11 +30,11 @@ const HlsProvider: FC<
       setHls(_hls)
 
       return () => {
-        _hls.destroy()
+        _hls.detachMedia()
       }
     }
 
-    return console.error('Hls is not supported')
+    throw new Error('Hls is not supported')
   }, [config, ref])
 
   useEffect(() => {

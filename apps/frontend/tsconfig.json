@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,10 +18,7 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*",
-        "./types/*"
-      ]
+      "@/*": ["./src/*", "./types/*"]
     },
     "target": "ES2017"
   },
@@ -37,9 +30,7 @@
     "types/**.d.ts",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   // Enable these options if you want stricter type checking.
   "noUnusedLocals": true,
   "noImplicitReturns": true,

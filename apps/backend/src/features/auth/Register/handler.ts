@@ -32,7 +32,7 @@ export const Handler: MyRoute<Interface> =
 
     const device = session.devices.at(0)
 
-    if (device === undefined) {
+    if (!device) {
       throw new Error('Device not created')
     }
 

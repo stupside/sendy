@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useEffect, useMemo } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useRouter } from 'next/navigation'
 

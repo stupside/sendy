@@ -8,8 +8,6 @@ const hook = (claims: Array<string>): onRequestHookHandler => {
   return async (request, response) => {
     const identity = await request.jwtVerify<Static<typeof MySessionSchema>>()
 
-    if (identity === undefined) return await response.unauthorized()
-
     if (claims.every((claim) => identity.claims.includes(claim)) === false)
       return await response.forbidden()
 

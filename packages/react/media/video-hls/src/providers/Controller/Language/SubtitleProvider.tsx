@@ -26,24 +26,25 @@ const SubtitleProvider: FC<PropsWithChildren> = ({ children }) => {
   )
 
   useEffect(() => {
-    if (hls === undefined) {
-      return console.error('Hls instance is undefined')
-    }
+    hls && setSubtitle(hls.subtitleTrack)
 
-    setSubtitle(hls.subtitleTrack)
-
-    hls.on(Hls.Events.SUBTITLE_TRACK_LOADED, (_, data) => {
+    hls?.on(Hls.Events.SUBTITLE_TRACK_LOADED, (_, data) => {
       setSubtitle(data.id)
     })
 
+    hls?.on(Hls.Events.SUBTITLE_TRACKS_UPDATED, () => {
+      setSubtitle(hls.subtitleTrack)
+    })
+
     return () => {
-      hls.off(Hls.Events.SUBTITLE_TRACK_LOADED)
+      hls?.off(Hls.Events.SUBTITLE_TRACK_LOADED)
+      hls?.off(Hls.Events.SUBTITLE_TRACKS_UPDATED)
     }
   }, [hls])
 
   const change = useCallback(
     (subtitle?: number) => {
-      if (hls === undefined) {
+      if (!hls) {
         throw new Error('Hls instance is undefined')
       }
 

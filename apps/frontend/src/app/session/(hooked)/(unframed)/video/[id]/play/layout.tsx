@@ -7,6 +7,7 @@ import { PropsWithChildren } from 'react'
 import { sendy } from '@/tools/api'
 
 import Video from './_private/Video'
+import Controller from './_private/Controller'
 
 const Layout: NextPage<
   PropsWithChildren<{
@@ -23,11 +24,11 @@ const Layout: NextPage<
     }),
   )
 
-  if (data === undefined) return null
+  if (!data) return null
 
   return (
-    <Video url={data.value} subtype={'m3u8'}>
-      {props.children}
+    <Video url={data.value} title="unknown" subtitle="unknown">
+      <Controller>{props.children}</Controller>
     </Video>
   )
 }

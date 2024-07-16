@@ -1,3 +1,5 @@
+'use server'
+
 import { PropsWithChildren } from 'react'
 
 import { NextPage } from 'next'
@@ -19,7 +21,7 @@ const Layout: NextPage<PropsWithChildren<{ params: { id: number } }>> = async (
     }),
   )
 
-  if (data === undefined) return null
+  if (!data) return null
 
   return <LanguageSubtitleProvider>{props.children}</LanguageSubtitleProvider>
 }

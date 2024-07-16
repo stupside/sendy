@@ -16,11 +16,17 @@ import Timeline from './_private/Timeline'
 
 import Fullscreen from './_private/Actions/Fullscreen'
 import PictureInPicture from './_private/Actions/PictureInPicture'
+import Link from 'next/link'
+import { LanguageIcon } from '@heroicons/react/24/outline'
+import { useVideo } from '@sendy/react-media-video'
 
 const play = (id: number) => `/session/video/${id}/play`
+const menu = (id: number) => `/session/video/${id}/play/overlay/menu`
 
 const Page: NextPage<{ params: { id: number } }> = (props) => {
   const router = useRouter()
+
+  const { title, subtitle } = useVideo()
 
   const { ref, focusKey } = useFocusable({
     isFocusBoundary: true,
@@ -62,7 +68,11 @@ const Page: NextPage<{ params: { id: number } }> = (props) => {
         ref={ref}
         className="absolute inset-0 flex flex-col justify-between p-8 bg-gradient-to-b from-black/90 via-black/45 to-black/90"
       >
-        <header className="flex justify-end">
+        <header className="flex justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">{title}</h1>
+            <h2 className="text-sm font-light">{subtitle}</h2>
+          </div>
           <ProviderStatus />
         </header>
         <footer>
@@ -73,6 +83,13 @@ const Page: NextPage<{ params: { id: number } }> = (props) => {
             </li>
             <li>
               <PictureInPicture />
+            </li>
+            <li>
+              <Link href={menu(props.params.id)}>
+                <button className="px-2 py-1 hover:text-black hover:bg-zinc-200 border-zinc-200 border-[1px] rounded-md">
+                  <LanguageIcon className="w-6 h-6" />
+                </button>
+              </Link>
             </li>
           </ul>
         </footer>

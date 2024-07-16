@@ -12,7 +12,7 @@ const PlayButtonIcon = () => <PlayIcon className="h-6 w-6 m-3" />
 const PauseButtonIcon = () => <PauseIcon className="h-6 w-6 m-3" />
 
 const Play: FC = () => {
-  const { ref, focused } = useFocusable({})
+  const { ref } = useFocusable({})
 
   const { paused, play, pause } = useVideoTimeline()
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { ComponentProps, FC, PropsWithChildren, useMemo } from 'react'
+import { FC, PropsWithChildren, useMemo } from 'react'
 
 import Link from 'next/link'
 

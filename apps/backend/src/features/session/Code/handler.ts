@@ -24,7 +24,7 @@ export const Handler: MyRoute<Interface> =
   (fastify) => async (request, response) => {
     const identity = fastify.requestContext.get('identity')
 
-    if (identity === undefined) throw new Error('Unauthorized')
+    if (!identity) return response.unauthorized()
 
     const now = new Date()
 

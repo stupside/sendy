@@ -23,24 +23,25 @@ const AudioProvider: FC<PropsWithChildren> = ({ children }) => {
   const audios = useMemo(() => new Set(hls?.audioTracks), [hls?.audioTracks])
 
   useEffect(() => {
-    if (hls === undefined) {
-      return console.error('Hls instance is undefined')
-    }
+    hls && setAudio(hls.audioTrack)
 
-    setAudio(hls.audioTrack)
-
-    hls.on(Hls.Events.AUDIO_TRACK_LOADED, (_, data) => {
+    hls?.on(Hls.Events.AUDIO_TRACK_LOADED, (_, data) => {
       setAudio(data.id)
     })
 
+    hls?.on(Hls.Events.AUDIO_TRACKS_UPDATED, () => {
+      setAudio(hls.audioTrack)
+    })
+
     return () => {
-      hls.off(Hls.Events.AUDIO_TRACK_LOADED)
+      hls?.off(Hls.Events.AUDIO_TRACK_LOADED)
+      hls?.off(Hls.Events.AUDIO_TRACKS_UPDATED)
     }
   }, [hls])
 
   const change = useCallback(
     (audio: number) => {
-      if (hls === undefined) {
+      if (!hls) {
         throw new Error('Hls instance is undefined')
       }
 

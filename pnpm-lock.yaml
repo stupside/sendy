@@ -222,18 +222,6 @@ importers:
 
   packages/react/media/video:
     dependencies:
-      '@headlessui/react':
-        specifier: ^2.1.1
-        version: 2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@heroicons/react':
-        specifier: ^2.1.4
-        version: 2.1.4(react@18.3.1)
-      '@sendy/react-layout':
-        specifier: workspace:^
-        version: link:../../layout
-      '@sendy/react-spatial':
-        specifier: workspace:^
-        version: link:../../spatial
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -291,9 +279,6 @@ importers:
 
   packages/react/zxing:
     dependencies:
-      '@sendy/react-spatial':
-        specifier: workspace:^
-        version: link:../spatial
       '@zxing/browser':
         specifier: ^0.1.5
         version: 0.1.5(@zxing/library@0.21.1)

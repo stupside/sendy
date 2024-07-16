@@ -9,19 +9,19 @@
     "types:api": "npx openapi-typescript http://localhost:3000/doc/json -o ./types/api/index.d.ts"
   },
   "dependencies": {
-    "@heroicons/react": "^2.1.4",
+    "@sendy/react-zxing": "workspace:^",
     "@sendy/react-layout": "workspace:^",
+    "@sendy/react-spatial": "workspace:^",
     "@sendy/react-media-video": "workspace:^",
     "@sendy/react-media-video-hls": "workspace:^",
-    "@sendy/react-spatial": "workspace:^",
-    "@sendy/react-zxing": "workspace:^",
-    "@sinclair/typebox": "^0.32.34",
-    "@types/http-proxy": "^1.17.14",
-    "http-proxy": "^1.18.1",
     "next": "^14.2.4",
-    "openapi-fetch": "^0.9.8",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "http-proxy": "^1.18.1",
+    "openapi-fetch": "^0.9.8",
+    "@heroicons/react": "^2.1.4",
+    "@sinclair/typebox": "^0.32.34",
+    "@types/http-proxy": "^1.17.14"
   },
   "devDependencies": {
     "@million/lint": "1.0.0-rc.76",

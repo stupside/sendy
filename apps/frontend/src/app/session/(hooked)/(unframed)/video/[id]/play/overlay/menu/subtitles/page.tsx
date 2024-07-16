@@ -10,10 +10,7 @@ const Page: NextPage = () => {
   const { subtitles, subtitle, change } = useVideoSubtitle()
 
   return (
-    <ul className="mx-1">
-      <li>
-        <Option id={1} name="Off" active={true} activate={change} />
-      </li>
+    <ul>
       {Array.from(subtitles).map(({ id, name }) => (
         <li key={id}>
           <Option

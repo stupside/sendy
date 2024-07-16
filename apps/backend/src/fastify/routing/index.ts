@@ -15,6 +15,9 @@ export const Featured = <TInterface extends RouteGenericInterface>(
 ) => {
   const shorthand: RouteShorthandOptions = {
     schema,
+    onError: (_, response) => {
+      return response.imateapot()
+    },
     onRequest: schema.security ? hook([action]) : undefined,
   }
 
