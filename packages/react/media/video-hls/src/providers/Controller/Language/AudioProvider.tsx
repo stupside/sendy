@@ -5,11 +5,10 @@ import {
   type PropsWithChildren,
   useCallback,
   useEffect,
-  useMemo,
   useState,
 } from 'react'
 
-import Hls from 'hls.js'
+import { Events, type MediaPlaylist } from 'hls.js'
 
 import { VideoAudioContext } from '@sendy/react-media-video'
 
@@ -20,22 +19,24 @@ const AudioProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const [audio, setAudio] = useState<number>(0)
 
-  const audios = useMemo(() => new Set(hls?.audioTracks), [hls?.audioTracks])
+  const [audios, setAudios] = useState<Set<MediaPlaylist>>(new Set())
 
   useEffect(() => {
     hls && setAudio(hls.audioTrack)
 
-    hls?.on(Hls.Events.AUDIO_TRACK_LOADED, (_, data) => {
+    hls?.on(Events.AUDIO_TRACK_LOADED, (_, data) => {
       setAudio(data.id)
     })
 
-    hls?.on(Hls.Events.AUDIO_TRACKS_UPDATED, () => {
-      setAudio(hls.audioTrack)
+    hls?.on(Events.AUDIO_TRACKS_UPDATED, () => {
+      setAudios((old) => {
+        return old.union(new Set(hls?.audioTracks))
+      })
     })
 
     return () => {
-      hls?.off(Hls.Events.AUDIO_TRACK_LOADED)
-      hls?.off(Hls.Events.AUDIO_TRACKS_UPDATED)
+      hls?.off(Events.AUDIO_TRACK_LOADED)
+      hls?.off(Events.AUDIO_TRACKS_UPDATED)
     }
   }, [hls])
 
@@ -51,6 +52,12 @@ const AudioProvider: FC<PropsWithChildren> = ({ children }) => {
     },
     [hls, audios],
   )
+
+  useEffect(() => {
+    setAudios((old) => {
+      return old.union(new Set(hls?.audioTracks))
+    })
+  }, [hls?.audioTracks])
 
   return (
     <VideoAudioContext.Provider

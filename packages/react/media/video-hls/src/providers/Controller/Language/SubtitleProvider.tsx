@@ -5,11 +5,10 @@ import {
   type PropsWithChildren,
   useCallback,
   useEffect,
-  useMemo,
   useState,
 } from 'react'
 
-import Hls from 'hls.js'
+import { Events, type MediaPlaylist } from 'hls.js'
 
 import { VideoSubtitleContext } from '@sendy/react-media-video'
 
@@ -20,25 +19,22 @@ const SubtitleProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const [subtitle, setSubtitle] = useState<number>(0)
 
-  const subtitles = useMemo(
-    () => new Set(hls?.subtitleTracks ?? []),
-    [hls?.subtitleTracks],
-  )
+  const [subtitles, setSubtitles] = useState<Set<MediaPlaylist>>(new Set())
 
   useEffect(() => {
     hls && setSubtitle(hls.subtitleTrack)
 
-    hls?.on(Hls.Events.SUBTITLE_TRACK_LOADED, (_, data) => {
+    hls?.on(Events.SUBTITLE_TRACK_LOADED, (_, data) => {
       setSubtitle(data.id)
     })
 
-    hls?.on(Hls.Events.SUBTITLE_TRACKS_UPDATED, () => {
+    hls?.on(Events.SUBTITLE_TRACKS_UPDATED, () => {
       setSubtitle(hls.subtitleTrack)
     })
 
     return () => {
-      hls?.off(Hls.Events.SUBTITLE_TRACK_LOADED)
-      hls?.off(Hls.Events.SUBTITLE_TRACKS_UPDATED)
+      hls?.off(Events.SUBTITLE_TRACK_LOADED)
+      hls?.off(Events.SUBTITLE_TRACKS_UPDATED)
     }
   }, [hls])
 
@@ -61,6 +57,12 @@ const SubtitleProvider: FC<PropsWithChildren> = ({ children }) => {
     },
     [subtitles],
   )
+
+  useEffect(() => {
+    setSubtitles((old) => {
+      return old.union(new Set(hls?.subtitleTracks))
+    })
+  }, [hls?.subtitleTracks])
 
   return (
     <VideoSubtitleContext.Provider
