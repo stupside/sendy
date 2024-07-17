@@ -12,7 +12,7 @@ const PlayButtonIcon = () => <PlayIcon className="h-6 w-6 m-3" />
 const PauseButtonIcon = () => <PauseIcon className="h-6 w-6 m-3" />
 
 const Play: FC = () => {
-  const { ref } = useFocusable({})
+  const { ref, focused } = useFocusable({})
 
   const { paused, play, pause } = useVideoTimeline()
 
@@ -22,7 +22,7 @@ const Play: FC = () => {
       title="play"
       type="button"
       onClick={paused ? play : pause}
-      className="bg-zinc-700 hover:bg-zinc-200 hover:text-black focus:bg-zinc-200 focus:text-black rounded-full"
+      className={`rounded-full ${focused ? 'bg-zinc-200 text-black' : 'bg-zinc-700 text-zinc-200 hover:bg-zinc-200 hover:text-black focus:bg-zinc-200 focus:text-black'}`}
     >
       {paused ? <PlayButtonIcon /> : <PauseButtonIcon />}
     </button>

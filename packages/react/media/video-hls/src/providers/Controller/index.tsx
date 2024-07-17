@@ -1,6 +1,6 @@
-import QualityProvider from './QualityProvider'
+'use client'
 
-import LanguageAudioProvider from './Language/AudioProvider'
-import LanguageSubtitleProvider from './Language/SubtitleProvider'
+export { default as QualityProvider } from './QualityProvider'
 
-export { QualityProvider, LanguageAudioProvider, LanguageSubtitleProvider }
+export { default as LanguageAudioProvider } from './Language/AudioProvider'
+export { default as LanguageSubtitleProvider } from './Language/SubtitleProvider'

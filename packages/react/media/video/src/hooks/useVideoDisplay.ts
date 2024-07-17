@@ -31,7 +31,7 @@ const useVideoFullscreen = () => {
     }
 
     const onFullscreenChange = () => {
-      setEnabled(document.fullscreenElement === player.current)
+      setEnabled(document.fullscreenElement === player.current?.parentElement)
     }
 
     document.addEventListener('fullscreenchange', onFullscreenChange)
@@ -51,7 +51,7 @@ const useVideoFullscreen = () => {
         console.error('Error exiting fullscreen mode:', error)
       })
     } else {
-      await player.current.requestFullscreen().catch((error) => {
+      await player.current.parentElement?.requestFullscreen().catch((error) => {
         console.error('Error entering fullscreen mode:', error)
       })
     }

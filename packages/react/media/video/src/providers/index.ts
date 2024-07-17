@@ -1,3 +1,1 @@
-import VideoProvider from './VideoProvider'
-
-export { VideoProvider }
+export { default as VideoProvider } from './VideoProvider'

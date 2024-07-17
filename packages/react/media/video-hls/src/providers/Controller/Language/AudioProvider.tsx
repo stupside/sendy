@@ -8,14 +8,14 @@ import {
   useState,
 } from 'react'
 
-import { Events, type MediaPlaylist } from 'hls.js'
+import { Events, type HlsListeners, type MediaPlaylist } from 'hls.js'
 
 import { VideoAudioContext } from '@sendy/react-media-video'
 
 import useHls from '@/hooks/useHls'
 
 const AudioProvider: FC<PropsWithChildren> = ({ children }) => {
-  const hls = useHls()
+  const { instance: hls } = useHls()
 
   const [audio, setAudio] = useState<number>(0)
 
@@ -24,19 +24,35 @@ const AudioProvider: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     hls && setAudio(hls.audioTrack)
 
-    hls?.on(Events.AUDIO_TRACK_LOADED, (_, data) => {
-      setAudio(data.id)
-    })
+    const onMediaDetached: HlsListeners[Events.MEDIA_DETACHED] = () => {
+      setAudio(0)
+      setAudios(new Set())
+    }
 
-    hls?.on(Events.AUDIO_TRACKS_UPDATED, () => {
+    const onAudioTrackSwitched: HlsListeners[Events.AUDIO_TRACK_SWITCHED] = (
+      _,
+      data,
+    ) => {
+      setAudio(data.id)
+    }
+
+    const onAudioTracksUpdated: HlsListeners[Events.AUDIO_TRACKS_UPDATED] = (
+      _,
+      data,
+    ) => {
       setAudios((old) => {
-        return old.union(new Set(hls?.audioTracks))
+        return old.union(new Set(data.audioTracks))
       })
-    })
+    }
+
+    hls?.on(Events.MEDIA_DETACHED, onMediaDetached)
+    hls?.on(Events.AUDIO_TRACK_SWITCHED, onAudioTrackSwitched)
+    hls?.on(Events.AUDIO_TRACKS_UPDATED, onAudioTracksUpdated)
 
     return () => {
-      hls?.off(Events.AUDIO_TRACK_LOADED)
-      hls?.off(Events.AUDIO_TRACKS_UPDATED)
+      hls?.off(Events.MEDIA_DETACHED, onMediaDetached)
+      hls?.off(Events.AUDIO_TRACK_SWITCHED, onAudioTrackSwitched)
+      hls?.off(Events.AUDIO_TRACKS_UPDATED, onAudioTracksUpdated)
     }
   }, [hls])
 
@@ -46,11 +62,11 @@ const AudioProvider: FC<PropsWithChildren> = ({ children }) => {
         throw new Error('Hls instance is undefined')
       }
 
-      const index = Array.from(audios).findIndex(({ id }) => id === audio)
+      const index = hls.audioTracks.findIndex(({ id }) => id === audio)
 
       hls.audioTrack = index
     },
-    [hls, audios],
+    [hls],
   )
 
   useEffect(() => {

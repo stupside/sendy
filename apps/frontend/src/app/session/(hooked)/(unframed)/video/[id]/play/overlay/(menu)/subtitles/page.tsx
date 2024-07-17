@@ -11,6 +11,14 @@ const Page: NextPage = () => {
 
   return (
     <ul>
+      <li>
+        <Option
+          id={-1}
+          name="Disabled"
+          activate={change}
+          active={subtitle === null}
+        />
+      </li>
       {Array.from(subtitles).map(({ id, name }) => (
         <li key={id}>
           <Option

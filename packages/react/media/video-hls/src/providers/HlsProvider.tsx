@@ -1,8 +1,15 @@
 'use client'
 
-import { useEffect, useState, type FC, type PropsWithChildren } from 'react'
+import {
+  useDeferredValue,
+  useEffect,
+  useLayoutEffect,
+  useState,
+  type FC,
+  type PropsWithChildren,
+} from 'react'
 
-import Hls, { type HlsConfig } from 'hls.js'
+import Hls, { Events, type HlsConfig } from 'hls.js'
 
 import { useVideo } from '@sendy/react-media-video'
 
@@ -15,15 +22,15 @@ const HlsProvider: FC<
 > = ({ config, children }) => {
   const { url, ref } = useVideo()
 
-  const [hls, setHls] = useState<Hls | null>(null)
+  const [hls, setHls] = useState<Hls | undefined>()
 
   useEffect(() => {
     if (Hls.isSupported()) {
-      const _hls = new Hls(config)
-
       if (!ref.current) {
         throw new Error('Ref is not attached')
       }
+
+      const _hls = new Hls(config)
 
       _hls.attachMedia(ref.current)
 
@@ -35,21 +42,37 @@ const HlsProvider: FC<
     }
 
     throw new Error('Hls is not supported')
-  }, [config, ref])
+  }, [ref, config])
 
-  useEffect(() => {
-    hls?.loadSource(url)
+  const deferredUrl = useDeferredValue(url)
 
-    return () => {
+  useLayoutEffect(() => {
+    const onMediaAttached = () => {
+      hls?.loadSource(deferredUrl)
+    }
+
+    const onMediaDetached = () => {
       hls?.stopLoad()
     }
-  }, [hls, url])
 
-  if (!hls) {
-    return null
-  }
+    hls?.on(Events.MEDIA_ATTACHED, onMediaAttached)
+    hls?.on(Events.MEDIA_DETACHED, onMediaDetached)
 
-  return <HlsContext.Provider value={hls}>{children}</HlsContext.Provider>
+    return () => {
+      hls?.off(Events.MEDIA_ATTACHED, onMediaAttached)
+      hls?.off(Events.MEDIA_DETACHED, onMediaDetached)
+    }
+  }, [hls, deferredUrl])
+
+  return (
+    <HlsContext.Provider
+      value={{
+        instance: hls,
+      }}
+    >
+      {children}
+    </HlsContext.Provider>
+  )
 }
 
 export default HlsProvider

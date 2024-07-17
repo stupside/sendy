@@ -8,14 +8,14 @@ import {
   useState,
 } from 'react'
 
-import { Events } from 'hls.js'
+import { Events, type HlsListeners } from 'hls.js'
 
 import { VideoQualityContext } from '@sendy/react-media-video'
 
 import useHls from '@/hooks/useHls'
 
 const QualityProvider: FC<PropsWithChildren> = ({ children }) => {
-  const hls = useHls()
+  const { instance: hls } = useHls()
 
   const [quality, setQuality] = useState<number>(0)
 
@@ -48,12 +48,21 @@ const QualityProvider: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     hls && setQuality(hls.currentLevel)
 
-    hls?.on(Events.LEVEL_LOADED, (_, data) => {
+    const onMediaDetached: HlsListeners[Events.MEDIA_DETACHED] = () => {
+      setQuality(0)
+      setQualitites(new Set())
+    }
+
+    const onLevelSwitched: HlsListeners[Events.LEVEL_SWITCHED] = (_, data) => {
       setQuality(data.level)
-    })
+    }
+
+    hls?.on(Events.LEVEL_SWITCHED, onLevelSwitched)
+    hls?.on(Events.MEDIA_DETACHED, onMediaDetached)
 
     return () => {
-      hls?.off(Events.LEVEL_LOADED)
+      hls?.off(Events.LEVEL_SWITCHED, onLevelSwitched)
+      hls?.off(Events.MEDIA_DETACHED, onMediaDetached)
     }
   }, [hls])
 

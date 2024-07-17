@@ -1,13 +1,16 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
+
 import { NextPage } from 'next'
 
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-
-import { useEffect, useState } from 'react'
-
 import { useSelectedLayoutSegment } from 'next/navigation'
 
+import { LanguageIcon } from '@heroicons/react/24/outline'
+
+import { useVideo } from '@sendy/react-media-video'
 import { useFocusable, FocusContext } from '@sendy/react-spatial'
 
 import { ProviderStatus } from '@/react/providers/Sse'
@@ -16,12 +19,9 @@ import Timeline from './_private/Timeline'
 
 import Fullscreen from './_private/Actions/Fullscreen'
 import PictureInPicture from './_private/Actions/PictureInPicture'
-import Link from 'next/link'
-import { LanguageIcon } from '@heroicons/react/24/outline'
-import { useVideo } from '@sendy/react-media-video'
 
 const play = (id: number) => `/session/video/${id}/play`
-const menu = (id: number) => `/session/video/${id}/play/overlay/menu`
+const menu = (id: number) => `/session/video/${id}/play/overlay/audios`
 
 const Page: NextPage<{ params: { id: number } }> = (props) => {
   const router = useRouter()
@@ -29,38 +29,33 @@ const Page: NextPage<{ params: { id: number } }> = (props) => {
   const { title, subtitle } = useVideo()
 
   const { ref, focusKey } = useFocusable({
+    forceFocus: true,
     isFocusBoundary: true,
   })
 
-  const segment = useSelectedLayoutSegment()
-
-  const [lastMove, setLastMove] = useState(0)
+  const timeout = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
-    const onTimout = () => {
-      router.replace(play(props.params.id))
-    }
+    const onEvent = () => {
+      if (timeout.current) {
+        clearTimeout(timeout.current)
+      }
 
-    const timeout = setTimeout(onTimout, segment ? 25_000 : 5000)
-
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [props.params.id, lastMove, segment])
-
-  useEffect(() => {
-    const onEvent = (e: Event) => {
-      setLastMove(e.timeStamp)
+      timeout.current = setTimeout(() => {
+        router.replace(play(props.params.id))
+      }, 5000)
     }
 
     ref.current?.addEventListener('keypress', onEvent)
     ref.current?.addEventListener('mousemove', onEvent)
 
     return () => {
+      clearTimeout(timeout.current)
+
       ref.current?.removeEventListener('keypress', onEvent)
       ref.current?.removeEventListener('mousemove', onEvent)
     }
-  }, [ref.current])
+  }, [ref.current, router, props.params.id, timeout.current, play])
 
   return (
     <FocusContext.Provider value={focusKey}>
@@ -77,7 +72,7 @@ const Page: NextPage<{ params: { id: number } }> = (props) => {
         </header>
         <footer>
           <Timeline />
-          <ul className="flex justify-center gap-x-3">
+          <ul className="flex justify-center gap-x-3 my-4">
             <li>
               <Fullscreen />
             </li>

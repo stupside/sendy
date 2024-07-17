@@ -4,6 +4,8 @@ import { createContext } from 'react'
 
 import Hls from 'hls.js'
 
-const HlsContext = createContext<Hls | undefined>(undefined)
+const HlsContext = createContext<{ instance?: Hls }>({
+  instance: undefined,
+})
 
 export default HlsContext

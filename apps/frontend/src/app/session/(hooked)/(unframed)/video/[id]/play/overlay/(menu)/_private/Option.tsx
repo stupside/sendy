@@ -26,9 +26,9 @@ const Option: FC<{
       ref={ref}
       id={name}
       value={id}
-      title={name}
       onClick={onClick}
-      className={`flex items-center gap-3 my-1 px-5 py-1 border-[1px] rounded-lg ${active ? 'bg-white text-black' : ''} ${focused ? '' : 'border-transparent'}`}
+      title={`activate ${id}: ${name}`}
+      className={`flex items-center justify-between w-full gap-3 my-1 px-5 py-1 border-[1px] rounded-lg ${active ? 'bg-white text-black' : ''} ${focused ? '' : 'border-transparent'}`}
     >
       <div
         style={{

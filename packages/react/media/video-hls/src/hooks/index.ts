@@ -1,3 +1,3 @@
-import useHls from './useHls'
+'use client'
 
-export { useHls }
+export { default as useHls } from './useHls'

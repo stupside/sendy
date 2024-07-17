@@ -29,6 +29,7 @@ const Movie: FC<{
   return (
     <>
       <Image
+        priority
         width={128}
         height={192}
         className="object-cover"

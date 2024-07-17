@@ -11,6 +11,14 @@ const Page: NextPage = () => {
 
   return (
     <ul>
+      <li>
+        <Option
+          id={-1}
+          name="Auto"
+          activate={change}
+          active={quality === null}
+        />
+      </li>
       {Array.from(qualities).map(({ id, name }) => (
         <li key={id}>
           <Option

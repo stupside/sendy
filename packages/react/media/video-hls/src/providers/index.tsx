@@ -1,5 +1,9 @@
-import HlsProvider from './HlsProvider'
+'use client'
 
-export * from './Controller'
+export {
+  QualityProvider,
+  LanguageAudioProvider,
+  LanguageSubtitleProvider,
+} from './Controller'
 
-export { HlsProvider }
+export { default as HlsProvider } from './HlsProvider'

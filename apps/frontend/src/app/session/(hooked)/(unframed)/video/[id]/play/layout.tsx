@@ -14,9 +14,7 @@ const Layout: NextPage<
     params: { id: number }
   }>
 > = async (props) => {
-  const {
-    data,
-  } = await sendy((c) =>
+  const { data } = await sendy((c) =>
     c.GET('/medias/{id}', {
       params: {
         path: {
