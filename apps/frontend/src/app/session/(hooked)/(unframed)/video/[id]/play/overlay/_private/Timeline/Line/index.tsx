@@ -99,7 +99,7 @@ const Line: FC<{
         ></button>
       </span>
       <div
-        className={`flex-grow h-2 rounded-full ${focused ? 'bg-zinc-700' : 'bg-zinc-800'}`}
+        className={`flex-grow h-2 rounded-full ${focused ? 'bg-zinc-600' : 'bg-zinc-700 hover:bg-zinc-600'}`}
       ></div>
     </div>
   )

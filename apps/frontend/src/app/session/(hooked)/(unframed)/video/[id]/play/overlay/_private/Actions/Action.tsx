@@ -3,6 +3,7 @@
 import { type FC, type PropsWithChildren } from 'react'
 
 import { useFocusable } from '@sendy/react-spatial'
+import Link from 'next/link'
 
 const Action: FC<
   PropsWithChildren<{
@@ -17,10 +18,10 @@ const Action: FC<
       ref={ref}
       title={title}
       onClick={handle}
-      className={`font-bold rounded-md py-1 px-3 border-zinc-200 border-[1px] ${
+      className={`rounded-md p-2 ${
         focused
           ? 'bg-zinc-200 text-black'
-          : 'hover:bg-zinc-200 hover:text-black focus:bg-zinc-200 focus:text-black'
+          : 'hover:bg-zinc-200 hover:text-black focus:bg-zinc-200 focus:text-black bg-zinc-700'
       }`}
     >
       {children}
@@ -28,4 +29,28 @@ const Action: FC<
   )
 }
 
-export default Action
+const ActionLink: FC<
+  PropsWithChildren<{
+    href: string
+    title: string
+  }>
+> = ({ children, title, href }) => {
+  const { ref, focused } = useFocusable({})
+
+  return (
+    <Link
+      ref={ref}
+      href={href}
+      title={title}
+      className={`inline-block rounded-md p-2 ${
+        focused
+          ? 'bg-zinc-200 text-black'
+          : 'hover:bg-zinc-200 hover:text-black focus:bg-zinc-200 focus:text-black bg-zinc-700'
+      }`}
+    >
+      {children}
+    </Link>
+  )
+}
+
+export default Object.assign(Action, { Link: ActionLink })

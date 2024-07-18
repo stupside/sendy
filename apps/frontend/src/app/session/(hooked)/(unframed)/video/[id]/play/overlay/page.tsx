@@ -19,6 +19,8 @@ import Timeline from './_private/Timeline'
 
 import Fullscreen from './_private/Actions/Fullscreen'
 import PictureInPicture from './_private/Actions/PictureInPicture'
+import Play from './_private/Timeline/Play'
+import Action from './_private/Actions/Action'
 
 const play = (id: number) => `/session/video/${id}/play`
 const menu = (id: number) => `/session/video/${id}/play/overlay/audios`
@@ -43,17 +45,19 @@ const Page: NextPage<{ params: { id: number } }> = (props) => {
 
       timeout.current = setTimeout(() => {
         router.replace(play(props.params.id))
-      }, 5000)
+      }, 25_000)
     }
 
     ref.current?.addEventListener('keypress', onEvent)
     ref.current?.addEventListener('mousemove', onEvent)
+    ref.current?.addEventListener('touchstart', onEvent)
 
     return () => {
       clearTimeout(timeout.current)
 
       ref.current?.removeEventListener('keypress', onEvent)
       ref.current?.removeEventListener('mousemove', onEvent)
+      ref.current?.removeEventListener('touchstart', onEvent)
     }
   }, [ref.current, router, props.params.id, timeout.current, play])
 
@@ -61,7 +65,7 @@ const Page: NextPage<{ params: { id: number } }> = (props) => {
     <FocusContext.Provider value={focusKey}>
       <div
         ref={ref}
-        className="absolute inset-0 flex flex-col justify-between p-8 bg-gradient-to-b from-black/90 via-black/45 to-black/90"
+        className="absolute inset-0 flex flex-col justify-between px-16 py-12 bg-gradient-to-b from-black/90 via-black/45 to-black/90"
       >
         <header className="flex justify-between">
           <div>
@@ -71,22 +75,24 @@ const Page: NextPage<{ params: { id: number } }> = (props) => {
           <ProviderStatus />
         </header>
         <footer>
+          <div className="flex justify-end my-3 gap-x-3">
+            <ul className="flex gap-x-3 p-1 bg-zinc-800/50 rounded-md">
+              <li>
+                <Action.Link title={'Languages'} href={menu(props.params.id)}>
+                  <LanguageIcon className="h-6 w-6" />
+                </Action.Link>
+              </li>
+            </ul>
+            <ul className="flex gap-x-3 p-1 bg-zinc-800/50 rounded-md">
+              <li>
+                <Fullscreen />
+              </li>
+              <li>
+                <PictureInPicture />
+              </li>
+            </ul>
+          </div>
           <Timeline />
-          <ul className="flex justify-center gap-x-3 my-4">
-            <li>
-              <Fullscreen />
-            </li>
-            <li>
-              <PictureInPicture />
-            </li>
-            <li>
-              <Link href={menu(props.params.id)}>
-                <button className="px-2 py-1 hover:text-black hover:bg-zinc-200 border-zinc-200 border-[1px] rounded-md">
-                  <LanguageIcon className="w-6 h-6" />
-                </button>
-              </Link>
-            </li>
-          </ul>
         </footer>
       </div>
     </FocusContext.Provider>
