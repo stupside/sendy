@@ -32,7 +32,7 @@ const useVideoVolume = () => {
     }
   }, [ref])
 
-  const seekVolume = useCallback(
+  const seek = useCallback(
     (percent: number) => {
       if (!ref.current) {
         throw new Error('Video reference is undefined')
@@ -52,9 +52,9 @@ const useVideoVolume = () => {
   }, [ref])
 
   return {
+    seek,
     muted,
     volume,
-    seekVolume,
     toggleMute,
   }
 }

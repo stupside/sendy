@@ -6,7 +6,7 @@ import { FC, PropsWithChildren, useEffect } from 'react'
 
 import { useSseValue } from '@/react/hooks'
 
-const play = (id: number) => `/session/video/${id}/play`
+const player = (id: number) => `/session/video/${id}/player`
 
 const Listen: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter()
@@ -15,7 +15,7 @@ const Listen: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (content?.type === 'video') {
-      router.push(play(content.id))
+      router.push(player(content.id))
     }
   }, [content?.id])
 

@@ -2,26 +2,23 @@
 
 import { FC, useEffect } from 'react'
 
-import { useRouter } from 'next/navigation'
-
 import useTimer from '@/react/hooks/useTimer'
 
-const CodeExpiry: FC<{ expiry: number }> = ({ expiry }) => {
-  const router = useRouter()
-
+const CodeExpiry: FC<{
+  expiry: number
+  refresh: () => Promise<void>
+}> = ({ expiry, refresh }) => {
   const { remaining } = useTimer({ expiry })
 
   useEffect(() => {
-    if (remaining <= 0) {
-      router.refresh()
+    if (remaining === 0) {
+      refresh()
     }
-  }, [router, remaining])
-
-  const seconds = remaining + 1
+  }, [remaining, refresh])
 
   return (
     <p className="font-extralight text-sm italic">
-      The code expires in <span className="font-mono">{seconds}</span> seconds
+      The code expires in <span className="font-mono">{remaining}</span> seconds
     </p>
   )
 }

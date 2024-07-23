@@ -2,6 +2,8 @@
 
 import { NextPage } from 'next'
 
+import { redirect, RedirectType } from 'next/navigation'
+
 import { QrCodeOutput } from '@sendy/react-zxing'
 
 import { sendy } from '@/tools/api'
@@ -12,6 +14,12 @@ import Peer from './_private/Peer'
 
 import Code from './_private/Code'
 import CodeExpiry from './_private/CodeExpiry'
+
+const refresh = () => {
+  'use server'
+
+  return redirect('/session/code', RedirectType.replace)
+}
 
 const Page: NextPage = async () => {
   const { data } = await sendy((c) =>
@@ -38,7 +46,7 @@ const Page: NextPage = async () => {
             <Code key={data.code} raw={data.code} />
           </aside>
         </div>
-        <CodeExpiry expiry={data.expiry} />
+        <CodeExpiry key={data.code} expiry={data.expiry} refresh={refresh} />
       </WelcomeLayout>
     </Peer>
   )

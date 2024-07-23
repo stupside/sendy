@@ -13,9 +13,6 @@ import { formats } from './utils/ajv'
 const prepare = async () => {
   const server = fastify({
     logger: true,
-    ajv: {
-      customOptions: formats.opts,
-    },
   }).withTypeProvider<TypeBoxTypeProvider>()
 
   await server.register(env)
