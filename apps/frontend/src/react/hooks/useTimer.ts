@@ -1,27 +1,21 @@
 'use client'
 
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const ONE_SEC_IN_MS = 1000
 
 const getRemainingTime = (expiry: number) => {
-  return new Date(expiry).getTime() - new Date().getTime()
-}
-
-const getRemainingTimeInSeconds = (expiry: number) => {
-  return Math.floor(getRemainingTime(expiry) / ONE_SEC_IN_MS)
+  return expiry - new Date().getTime()
 }
 
 const useTimer = ({ expiry }: { expiry: number }) => {
   const interval = useRef<NodeJS.Timeout>()
 
-  const [remaining, setRemaining] = useState<number>(
-    getRemainingTimeInSeconds(expiry),
-  )
+  const [remaining, setRemaining] = useState<number>(getRemainingTime(expiry))
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     interval.current = setInterval(() => {
-      setRemaining(getRemainingTimeInSeconds(expiry))
+      setRemaining((old) => old - ONE_SEC_IN_MS)
     }, ONE_SEC_IN_MS)
 
     return () => {
@@ -29,8 +23,14 @@ const useTimer = ({ expiry }: { expiry: number }) => {
     }
   }, [interval.current, expiry])
 
+  useEffect(() => {
+    if (Math.trunc(remaining) < 0) {
+      clearInterval(interval.current)
+    }
+  }, [remaining, interval.current])
+
   return {
-    remaining,
+    remaining: Math.trunc(Math.max(remaining / ONE_SEC_IN_MS + 1, 0)),
   }
 }
 

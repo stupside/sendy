@@ -4,7 +4,7 @@ import { NextPage } from 'next'
 
 import { sendy } from '@/tools/api'
 
-import TmdbDetails from './_private/TmdbDetails'
+import Video from './_private/VideoDetails/Video'
 
 const Page: NextPage<{
   params: { id: number }
@@ -20,11 +20,7 @@ const Page: NextPage<{
   )
 
   if (data?.type === 'video') {
-    if (data.metadata.tmdbid) {
-      return <TmdbDetails id={props.params.id} tmdbid={data.metadata.tmdbid} />
-    } else {
-      return <>Media with no tmdbid is not yet supported</>
-    }
+    return <Video id={props.params.id} tmdbid={data.metadata.tmdbid} />
   }
 
   return null

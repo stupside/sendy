@@ -9,7 +9,7 @@ const useVideoTimeline = () => {
   const [paused, setPaused] = useState(true)
 
   const [duration, setDuration] = useState(0)
-  const [timeline, setTimeline] = useState(0)
+  const [position, setPosition] = useState(0)
 
   const play = useCallback(() => {
     if (!ref.current) {
@@ -52,7 +52,7 @@ const useVideoTimeline = () => {
     }
 
     const onTimeUpdate = () =>
-      setTimeline(Number(ref.current?.currentTime.toFixed()))
+      setPosition(Number(ref.current?.currentTime.toFixed()))
 
     onTimeUpdate()
 
@@ -96,7 +96,7 @@ const useVideoTimeline = () => {
     play,
     pause,
     paused,
-    timeline,
+    position,
     duration,
   }
 }

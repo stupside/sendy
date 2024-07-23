@@ -20,6 +20,9 @@ const compat = new FlatCompat({
   recommendedConfig: js.configs.recommended,
 })
 
+/**
+ * @type {import('@eslint/eslintrc').ESLintConfig}
+ */
 export default [
   {
     ignores: ['**/node_modules', '**/dist', '**/build', '**/types', '**/.*'],

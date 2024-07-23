@@ -8,8 +8,7 @@ import { sendy } from '@/tools/api'
 
 import Listen from './_private/Listen'
 
-import Movie from './_private/Video/Movie'
-import MediaLink from './_private/VideoLink'
+import Movie from './_private/VideoLink/Movie'
 
 const Layout: NextPage<PropsWithChildren> = async (props) => {
   const { data } = await sendy((c) =>
@@ -33,11 +32,15 @@ const Layout: NextPage<PropsWithChildren> = async (props) => {
         </header>
         <ul className="flex gap-x-3">
           {data?.map((media) => {
-            const Media: FC = () => {
+            const Link: FC = () => {
               switch (media.handler) {
                 case 'movie':
                   return (
-                    <Movie date={media.date} tmdbid={media.metadata.tmdbid} />
+                    <Movie
+                      id={media.id}
+                      date={media.date}
+                      tmdbid={media.metadata.tmdbid}
+                    />
                   )
                 default:
                   return null
@@ -46,9 +49,7 @@ const Layout: NextPage<PropsWithChildren> = async (props) => {
 
             return (
               <li key={media.id}>
-                <MediaLink id={media.id}>
-                  <Media />
-                </MediaLink>
+                <Link />
               </li>
             )
           })}

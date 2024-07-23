@@ -9,6 +9,7 @@ import {
 } from '@/contexts'
 
 export { default as useVideo } from './useVideo'
+export { default as useVideoBuffer } from './useVideoBuffer'
 export { default as useVideoVolume } from './useVideoVolume'
 export { default as useVideoTimeline } from './useVideoTimeline'
 

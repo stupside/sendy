@@ -6,8 +6,9 @@ import useVideo from './useVideo'
 const useVideoVolume = () => {
   const { ref } = useVideo()
 
-  const [muted, setMuted] = useState(true)
   const [volume, setVolume] = useState(0)
+
+  const [muted, setMuted] = useState(true)
 
   useEffect(() => {
     if (!ref.current) {
@@ -32,7 +33,7 @@ const useVideoVolume = () => {
     }
   }, [ref])
 
-  const seekVolume = useCallback(
+  const seek = useCallback(
     (percent: number) => {
       if (!ref.current) {
         throw new Error('Video reference is undefined')
@@ -52,9 +53,9 @@ const useVideoVolume = () => {
   }, [ref])
 
   return {
+    seek,
     muted,
     volume,
-    seekVolume,
     toggleMute,
   }
 }

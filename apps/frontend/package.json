@@ -3,33 +3,41 @@
   "type": "module",
   "name": "frontend",
   "scripts": {
-    "dev": "next dev",
     "lint": "next lint",
     "prod": "next start",
     "build": "next build",
-    "types:api": "npx openapi-typescript http://localhost:3000/doc/json -o ./types/api/index.d.ts"
+    "dev": "next dev -p 8080",
+    "types:api": "npx openapi-typescript http://localhost:3000/doc/json -o ./types/api/index.d.ts",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@sendy/react-zxing": "workspace:^",
+    "@heroicons/react": "^2.1.5",
     "@sendy/react-layout": "workspace:^",
-    "@sendy/react-spatial": "workspace:^",
     "@sendy/react-media-video": "workspace:^",
     "@sendy/react-media-video-hls": "workspace:^",
-    "next": "^14.2.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "http-proxy": "^1.18.1",
-    "openapi-fetch": "^0.9.8",
-    "@heroicons/react": "^2.1.4",
+    "@sendy/react-spatial": "workspace:^",
+    "@sendy/react-zxing": "workspace:^",
     "@sinclair/typebox": "^0.32.34",
-    "@types/http-proxy": "^1.17.14"
+    "@types/http-proxy": "^1.17.14",
+    "http-proxy": "^1.18.1",
+    "next": "^14.2.5",
+    "openapi-fetch": "^0.10.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@million/lint": "1.0.0-rc.76",
-    "@types/node": "^20.14.10",
+    "@million/lint": "1.0.0-rc.81",
+    "@storybook/addon-essentials": "^8.2.4",
+    "@storybook/blocks": "^8.2.4",
+    "@storybook/nextjs": "^8.2.4",
+    "@storybook/react": "^8.2.4",
+    "@storybook/test": "^8.2.4",
+    "@types/node": "^20.14.11",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "postcss": "^8.4.38",
+    "storybook": "^8.2.4",
     "tailwindcss": "^3.4.3"
   }
 }
