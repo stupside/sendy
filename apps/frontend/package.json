@@ -22,7 +22,7 @@
     "@sinclair/typebox": "^0.34.11",
     "@types/http-proxy": "^1.17.15",
     "http-proxy": "^1.18.1",
-    "next": "^15.1.0",
+    "next": "^15.1.2",
     "openapi-fetch": "^0.13.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
